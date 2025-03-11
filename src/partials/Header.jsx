@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-
-import SearchModal from '../components/ModalSearch';
+import { Link } from 'react-router-dom';
 import Notifications from '../components/DropdownNotifications';
-import Help from '../components/DropdownHelp';
 import UserMenu from '../components/DropdownProfile';
 import ThemeToggle from '../components/ThemeToggle';
 
@@ -42,7 +40,7 @@ function Header({
           {/* Header: Right side */}
           <div className="flex items-center space-x-3">
             <div>
-              <button
+              {/* <button
                 className={`w-8 h-8 flex items-center justify-center hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800 rounded-full ml-3 ${searchModalOpen && 'bg-gray-200 dark:bg-gray-800'}`}
                 onClick={(e) => { e.stopPropagation(); setSearchModalOpen(true); }}
                 aria-controls="search-modal"
@@ -58,16 +56,23 @@ function Header({
                   <path d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7ZM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5Z" />
                   <path d="m13.314 11.9 2.393 2.393a.999.999 0 1 1-1.414 1.414L11.9 13.314a8.019 8.019 0 0 0 1.414-1.414Z" />
                 </svg>
-              </button>
-              <SearchModal id="search-modal" searchId="search" modalOpen={searchModalOpen} setModalOpen={setSearchModalOpen} />
+              </button> */}
+              {/* <SearchModal id="search-modal" searchId="search" modalOpen={searchModalOpen} setModalOpen={setSearchModalOpen} /> */}
             </div>
             <Notifications align="right" />
-            <Help align="right" />
             <ThemeToggle />
+            <Link
+                to="/signin"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+                <button className="text-gray-700 dark:text-slate-400 hover:text-violet-700 dark:hover:text-violet-700 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                  Sign Out
+                  </button>
+                
+            </Link>
             {/*  Divider */}
             <hr className="w-px h-6 bg-gray-200 dark:bg-gray-700/60 border-none" />
             <UserMenu align="right" />
-
           </div>
 
         </div>
