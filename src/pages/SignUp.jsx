@@ -36,6 +36,7 @@ export function SignUp() {
               }}
             />
           </div>
+
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
               Your password
@@ -49,6 +50,21 @@ export function SignUp() {
               }}
             />
           </div>
+
+          <div className="mb-1 mt-5 flex flex-col gap-6">
+            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+              Re-enter password
+            </Typography>
+            <Input
+              size="lg"
+              placeholder="********"
+              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+              labelProps={{
+                className: "before:content-none after:content-none",
+              }}
+            />
+          </div>
+
           <Checkbox
             label={
               <Typography

@@ -1,4 +1,4 @@
-import Banner from '../partials/Banner';
+
 import {
   Input,
   Button,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 
 import SidebarLinkGroup from "./SidebarLinkGroup";
 
@@ -78,13 +78,10 @@ function Sidebar({
               <path d="M10.7 18.7l1.4-1.4L7.8 13H20v-2H7.8l4.3-4.3-1.4-1.4L4 12z" />
             </svg> */}
           </button>
+
+
           {/* Logo */}
           <NavLink end to="/" className="block">
-
-          {/* TODO App-icon TODO */}
-            {/* <svg className="fill-violet-500" xmlns="http://www.w3.org/2000/svg" width={32} height={32}>
-              <path d="M31.956 14.8C31.372 6.92 25.08.628 17.2.044V5.76a9.04 9.04 0 0 0 9.04 9.04h5.716ZM14.8 26.24v5.716C6.92 31.372.63 25.08.044 17.2H5.76a9.04 9.04 0 0 1 9.04 9.04Zm11.44-9.04h5.716c-.584 7.88-6.876 14.172-14.756 14.756V26.24a9.04 9.04 0 0 1 9.04-9.04ZM.044 14.8C.63 6.92 6.92.628 14.8.044V5.76a9.04 9.04 0 0 1-9.04 9.04H.044Z" />
-            </svg> */}
             <img src="./src/images/slumbr_logo2.jpg" alt="app logo" width={200} height={200} className="ml-5" />
           </NavLink>
         </div>
@@ -107,8 +104,9 @@ function Sidebar({
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>
+
                       <a
-                        href="#0"
+                        href="/"
                         className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
                           pathname === "/" || pathname.includes("dashboard") ? "" : "hover:text-gray-900 dark:hover:text-white"
                         }`}
@@ -118,6 +116,7 @@ function Sidebar({
                           setSidebarExpanded(true);
                         }}
                       >
+                      <NavLink to="/" >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
                             <svg className={`shrink-0 fill-current ${pathname === "/" || pathname.includes("dashboard") ? 'text-violet-500' : 'text-gray-400 dark:text-gray-500'}`} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -129,6 +128,8 @@ function Sidebar({
                             </span>
                           </div>
                         </div>
+                      </NavLink>
+
                       </a>
                     </React.Fragment>
                   );
@@ -139,40 +140,45 @@ function Sidebar({
 
 
               {/* Sleep Logs */}
+        
               <SidebarLinkGroup activecondition={pathname.includes("logs")} >
                 {(handleClick, open) => {
                   return (
                     <React.Fragment >
-                      <a 
-                        href="#0"
-                        className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150  ${
-                          pathname.includes("logs") ? "" : "hover:text-gray-900 dark:hover:text-white"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleClick();
-                          setSidebarExpanded(true);
-                        }}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M8.242 5.992h12m-12 6.003H20.24m-12 5.999h12M4.117 7.495v-3.75H2.99m1.125 3.75H2.99m1.125 0H5.24m-1.92 2.577a1.125 1.125 0 1 1 1.591 1.59l-1.83 1.83h2.16M2.99 15.745h1.125a1.125 1.125 0 0 1 0 2.25H3.74m0-.002h.375a1.125 1.125 0 0 1 0 2.25H2.99" />
-                            </svg>
+      
+                        <a 
+                          href="#0"
+                          className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150  ${
+                            pathname.includes("logs") ? "" : "hover:text-gray-900 dark:hover:text-white"
+                          }`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleClick();
+                            setSidebarExpanded(true);
+                          }}
+                        >
+                      <NavLink to="/logs" >
+                                                <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.242 5.992h12m-12 6.003H20.24m-12 5.999h12M4.117 7.495v-3.75H2.99m1.125 3.75H2.99m1.125 0H5.24m-1.92 2.577a1.125 1.125 0 1 1 1.591 1.59l-1.83 1.83h2.16M2.99 15.745h1.125a1.125 1.125 0 0 1 0 2.25H3.74m0-.002h.375a1.125 1.125 0 0 1 0 2.25H2.99" />
+                              </svg>
 
-
-
-                            <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                              Sleep Logs
-                            </span>
-                           
+                              <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                Sleep Logs
+                              </span>
+                            
+                            </div>
                           </div>
-                        </div>
-                      </a>
+                      </NavLink>
+
+                        </a>
                     </React.Fragment>
                   );
                 }}
-              </SidebarLinkGroup>
+              </SidebarLinkGroup>      
+       
+
 
 
               {/* History */}
@@ -181,7 +187,7 @@ function Sidebar({
                   return (
                     <React.Fragment>
                       <a
-                        href="#0"
+                        href="/history"
                         className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
                           pathname.includes("history") ? "" : "hover:text-gray-900 dark:hover:text-white"
                         }`}
@@ -191,6 +197,8 @@ function Sidebar({
                           setSidebarExpanded(true);
                         }}
                       >
+
+                      <NavLink to="/history" >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -204,6 +212,8 @@ function Sidebar({
                             </span>
                           </div>
                         </div>
+                      </NavLink>
+
                       </a>
                     </React.Fragment>
                   );
@@ -217,7 +227,7 @@ function Sidebar({
                   return (
                     <React.Fragment>
                       <a
-                        href="#0"
+                        href="/education"
                         className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
                           pathname.includes("education") ? "" : "hover:text-gray-900 dark:hover:text-white"
                         }`}
@@ -227,7 +237,8 @@ function Sidebar({
                           setSidebarExpanded(true);
                         }}
                       >
-                        <div className="flex items-center justify-between">
+                      <NavLink to="/education" >
+                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
@@ -241,6 +252,8 @@ function Sidebar({
                             </span>
                           </div>
                         </div>
+                      </NavLink>
+
                       </a>
                     </React.Fragment>
                   );
@@ -255,7 +268,7 @@ function Sidebar({
                   return (
                     <React.Fragment>
                       <a
-                        href="#0"
+                        href="/profile"
                         className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
                           pathname.includes("profile") ? "" : "hover:text-gray-900 dark:hover:text-white"
                         }`}
@@ -265,6 +278,8 @@ function Sidebar({
                           setSidebarExpanded(true);
                         }}
                       >
+                        
+                      <NavLink to="/profile" >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -277,6 +292,7 @@ function Sidebar({
                             </span>
                           </div>
                         </div>
+                      </NavLink>
                       </a>
                     </React.Fragment>
                   );

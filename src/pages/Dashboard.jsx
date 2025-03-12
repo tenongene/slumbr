@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
-import FilterButton from '../components/DropdownFilter';
-import Datepicker from '../components/Datepicker';
+// import FilterButton from '../components/DropdownFilter';
+// import Datepicker from '../components/Datepicker';
 import DashboardCard01 from '../partials/dashboard/DashboardCard01';
 import DashboardCard02 from '../partials/dashboard/DashboardCard02';
 import DashboardCard03 from '../partials/dashboard/DashboardCard03';
@@ -47,13 +47,8 @@ function Dashboard() {
               </div>
 
               {/* Right: Actions */}
-              <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
-                {/* Filter button */}
-                {/* <FilterButton align="right" /> */}
-                {/* Datepicker built with React Day Picker
-                <Datepicker align="right" /> */}
-                
-              </div>
+              <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">       
+            </div>
 
             </div>
 
@@ -88,11 +83,8 @@ function Dashboard() {
               <DashboardCard13 />
               
             </div>
-
           </div>
         </main>
-
-        <Banner />
 
       </div>
     </div>

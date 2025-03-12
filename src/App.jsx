@@ -6,13 +6,17 @@ import {
 } from 'react-router-dom';
 
 import './css/style.css';
-
 import './charts/ChartjsConfig';
-
 // Import pages
 import Dashboard from './pages/Dashboard';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import Education from './pages/Education';
+import Profile from './pages/Profile';
+import History from './pages/History';
+import Logs from './pages/Logs';
+
+
 
 function App() {
 
@@ -27,9 +31,13 @@ function App() {
   return (
     <>
       <Routes>
-        <Route exact path="/" element={<Dashboard />} />
-        <Route exact path="/signin" element={<SignIn />} />
-        <Route exact path="/signup" element={<SignUp />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route  path="/signin" element={<SignIn />} />
+        <Route  path="/signup" element={<SignUp />} />
+        <Route  path="/education" element={<Education />} />
+        <Route  path="/history" element={<History />} />
+        <Route  path="/logs" element={<Logs />} />
+        <Route  path="/profile" element={<Profile />} />
       </Routes>
     </>
   );

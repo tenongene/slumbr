@@ -65,7 +65,7 @@ function Header({
                 to="/signin"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                <button className="text-gray-700 dark:text-slate-400 hover:text-violet-700 dark:hover:text-violet-700 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                <button className="text-gray-700 dark:text-stone-400 hover:text-violet-700 dark:hover:text-stone-50 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                   Sign Out
                   </button>
                 
