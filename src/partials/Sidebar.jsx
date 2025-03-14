@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import SidebarLinkGroup from "./SidebarLinkGroup";
-import ThemeContext from "../utils/ThemeContext"
+import HomeIcon from "../images/home.svg"
+import LogsIcon from "../images/logs.svg"
+import HistoryIcon from "../images/history.svg"
+import DashboardIcon from "../images/speed.svg"
+import ProfileIcon from "../images/profile.svg"
+import Logo from "../images/slumbr_logo2.jpg"
 
 function Sidebar({
   sidebarOpen,
@@ -84,7 +89,7 @@ function Sidebar({
 
           {/* Logo */}
           <NavLink end to="/" className="block ">
-            <img src="./src/images/slumbr_logo2.jpg" alt="app logo" width={300} height={300}  />
+            <img src={Logo} alt="app logo" width={300} height={300}  />
           </NavLink>
         </div>
 
