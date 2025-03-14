@@ -6,6 +6,7 @@ import LogsIcon from "../images/logs.svg"
 import HistoryIcon from "../images/history.svg"
 import DashboardIcon from "../images/speed.svg"
 import ProfileIcon from "../images/profile.svg"
+import EducationIcon from "../images/education.svg"
 import Logo from "../images/slumbr_logo2.jpg"
 
 function Sidebar({
@@ -132,7 +133,7 @@ function Sidebar({
                               <path d="M5.936.278A7.983 7.983 0 0 1 8 0a8 8 0 1 1-8 8c0-.722.104-1.413.278-2.064a1 1 0 1 1 1.932.516A5.99 5.99 0 0 0 2 8a6 6 0 1 0 6-6c-.53 0-1.045.076-1.548.21A1 1 0 1 1 5.936.278Z" />
                               <path d="M6.068 7.482A2.003 2.003 0 0 0 8 10a2 2 0 1 0-.518-3.932L3.707 2.293a1 1 0 0 0-1.414 1.414l3.775 3.775Z" />
                             </svg>     */}
-                            <img src="./src/images/home.svg" alt="speed" />                        
+                            <img src={HomeIcon} alt="speed" />                        
                             {/* {currentTheme === "light" ? <img src="./src/images/speed.svg" alt="speed" /> :
                             <img src="./src/images/speed_b.svg" alt="speed" /> } */}
                             <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -175,7 +176,7 @@ function Sidebar({
                               <path d="M5.936.278A7.983 7.983 0 0 1 8 0a8 8 0 1 1-8 8c0-.722.104-1.413.278-2.064a1 1 0 1 1 1.932.516A5.99 5.99 0 0 0 2 8a6 6 0 1 0 6-6c-.53 0-1.045.076-1.548.21A1 1 0 1 1 5.936.278Z" />
                               <path d="M6.068 7.482A2.003 2.003 0 0 0 8 10a2 2 0 1 0-.518-3.932L3.707 2.293a1 1 0 0 0-1.414 1.414l3.775 3.775Z" />
                             </svg>     */}
-                            <img src="./src/images/speed.svg" alt="speed" />                        
+                            <img src={DashboardIcon} />                        
                             {/* {currentTheme === "light" ? <img src="./src/images/speed.svg" alt="speed" /> :
                             <img src="./src/images/speed_b.svg" alt="speed" /> } */}
                             <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -218,7 +219,7 @@ function Sidebar({
                               {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.242 5.992h12m-12 6.003H20.24m-12 5.999h12M4.117 7.495v-3.75H2.99m1.125 3.75H2.99m1.125 0H5.24m-1.92 2.577a1.125 1.125 0 1 1 1.591 1.59l-1.83 1.83h2.16M2.99 15.745h1.125a1.125 1.125 0 0 1 0 2.25H3.74m0-.002h.375a1.125 1.125 0 0 1 0 2.25H2.99" />
                               </svg> */}
-                              <img src="./src/images/logs.svg" alt="logs" />
+                              <img src={LogsIcon}alt="logs" />
 
                               <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Sleep Logs
@@ -260,7 +261,7 @@ function Sidebar({
                           {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                           </svg> */}
-                          <img src="./src/images/history.svg" alt="history" />
+                          <img src={HistoryIcon} alt="history" />
 
                             <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                               
@@ -300,7 +301,7 @@ function Sidebar({
                           {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                           </svg> */}
-                          <img src="./src/images/education.svg" alt="menu" />
+                          <img src={EducationIcon} alt="menu" />
 
                             <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
 
@@ -344,7 +345,7 @@ function Sidebar({
                               <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
                             </svg> */}
                             <span className="dark:text-violet-500">
-                              <img src="./src/images/profile.svg" alt="badge" />
+                              <img src={ProfileIcon} alt="badge" />
                             </span>
 
                             <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">     
