@@ -7,7 +7,7 @@ import {
 import { Link } from "react-router-dom";
 
 
-export function SignIn() {
+export function Login() {
   return (
 
     <section className="m-20 flex pt-10 gap-4">
@@ -20,8 +20,8 @@ export function SignIn() {
 
       <div className="w-full lg:w-3/5 mt-15 md:w-1/5">
         <div className="text-center">
-          <Typography variant="h4" className="font-bold mb-4">Sign In</Typography>
-          <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Enter your email and password to Sign In.</Typography>
+          <Typography variant="h4" className="font-bold mb-4">Login</Typography>
+          <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Enter your email and password to Login</Typography>
         </div>
         <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
           <div className="mb-1 flex flex-col gap-6">
@@ -50,8 +50,8 @@ export function SignIn() {
             />
           </div>
    
-          <Button className="mt-6" fullWidth>
-            Sign In
+          <Button className="mt-6 dark:bg-linear-to-r from-neutral-950 via-orange-950 to-neutral-900" fullWidth>
+            Login
           </Button>
 
           <div className="flex items-center justify-between gap-2 mt-6">
@@ -94,4 +94,4 @@ export function SignIn() {
   );
 }
 
-export default SignIn;
+export default Login;

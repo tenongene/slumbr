@@ -9,12 +9,13 @@ import './css/style.css';
 import './charts/ChartjsConfig';
 // Import pages
 import Dashboard from './pages/Dashboard';
-import SignIn from './pages/SignIn';
+import Login  from './pages/Login';
 import SignUp from './pages/SignUp';
 import Education from './pages/Education';
 import Profile from './pages/Profile';
 import History from './pages/History';
 import Logs from './pages/Logs';
+import Home from './pages/Home';
 
 
 
@@ -31,13 +32,14 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route  path="/signin" element={<SignIn />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route  path="/login" element={<Login />} />
         <Route  path="/signup" element={<SignUp />} />
         <Route  path="/education" element={<Education />} />
         <Route  path="/history" element={<History />} />
         <Route  path="/logs" element={<Logs />} />
         <Route  path="/profile" element={<Profile />} />
+        <Route  path="/" element={<Home />} />
       </Routes>
     </>
   );
