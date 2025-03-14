@@ -1,3 +1,4 @@
+import Logo from "../images/slumbr_logo2.jpg"
 
 import {
   Input,
@@ -11,9 +12,9 @@ export function Login() {
   return (
 
     <section className="m-20 flex pt-10 gap-4">
-      <div className="w-2/5 mt-20  h-full hidden lg:block">
+      <div className="w-2/5 mt-20  h-full hidden lg:block md:block sm:block">
         <img
-          src="./src/images/slumbr_logo2.jpg"
+          src={Logo}
           className="h-full w-full object-cover rounded-3xl"
         />
       </div>

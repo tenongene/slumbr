@@ -1,3 +1,5 @@
+import Logo from "../images/slumbr_logo2.jpg"
+
 import {
   Input,
   Checkbox,
@@ -12,7 +14,7 @@ export function SignUp() {
     <section className="m-20 pt-10 flex gap-4">
       <div className="w-2/5 mt-20 h-full hidden lg:block">
         <img
-          src="./src/images/slumbr_logo2.jpg"
+          src={Logo}
           className="h-full w-full object-cover rounded-3xl"
         />
       </div>
