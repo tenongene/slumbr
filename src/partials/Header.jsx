@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Notifications from '../components/DropdownNotifications';
 import UserMenu from '../components/DropdownProfile';
-import ThemeToggle from '../components/ThemeToggle';
+
 
 function Header({
   sidebarOpen,
@@ -39,9 +38,6 @@ function Header({
 
           {/* Header: Right side */}
           <div className="flex items-center space-x-3">
-
-            <Notifications align="right" />
-            <ThemeToggle />
             <Link
                 to="/login"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
