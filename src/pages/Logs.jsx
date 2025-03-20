@@ -7,27 +7,28 @@ import 'rsuite/TimePicker/styles/index.css';
 import Input from 'rsuite/Input';
 import 'rsuite/Input/styles/index.css';
 import 'rsuite/InputGroup/styles/index.css';
+import { Box, Rating } from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
 
 
-const textStyle = {
-  verticalAlign: 'top',
-  lineHeight: '42px',
-  display: 'inline-block'
-};
 
-const texts = {
-  1: 'Very Poor',
+
+const labels = {
+  1: 'Very Poor+',
   2: 'Very Poor',
-  3: 'Poor',
+  3: 'Poor+',
   4: 'Poor',
   5: 'Ok',
-  6: 'Ok',
+  6: 'Ok+',
   7: 'Good',
-  8: 'Good',
+  8: 'Good+',
   9: 'Excellent',
-  10: 'Excellent'
+  10: 'Excellent+',
 };
 
+function getLabelText(value) {
+  return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
+}
 
 function Logs() {
 
@@ -35,13 +36,14 @@ function Logs() {
   const [sleepTime, setSleepTime] = useState('');
   const [wakeTime, setWakeTime] = useState('');
   const [date, setDate] = useState('');
-  const [rating, setRating] = useState(0);
   const [notes, setNotes] = useState('');
-  const [hoverValue, setHoverValue] = useState(3);
+  const [rating, setRating] = useState(2);
+  const [hover, setHover] = useState(-1);
 
-  const LogObject = {
-    sleepTime, wakeTime, date, notes
-  }
+
+  // const LogObject = {
+  //   sleepTime, wakeTime, date, notes
+  // }
 
   const handleChangeSleep = (sleepTime) => {
     setSleepTime(sleepTime);
@@ -79,7 +81,7 @@ function Logs() {
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
 
             {/* Dashboard actions */}
-            <div className="sm:flex sm:justify-between sm:items-center mb-8">
+        <div className="sm:flex sm:justify-between sm:items-center mb-8">
 
               {/* Left: Title */}
           <div className="mb-4 sm:mb-0">
@@ -101,24 +103,38 @@ function Logs() {
               <Input as="textarea" rows={4} placeholder="Enter sleep notes" value={notes} onChange={handleChangeNotes} />
 
               <label> How would you rate your sleep?</label>
-              <Rate max={10} value={rating} size="lg" onChange={handleChangeRate} onChangeActive={setHoverValue} style={{ display: 'inline-flex' }} color="violet"/>{' '}
-              <span style={textStyle}>{texts[hoverValue]}</span>
-   
+              <Box sx={{ width: 500, display: 'flex', alignItems: 'center' }}>
+                <Rating
+                  name="hover-feedback"
+                  value={rating}
+                  max={10}
+                  getLabelText={getLabelText}
+                  onChange={(event, newRating) => {
+                    setRating(newRating);
+                  }}
+                  onChangeActive={(event, newHover) => {
+                    setHover(newHover);
+                  }}
+                  emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                />
+                {rating !== null && (
+                  <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : rating]}</Box>
+                )}
+              </Box>
             </Stack>   
                  
-               <a>
                 <button type="submit" className="mt-10 text-gray-700 dark:text-stone-400 hover:text-violet-700 dark:hover:text-stone-50 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                   Submit
-                  </button>
-               </a> 
+                </button>
+            
 
             </div>
           </div>
 
               {/* Right: Actions */}
-              <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-1 mr-20"> 
-                <DashboardCard12 notes={notes} date={date} time = {wakeTime - sleepTime}/>
-            </div>
+          <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-1 mr-15"> 
+            <DashboardCard12 notes={notes} date={date} time = {wakeTime - sleepTime}/>
+          </div>
 
 
             </div>
