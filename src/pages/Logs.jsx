@@ -2,7 +2,7 @@ import React, { useState, Link } from 'react';
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 import DashboardCard12 from '../partials/dashboard/DashboardCard12';
-import { DatePicker, TimePicker, Stack, Rate } from 'rsuite';
+import { DatePicker, TimePicker, Stack } from 'rsuite';
 import 'rsuite/TimePicker/styles/index.css';
 import Input from 'rsuite/Input';
 import 'rsuite/Input/styles/index.css';
