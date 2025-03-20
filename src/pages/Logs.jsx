@@ -128,13 +128,16 @@ function Logs() {
                 </button>
             
 
-            </div>
+            </div>          
+              <div className="mt-15">
+              <DashboardCard12 notes={notes} date={date} time = {wakeTime - sleepTime}/>
+              </div>
           </div>
 
               {/* Right: Actions */}
-          <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-1 mr-15"> 
-            <DashboardCard12 notes={notes} date={date} time = {wakeTime - sleepTime}/>
-          </div>
+          {/* <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-1 mr-15"> 
+            
+          </div> */}
 
 
             </div>
