@@ -6,14 +6,15 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Image from "../../images/healthySleep.jpg";
 
 export default function MediaCard2() {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         sx={{ height: 140 }}
-        image="../src/images/healthySleep.jpg"
-        title="green iguana"
+        image={Image}
+        title="healthy sleep lady"
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

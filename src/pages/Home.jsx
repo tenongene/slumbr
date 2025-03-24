@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Sidebar from '../partials/Sidebar';
+import HomeImage from "../images/awake.jpg";
 import Header from '../partials/Header';
 import { Card, Typography, Button } from "@material-tailwind/react";
 
@@ -28,7 +30,7 @@ function Home() {
           <Card className="flex h-full w-full max-w-[40rem] flex-row ml=15">
               <Card.Header className="m-0 h-full w-2/5 shrink-0 rounded-r-none">
                 <img
-                  src="../src/images/awake.jpg"
+                  src= {HomeImage}
                   alt="card-image"
                   className="h-full w-full object-cover"
                 />
@@ -54,23 +56,26 @@ function Home() {
                 to get you sleeping again!
                 </div>
                 </Typography>
-                <Button as="a" href="#" className="mb-2 pl-3 flex w-fit items-right gap-4">
-                  Begin Assessment
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    className="h-4 w-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                    />
-                  </svg>
-                </Button>
+                <Link to="/survey">
+                  <Button as="a" href="#" className="mb-2 pl-3 flex w-fit items-right gap-4">
+                    Begin Assessment
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      className="h-4 w-4"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                  </Button>
+                </Link>
+                
               </Card.Body>
             </Card>
           </div> 

@@ -16,6 +16,8 @@ import Profile from './pages/Profile';
 import History from './pages/History';
 import Logs from './pages/Logs';
 import Home from './pages/Home';
+import SurveyPage from './pages/SurveyPage';
+import { DataProvider } from './utils/DataContext';
 
 
 
@@ -39,6 +41,7 @@ function App() {
         <Route  path="/history" element={<History />} />
         <Route  path="/logs" element={<Logs />} />
         <Route  path="/profile" element={<Profile />} />
+        <Route  path="/survey" element={<SurveyPage />} />
         <Route  path="/" element={<Home />} />
       </Routes>
     </>

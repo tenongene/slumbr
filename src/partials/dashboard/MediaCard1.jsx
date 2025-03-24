@@ -6,13 +6,14 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Image from "../../images/Insomnia.jpg"
 
 export default function MediaCard1() {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         sx={{ height: 140 }}
-        image="../src/images/Insomnia.jpg"
+        image={Image}
         title="sleepless lady"
       />
       <CardContent>
