@@ -65,6 +65,7 @@ function Dashboard() {
               {/* <DashboardCard04 />
               {/* Line chart (Real Time Value) */}
               <DashboardCard05 />
+              
               {/* Doughnut chart (Top Countries) */}
               {/* <DashboardCard06 /> */}
               {/* Table (Top Channels) */}
@@ -74,7 +75,7 @@ function Dashboard() {
               {/* Stacked bar chart (Sales VS Refunds) */}
               {/* <DashboardCard09 /> */}
               {/* Card (Customers) */}
-              <DashboardCard10 />
+              {/* <DashboardCard10 /> */}
               {/* Card (Reasons for Refunds) */}
               {/* <DashboardCard11 /> */}
               {/* Card (Recent Activity) */}
