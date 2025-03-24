@@ -4,8 +4,6 @@ import { chartAreaGradient } from "../../charts/ChartjsConfig";
 import RealtimeChart from "../../charts/RealtimeChart";
 import DataContext from "../../utils/DataContext";
 
-// Import utilities
-import { adjustColorOpacity, getCssVariable } from "../../utils/Utils";
 
 function DashboardCard05() {
   const { responses, setResponses } = useContext(DataContext);

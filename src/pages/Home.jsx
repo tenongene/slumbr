@@ -27,6 +27,15 @@ function Home() {
         <main className="grow">
 
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto" >
+            <div className="mb-20">
+              <Typography variant='h3'>
+                Hello Elizabeth,
+                </Typography>
+                <Typography variant='h5'>
+                  Welcome to Slumbr!
+                </Typography>
+              
+            </div>
           <Card className="flex h-full w-full max-w-[40rem] flex-row ml=15">
               <Card.Header className="m-0 h-full w-2/5 shrink-0 rounded-r-none">
                 <img

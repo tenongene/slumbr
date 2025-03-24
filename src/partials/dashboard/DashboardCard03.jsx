@@ -3,42 +3,39 @@ import { Link } from "react-router-dom";
 import { GaugeComponent } from "react-gauge-component";
 import DataContext from "../../utils/DataContext";
 
-// Import utilities
-import { adjustColorOpacity, getCssVariable } from "../../utils/Utils";
 
 const generateSeverity = (value) => {
-  if (value <= 20) {
-    return value + ": Low";
-  } else if (value > 20 && value <= 40) {
-    return value + "% : Mild";
-  } else if (value > 40 && value <= 60) {
-    return value + "% : Moderate";
-  } else if (value > 60 && value <= 80) {
-    return value + "% : High";
-  } else if (value > 80 && value <= 100) {
-    return value + "% : Severe";
+  if (value > 7 && value <= 14) {
+    return value + ":  Clinically Insignificant";
+  } else if (value > 14 && value <= 22) {
+    return value + " : Subthreshold Insomnia";
+  } else if (value > 22 && value <= 29) {
+    return value + " : Moderate Insomnia)";
+  } else if (value > 29 && value <= 35) {
+    return value + " : Severe Insomnia";
   }
 };
 
 function DashboardCard03() {
-  // const { ISI, setISI } = useContext(DataContext);
+  const { ISI, setISI } = useContext(DataContext);
 
-  // useEffect(() => {
-  //   const storedResponses = localStorage.getItem("surveyResponses");
-  //   if (storedResponses) {
-  //     const responses = JSON.parse(storedResponses);
-  //     console.log(responses);
-  //     setISI(
-  //       responses.falling_asleep +
-  //         responses.staying_asleep +
-  //         responses.early_wake +
-  //         responses.sleep_pattern +
-  //         responses.interference +
-  //         responses.noticeable +
-  //         responses.worry_level
-  //     );
-  //   }
-  // }, []);
+  useEffect(() => {
+    const storedResponses = localStorage.getItem("surveyResponses");
+    const responses = JSON.parse(storedResponses)
+    const isi_score = 
+        responses.falling_asleep +
+          responses.staying_asleep +
+          responses.early_wake +
+          responses.sleep_pattern +
+          responses.interference +
+          responses.noticeable +
+          responses.worry_level
+
+    setISI(isi_score)
+    
+    
+      
+  }, []);
 
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
@@ -53,30 +50,33 @@ function DashboardCard03() {
           <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">
             {" "}
             <GaugeComponent
-              value={25}
+              value={ISI}
+              minValue={7} 
+              maxValue={35}
               type="radial"
               labels={{
                 tickLabels: {
                   type: "outer",
                   ticks: [
-                    { value: 20 },
-                    { value: 40 },
-                    { value: 60 },
-                    { value: 80 },
-                    { value: 100 },
+                    { value: 7 },
+                    { value: 14 },
+                    { value: 22 },
+                    { value: 29 },
+                    { value: 35 },
                   ],
                 },
                 valueLabel: {
                   matchColorWithArc: "True",
-                  style: { fontSize: 45 },
+                  style: { fontSize: 60, marginTop: '50px', fontWeight: 'bold' },
                   formatTextValue: generateSeverity,
                 },
-              }}
+              }} 
               arc={{
-                colorArray: ["#5BE12C", "#EA4228"],
-                subArcs: [{ limit: 10 }, { limit: 30 }, {}, {}, {}],
+                colorArray: ["#5BE12C", "#F5CD19", "#D19602", "#D1023D"],
+                subArcs: [{ limit: 14, color: "#5BE12C"}, {limit: 22, color: "#F5CD19"}, {limit: 29, color: "#D19602"}, {limit: 35, color: "#D1023D"}, {}],
                 padding: 0.02,
                 width: 0.3,
+                // cornerRadius: 7
               }}
               pointer={{
                 elastic: true,

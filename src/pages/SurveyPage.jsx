@@ -155,7 +155,7 @@ function SurveyPage() {
 
   const survey = new Model(surveyJson);
   survey.onComplete.add((sender, options) => {
-    const responses = sender.data;
+    const responses = JSON.stringify(sender.data);
     localStorage.setItem("surveyResponses", responses); // Store in local storage
     setResponses(responses); //Update context. if you still want to display it on the page for a short time.
   });
