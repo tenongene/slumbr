@@ -3,6 +3,8 @@ import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import MediaCard1 from "../partials/dashboard/MediaCard1";
 import MediaCard2 from "../partials/dashboard/MediaCard2";
+import MediaCard3 from "../partials/dashboard/MediaCard3";
+import MediaCard4 from "../partials/dashboard/MediaCard4";
 import { Stack } from "rsuite";
 
 function Education() {
@@ -27,24 +29,19 @@ function Education() {
                 <h1 className="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">
                   Sleep Education{" "}
                 </h1>
-                <div className="mt-20">
-                  <Stack
-                    spacing={50}
-                    direction="column"
-                    alignItems="flex-start"
-                  >
-                    <MediaCard1 />
-                    <MediaCard2 />
-                  </Stack>
-                </div>
 
                 {/* Right: Actions */}
-                <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2"></div>
+                <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2 mt-20"></div>
 
                 {/* Cards */}
-                <div className="grid grid-cols-12 gap-6"></div>
+                <div className="grid md:grid-cols-2 gap-10">    
+                    <MediaCard1 />
+                    <MediaCard2 />
+                    <MediaCard3 />
+                    <MediaCard4 />
               </div>
             </div>
+          </div>
           </div>
         </main>
       </div>

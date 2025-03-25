@@ -42,12 +42,9 @@ function Header({
                 to="/login"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-               <a>
                 <button type="button" className="text-gray-700 dark:text-stone-400 hover:text-violet-700 dark:hover:text-stone-50 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                   Sign Out
                   </button>
-                </a> 
-                
             </Link>
             {/*  Divider */}
             <hr className="w-px h-6 bg-gray-200 dark:bg-gray-700/60 border-none" />

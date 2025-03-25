@@ -6,31 +6,27 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Image from "../../images/healthySleep.jpg";
+import Image from "../../images/sleepEnvironment.jpg";
 
-export default function MediaCard2() {
+export default function MediaCard3() {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         sx={{ height: 140 }}
         image={Image}
-        title="healthy sleep lady"
+        title="cozy dark room"
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Healthy Sleep Habits
+        <Typography gutterBottom variant="h5" component="div" >
+          A Restful Sleep Environment
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }} className="pt-5">
-          Your daily routines – what you eat and drink, the medications you
-          take, how you schedule your days and how you choose to spend your
-          evenings – can significantly impact your quality of sleep. Even a few
-          slight adjustments can, in some cases, mean the difference between
-          sound sleep and a restless night.
+        One potential barrier to a good night’s sleep is your sleep environment. Sleep environment refers to your bedroom and other nighttime surroundings. Your sleep environment includes important qualities, like the temperature as well as levels of humidity, light, and noise. Having the right sleep environment can mean the difference between a night of restful, restorative sleep or one filled with uncomfortable tossing and turning.
         </Typography>
       </CardContent>
       <CardActions>
         <Link
-          to="https://sleepeducation.org/healthy-sleep/healthy-sleep-habits/"
+          to="https://sleepdoctor.com/sleep-environment"
           target="_blank"
         >
           <Button size="small">Learn More</Button>

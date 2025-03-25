@@ -16,7 +16,7 @@ export default function MediaCard1() {
         <Typography gutterBottom variant="h5" component="div">
           Insomnia: Symptoms, Causes, and Treatments
         </Typography>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+        <Typography variant="body2" sx={{ color: "text.secondary" }} className="pt-5">
           Insomnia is one of the most common health concerns among adults.
           Insomnia causes sleep issues that interfere with daily life and can be
           debilitating for some people. Many factors may contribute to insomnia,

@@ -5,12 +5,12 @@ import DataContext from "../../utils/DataContext";
 
 
 const generateSeverity = (value) => {
-  if (value > 7 && value <= 14) {
+  if (value >= 7 && value <= 14) {
     return value + ":  Clinically Insignificant";
   } else if (value > 14 && value <= 22) {
     return value + " : Subthreshold Insomnia";
   } else if (value > 22 && value <= 29) {
-    return value + " : Moderate Insomnia)";
+    return value + " : Moderate Insomnia";
   } else if (value > 29 && value <= 35) {
     return value + " : Severe Insomnia";
   }
@@ -38,7 +38,7 @@ function DashboardCard03() {
   }, []);
 
   return (
-    <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
+    <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white-50  dark:bg-gray-800 shadow-lg rounded-xl">
       <div className="px-5 pt-5">
         <header className="flex justify-between items-start mb-2">
           <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
@@ -67,16 +67,15 @@ function DashboardCard03() {
                 },
                 valueLabel: {
                   matchColorWithArc: "True",
-                  style: { fontSize: 60, marginTop: '50px', fontWeight: 'bold' },
+                  style: {fontSize: "68px", textShadow: "black 5px 0px 5px, black 0px 0px 2.5em, gray 0px 0px 0.3em"},
                   formatTextValue: generateSeverity,
                 },
               }} 
               arc={{
-                colorArray: ["#5BE12C", "#F5CD19", "#D19602", "#D1023D"],
-                subArcs: [{ limit: 14, color: "#5BE12C"}, {limit: 22, color: "#F5CD19"}, {limit: 29, color: "#D19602"}, {limit: 35, color: "#D1023D"}, {}],
+                colorArray: ["rgb(91, 225, 44)", "#92CC74", "#F29624", "#D1023D"],
+                subArcs: [{ limit: 14, color: "rgb(91, 225, 44)"}, {limit: 22, color: "#92CC74"}, {limit: 29, color: "#F29624"}, {limit: 35, color: "#D1023D"}, {}],
                 padding: 0.02,
                 width: 0.3,
-                // cornerRadius: 7
               }}
               pointer={{
                 elastic: true,

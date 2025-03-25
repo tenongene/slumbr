@@ -131,8 +131,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           handleClick();
                           setSidebarExpanded(true);
                         }}
-                      >
-                        <NavLink to="/">
+                      /> 
+                      <NavLink to="/">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">
                               {/* <svg className={`shrink-0 fill-current ${pathname === "/" || pathname.includes("dashboard") ? 'text-violet-500' : 'text-gray-400 dark:text-gray-500'}`} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -147,8 +147,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                               </span>
                             </div>
                           </div>
-                        </NavLink>
-                      </a>
+                      </NavLink>
+                    
                     </React.Fragment>
                   );
                 }}
@@ -173,8 +173,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           handleClick();
                           setSidebarExpanded(true);
                         }}
-                      >
-                        <NavLink to="/dashboard">
+                      /> 
+                      <NavLink to="/dashboard">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">
                               {/* <svg className={`shrink-0 fill-current ${pathname === "/" || pathname.includes("dashboard") ? 'text-violet-500' : 'text-gray-400 dark:text-gray-500'}`} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -189,15 +189,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                               </span>
                             </div>
                           </div>
-                        </NavLink>
-                      </a>
+                      </NavLink>
+                      
                     </React.Fragment>
                   );
                 }}
               </SidebarLinkGroup>
 
               {/* Sleep Logs */}
-
               <SidebarLinkGroup activecondition={pathname.includes("logs")}>
                 {(handleClick, open) => {
                   return (
@@ -214,8 +213,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           handleClick();
                           setSidebarExpanded(true);
                         }}
-                      >
-                        <NavLink to="/logs">
+                      />
+                      <NavLink to="/logs">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">
                               {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -228,8 +227,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                               </span>
                             </div>
                           </div>
-                        </NavLink>
-                      </a>
+                      </NavLink>
+                     
                     </React.Fragment>
                   );
                 }}
@@ -252,8 +251,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           handleClick();
                           setSidebarExpanded(true);
                         }}
-                      >
-                        <NavLink to="/history">
+                      /> 
+                      <NavLink to="/history">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">
                               {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -267,8 +266,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                               </span>
                             </div>
                           </div>
-                        </NavLink>
-                      </a>
+                      </NavLink>
+                      
                     </React.Fragment>
                   );
                 }}
@@ -293,8 +292,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           handleClick();
                           setSidebarExpanded(true);
                         }}
-                      >
-                        <NavLink to="/education">
+                     /> 
+                      <NavLink to="/education">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">
                               {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -307,8 +306,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                               </span>
                             </div>
                           </div>
-                        </NavLink>
-                      </a>
+                      </NavLink>
+                     
                     </React.Fragment>
                   );
                 }}
@@ -331,8 +330,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           handleClick();
                           setSidebarExpanded(true);
                         }}
-                      >
-                        <NavLink to="/profile">
+                     /> 
+                      <NavLink to="/profile">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">
                               {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -348,8 +347,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                               </span>
                             </div>
                           </div>
-                        </NavLink>
-                      </a>
+                      </NavLink>
+                     
                     </React.Fragment>
                   );
                 }}

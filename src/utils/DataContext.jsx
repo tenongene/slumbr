@@ -4,7 +4,7 @@ const DataContext = createContext({});
 
 export const DataProvider = ({ children }) => {
   const [responses, setResponses] = useState(null);
-    const [ISI, setISI] = useState(1);
+    const [ISI, setISI] = useState(7);
 
   return (
     <DataContext.Provider value={{ responses, setResponses, ISI, setISI }}>
