@@ -41,7 +41,7 @@ function Home() {
                         <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2 mt-20"></div>
         
                         {/* Cards */}
-                        <div className="grid md:grid-cols-2 gap-10">    
+                        <div className="grid sm:grid-cols-1">    
                              <Card className="flex h-full w-full max-w-[40rem] flex-row ml=15">
                                 <Card.Header className="m-0 h-full w-2/5 shrink-0 rounded-r-none">
                                   <img

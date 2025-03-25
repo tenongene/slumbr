@@ -1,4 +1,8 @@
+
+import React, { useContext } from 'react';
+import DataContext from '../utils/DataContext';
 import Logo from "../images/slumbr_logo2.jpg"
+
 
 import {
   Input,
@@ -7,9 +11,42 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
 
+
+const errorNotify = (input) => toast.error(input);
+const successNotify = (input) => toast.success(input);
+const userList = [];
 
 export function SignUp() {
+
+  const { email, password, setEmail, setPassword, passMatch, setPassMatch } =
+		useContext(DataContext);
+
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		if (password !== passMatch) {
+			errorNotify('Passwords do not match!');
+			setPassMatch('');
+		}
+    const user = {
+      id: crypto.randomUUID,
+      email: email,
+      password: password
+    }
+    userList.push(user);
+  
+		setEmail('');
+		setPassword('');
+		setPassMatch('');
+
+    console.log(userList)
+	};
+
+
+
   return (
     <section className="m-20 pt-10 flex gap-4">
       <div className="w-2/5 mt-20 h-full hidden lg:block">
@@ -31,6 +68,7 @@ export function SignUp() {
             </Typography>
             <Input
               size="lg"
+              value={email}
               placeholder="yourname@domain.com"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
@@ -45,6 +83,7 @@ export function SignUp() {
             </Typography>
             <Input
               size="lg"
+              value={password}
               placeholder="********"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
@@ -59,6 +98,7 @@ export function SignUp() {
             </Typography>
             <Input
               size="lg"
+              value={passMatch}
               placeholder="********"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
@@ -85,12 +125,12 @@ export function SignUp() {
             }
             containerProps={{ className: "-ml-2.5" }}
           />
-          <Button className="mt-6" fullWidth>
-            Register Now
-          </Button>
+          <Button className="mt-6" fullWidth  type='submit' onSubmit={handleSubmit}>
+              Register Now
+            </Button>
 
           <div className="space-y-4 mt-8">
-            <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth>
+            {/* <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth>
               <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0_1156_824)">
                   <path d="M16.3442 8.18429C16.3442 7.64047 16.3001 7.09371 16.206 6.55872H8.66016V9.63937H12.9813C12.802 10.6329 12.2258 11.5119 11.3822 12.0704V14.0693H13.9602C15.4741 12.6759 16.3442 10.6182 16.3442 8.18429Z" fill="#4285F4" />
@@ -105,7 +145,7 @@ export function SignUp() {
                 </defs>
               </svg>
               <span>Sign in With Google</span>
-            </Button>
+            </Button> */}
 
           </div>
           <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
@@ -115,6 +155,7 @@ export function SignUp() {
         </form>
 
       </div>
+      <Toaster />
     </section>
   );
 }

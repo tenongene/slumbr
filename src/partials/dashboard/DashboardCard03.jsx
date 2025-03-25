@@ -2,22 +2,37 @@ import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { GaugeComponent } from "react-gauge-component";
 import DataContext from "../../utils/DataContext";
+import { Typography } from "@material-tailwind/react";
 
 
 const generateSeverity = (value) => {
+  let severityText = "";
+  let color = "";
+
   if (value >= 7 && value <= 14) {
-    return value + ":  Clinically Insignificant";
+    severityText = value + ": Clinically Insignificant";
+    color = " #0a751c ";
   } else if (value > 14 && value <= 22) {
-    return value + " : Subthreshold Insomnia";
+    severityText = value + ": Subthreshold Insomnia";
+    color = " #a5bb33 ";
   } else if (value > 22 && value <= 29) {
-    return value + " : Moderate Insomnia";
+    severityText = value + ": Moderate Insomnia";
+    color = " #cd8c14 ";
   } else if (value > 29 && value <= 35) {
-    return value + " : Severe Insomnia";
+    severityText = value + ": Severe Insomnia";
+    color = " #cb4521 ";
   }
+
+  return { text: severityText, color: color };
 };
 
+
+
 function DashboardCard03() {
+
+  
   const { ISI, setISI } = useContext(DataContext);
+  const severityResult = generateSeverity(ISI);
 
   useEffect(() => {
     const storedResponses = localStorage.getItem("surveyResponses");
@@ -32,8 +47,6 @@ function DashboardCard03() {
           responses.worry_level
 
     setISI(isi_score)
-    
-    
       
   }, []);
 
@@ -47,7 +60,7 @@ function DashboardCard03() {
         </header>
         <div className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1"></div>
         <div className="flex items-start">
-          <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">
+          <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2 mb-5">
             {" "}
             <GaugeComponent
               value={ISI}
@@ -67,7 +80,7 @@ function DashboardCard03() {
                 },
                 valueLabel: {
                   matchColorWithArc: "True",
-                  style: {fontSize: "68px", textShadow: "black 5px 0px 5px, black 0px 0px 2.5em, gray 0px 0px 0.3em"},
+                  style: {fontSize: "0px"},
                   formatTextValue: generateSeverity,
                 },
               }} 
@@ -83,8 +96,12 @@ function DashboardCard03() {
               }}
             />
           </div>
+
           <div className="text-sm font-medium text-green-700 px-1.5 bg-green-500/20 rounded-full"></div>
-        </div>
+        </div>          
+              <Typography variant="h4" className="ml-5 pb-10" style={{ color: severityResult.color }}>
+                {severityResult.text}
+              </Typography>
       </div>
     </div>
   );
