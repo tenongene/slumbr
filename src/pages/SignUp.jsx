@@ -83,6 +83,7 @@ export function SignUp() {
             </Typography>
             <Input
               size="lg"
+              type="password"
               value={password}
               placeholder="********"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -98,6 +99,7 @@ export function SignUp() {
             </Typography>
             <Input
               size="lg"
+              type="password" 
               value={passMatch}
               placeholder="********"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"

@@ -3,7 +3,6 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import HomeIcon from "../images/home.svg";
 import LogsIcon from "../images/logs.svg";
-import HistoryIcon from "../images/history.svg";
 import DashboardIcon from "../images/speed.svg";
 import ProfileIcon from "../images/profile.svg";
 import EducationIcon from "../images/education.svg";
@@ -229,45 +228,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           </div>
                       </NavLink>
                      
-                    </React.Fragment>
-                  );
-                }}
-              </SidebarLinkGroup>
-
-              {/* History */}
-              <SidebarLinkGroup activecondition={pathname.includes("history")}>
-                {(handleClick, open) => {
-                  return (
-                    <React.Fragment>
-                      <a
-                        href="/history"
-                        className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                          pathname.includes("history")
-                            ? ""
-                            : "hover:text-gray-900 dark:hover:text-white"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleClick();
-                          setSidebarExpanded(true);
-                        }}
-                      /> 
-                      <NavLink to="/history">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                              {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                          </svg> */}
-                              <img src={HistoryIcon} alt="history" />
-
-                              <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                {/* FIXME */}
-                                History
-                              </span>
-                            </div>
-                          </div>
-                      </NavLink>
-                      
                     </React.Fragment>
                   );
                 }}

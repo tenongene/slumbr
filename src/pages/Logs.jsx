@@ -85,7 +85,7 @@ function Logs() {
 
               {/* Left: Title */}
           <div className="mb-4 sm:mb-0">
-            <h1 className="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Sleep Log Entry </h1>
+            <h1 className="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Your Sleep Diary</h1>
 
             <div className='mt-10'>
             <Stack spacing={17} direction="column" alignItems="flex-start">

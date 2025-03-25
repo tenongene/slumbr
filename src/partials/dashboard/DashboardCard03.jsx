@@ -11,16 +11,16 @@ const generateSeverity = (value) => {
 
   if (value >= 7 && value <= 14) {
     severityText = value + ": Clinically Insignificant";
-    color = " #0a751c ";
+    color = " #0A751C ";
   } else if (value > 14 && value <= 22) {
     severityText = value + ": Subthreshold Insomnia";
-    color = " #a5bb33 ";
+    color = " #A5bb33 ";
   } else if (value > 22 && value <= 29) {
     severityText = value + ": Moderate Insomnia";
-    color = " #cd8c14 ";
+    color = " #CD8C14 ";
   } else if (value > 29 && value <= 35) {
     severityText = value + ": Severe Insomnia";
-    color = " #cb4521 ";
+    color = " #CB4521 ";
   }
 
   return { text: severityText, color: color };

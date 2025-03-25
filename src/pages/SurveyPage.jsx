@@ -20,6 +20,7 @@ const surveyJson = {
           name: "bedtime",
           title: "What time did you go to bed last night?",
           inputType: "time",
+          
         },
         {
           type: "text",
@@ -50,7 +51,6 @@ const surveyJson = {
         {
           type: "rating",
           name: "sleep_quality",
-          visible: false,
           title: "How would you rate the quality of your sleep last night?",
           description:
             "1 - Extremely poor\n2 - Poor\n3 - Average\n4 - Good\n5 - Excellent",
@@ -63,9 +63,14 @@ const surveyJson = {
             "1 - Severely unrested\n2 - Not rested\n3 - Somewhat rested\n4 - Rested\n5 - Very rested",
         },
         {
+          "type": "comment",
+          "name": "sleep_notes",
+          "title": "Enter any pertinent notes about your sleep:",
+        },
+        {
           type: "boolean",
           name: "substance_use",
-          title: " Did you consume caffeine or alcohol before bed?",
+          title: "Did you consume caffeine or alcohol before bed?",
         },
         {
           type: "boolean",
@@ -92,7 +97,7 @@ const surveyJson = {
           title:
             "Please rate the SEVERITY of your difficulty falling asleep within the last 2 weeks:\n",
           description:
-            "1 - None\n2 - Mild\n3 - Moderate\n4 - Severe\n5 - Very ",
+            "1 - None\n2 - Mild\n3 - Moderate\n4 - Severe\n5 - Very Severe",
         },
         {
           type: "rating",
@@ -100,7 +105,7 @@ const surveyJson = {
           title:
             "Please rate the SEVERITY of your difficulty staying asleep within the last 2 weeks:",
           description:
-            "1 - None\n2 - Mild\n3 - Moderate\n4 - Severe\n5 - Very ",
+            "1 - None\n2 - Mild\n3 - Moderate\n4 - Severe\n5 - Very Severe",
         },
         {
           type: "rating",
@@ -108,7 +113,7 @@ const surveyJson = {
           title:
             "Please rate the SEVERITY of waking up too early within the last 2 weeks:",
           description:
-            "1 - None\n2 - Mild\n3 - Moderate\n4 - Severe\n5 - Very ",
+            "1 - None\n2 - Mild\n3 - Moderate\n4 - Severe\n5 - Very Severe",
         },
         {
           type: "rating",
@@ -156,8 +161,8 @@ function SurveyPage() {
   const survey = new Model(surveyJson);
   survey.onComplete.add((sender, options) => {
     const responses = JSON.stringify(sender.data);
-    localStorage.setItem("surveyResponses", responses); // Store in local storage
-    setResponses(responses); //Update context. if you still want to display it on the page for a short time.
+    localStorage.setItem("surveyResponses", responses); 
+    setResponses(responses); 
   });
 
   return (
