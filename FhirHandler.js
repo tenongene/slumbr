@@ -1,13 +1,34 @@
+/*
+Our Google Cloud Fhir Server Auth
+*/
+// const { GoogleAuth } = require("google-auth-library");
+// require('dotenv').config();
+
+async function getAccessToken() {
+  const auth = new GoogleAuth({
+    keyFile: process.env.KEY_FILE_PATH,
+    scopes: ["https://www.googleapis.com/auth/cloud-healthcare", "https://www.googleapis.com/auth/cloud-platform"]
+  });
+  const client = await auth.getClient();
+  const token = await client.getAccessToken();
+  return token.token;
+}
+
+
+
+
 //convert surverys to fhir format
 
-export function convertSurveyJsonToFhir(surveyJson, patientId, surveyDate) {
+export function convertSurveyJsonToFhir(surveyJson, patientId) {
+  const now = new Date();
+  const isoDate = now.toISOString();
   const fhirQuestionnaireResponse = {
     resourceType: "QuestionnaireResponse",
     status: "completed",
     subject: {
       reference: `Patient/${patientId}`,
     },
-    authored: `${surveyDate}T00:00:00Z`,
+    authored: isoDate,
     item: [],
   };
 
@@ -61,29 +82,30 @@ Include the JSON object in the request body, with the correct Content-Type heade
 
 */
 
-async function postFhirResource(fhirResource, fhirServerUrl) {
-  try {
-    const response = await fetch(fhirServerUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/fhir+json",
-      },
-      body: JSON.stringify(fhirResource),
-    });
+export async function sendToFhirServer(fhirResource, serverUrl) {
+    try {
+        const response = await fetch(`${serverUrl}/QuestionnaireResponse`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/fhir+json'
+            },
+            body: JSON.stringify(fhirResource)
+        });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('FHIR server response:', result);
+        return result;
+
+    } catch (error) {
+        console.error('Error sending to FHIR server:', error);
+        return null;
     }
-
-    const result = await response.json();
-    console.log("FHIR resource posted successfully:", result);
-    return result;
-  } catch (error) {
-    console.error("Failed to post FHIR resource:", error);
-    return null;
-  }
 }
-
 
 //Use example:
 // const serverUrl = 'YOUR_FHIR_SERVER_URL'; // Replace with your server URL
@@ -108,6 +130,7 @@ export async function getSurveyResponses(serverUrl, patientId, surveyDate) {
       {
         method: "GET",
         headers: {
+          "Authorization": `Bearer ${accessToken}`,
           "Content-Type": "application/fhir+json",
         },
       }
@@ -170,9 +193,9 @@ export function extractAnswers(questionnaireResponse) {
 }
 
 // Example usage:
-const serverUrlget = "YOUR_FHIR_SERVER_URL"; // Replace with your server URL
-const patientId = "patient-123";
-const surveyDate = "2023-10-27";
+// const serverUrlget = "YOUR_FHIR_SERVER_URL"; // Replace with your server URL
+// const patientId = "patient-123";
+// const surveyDate = "2023-10-27";
 
 
 /*
@@ -213,30 +236,6 @@ getSurveyResponses(serverUrl, patientId, surveyDate).then((responses) => {
 Get patient's medications and conditions from fhir server
 */
 
-export async function extractMedicationAndConditions(serverUrl, patientId) {
-  try {
-    // 1. Get MedicationStatements
-    const medicationStatements = await getMedicationStatements(serverUrl, patientId);
-
-    // 2. Get Conditions
-    const conditions = await getConditions(serverUrl, patientId);
-
-    // 3. Extract Medication Data
-    const medications = extractMedicationData(medicationStatements);
-
-    // 4. Extract Condition Data
-    const relevantConditions = extractRelevantConditions(conditions);
-
-    return {
-      medications: medications,
-      conditions: relevantConditions,
-    };
-  } catch (error) {
-    console.error("Error extracting data:", error);
-    return null;
-  }
-}
-
 async function getMedicationStatements(serverUrl, patientId) {
   const searchParams = new URLSearchParams({
     subject: `Patient/${patientId}`,
@@ -247,6 +246,7 @@ async function getMedicationStatements(serverUrl, patientId) {
     {
       method: "GET",
       headers: {
+        "Authorization": `Bearer ${accessToken}`,
         "Content-Type": "application/fhir+json",
       },
     }
@@ -269,6 +269,7 @@ async function getConditions(serverUrl, patientId) {
   const response = await fetch(`${serverUrl}/Condition?${searchParams}`, {
     method: "GET",
     headers: {
+      "Authorization": `Bearer ${accessToken}`,
       "Content-Type": "application/fhir+json",
     },
   });
@@ -282,6 +283,29 @@ async function getConditions(serverUrl, patientId) {
   return bundle.entry.map((entry) => entry.resource);
 }
 
+async function extractMedicationAndConditions(serverUrl, patientId) {
+  try {
+    // 1. Get MedicationStatements
+    const medicationStatements = await getMedicationStatements(serverUrl, patientId);
+
+    // 2. Get Conditions
+    const conditions = await getConditions(serverUrl, patientId);
+
+    // 3. Extract Medication Data
+    const medications = extractMedicationData(medicationStatements);
+
+    // 4. Extract Condition Data
+    const relevantConditions = extractRelevantConditions(conditions);
+
+    return {
+      medications: medications,
+      conditions: relevantConditions,
+    };
+  } catch (error) {
+    console.error("Error extracting data:", error);
+    return null;
+  }
+}
 
 export function extractMedicationData(medicationStatements) {
   if (!medicationStatements) return [];

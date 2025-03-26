@@ -26,25 +26,55 @@ const generateSeverity = (value) => {
   return { text: severityText, color: color };
 };
 
+function extractAnswers(questionnaireResponse) {
+  if (!questionnaireResponse || !questionnaireResponse.item) {
+    return null;
+  }
 
+  const answers = {};
+
+  questionnaireResponse.item.forEach((item) => {
+    if (item.answer && item.answer.length > 0) {
+      const answer = item.answer[0]; // Assuming only one answer per question
+
+      if (answer.valueInteger !== undefined) {
+        answers[item.linkId] = answer.valueInteger;
+      } else if (answer.valueBoolean !== undefined) {
+        answers[item.linkId] = answer.valueBoolean;
+      } else if (answer.valueString !== undefined) {
+        answers[item.linkId] = answer.valueString;
+      } else if (answer.valueTime !== undefined){
+        answers[item.linkId] = answer.valueTime;
+      } else {
+        answers[item.linkId] = null; // No valid answer found
+      }
+    } else {
+      answers[item.linkId] = null; // No answer provided
+    }
+  });
+
+  return answers;
+}
 
 function DashboardCard03() {
 
   
-  const { ISI, setISI } = useContext(DataContext);
+  const { ISI, setISI, responses } = useContext(DataContext);
   const severityResult = generateSeverity(ISI);
 
+
+
   useEffect(() => {
-    const storedResponses = localStorage.getItem("surveyResponses");
-    const responses = JSON.parse(storedResponses)
-    const isi_score = 
-        responses.falling_asleep +
-          responses.staying_asleep +
-          responses.early_wake +
-          responses.sleep_pattern +
-          responses.interference +
-          responses.noticeable +
-          responses.worry_level
+    
+  const surveyResponses = extractAnswers(responses);
+  const isi_score = 
+        surveyResponses.falling_asleep +
+          surveyResponses.staying_asleep +
+          surveyResponses.early_wake +
+          surveyResponses.sleep_pattern +
+          surveyResponses.interference +
+          surveyResponses.noticeable +
+          surveyResponses.worry_level
 
     setISI(isi_score)
       

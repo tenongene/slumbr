@@ -5,15 +5,47 @@ import RealtimeChart from "../../charts/RealtimeChart";
 import DataContext from "../../utils/DataContext";
 
 
-function DashboardCard05() {
-  const { responses, setResponses } = useContext(DataContext);
+function extractAnswers(questionnaireResponse) {
+  if (!questionnaireResponse || !questionnaireResponse.item) {
+    return null;
+  }
 
-  useEffect(() => {
-    const storedResponses = localStorage.getItem("surveyResponses");
-    if (storedResponses) {
-      setResponses(JSON.parse(storedResponses));
+  const answers = {};
+
+  questionnaireResponse.item.forEach((item) => {
+    if (item.answer && item.answer.length > 0) {
+      const answer = item.answer[0]; // Assuming only one answer per question
+
+      if (answer.valueInteger !== undefined) {
+        answers[item.linkId] = answer.valueInteger;
+      } else if (answer.valueBoolean !== undefined) {
+        answers[item.linkId] = answer.valueBoolean;
+      } else if (answer.valueString !== undefined) {
+        answers[item.linkId] = answer.valueString;
+      } else if (answer.valueTime !== undefined){
+        answers[item.linkId] = answer.valueTime;
+      } else {
+        answers[item.linkId] = null; // No valid answer found
+      }
+    } else {
+      answers[item.linkId] = null; // No answer provided
     }
-  }, []);
+  });
+
+  return answers;
+}
+
+
+function DashboardCard05() {
+  const { responses } = useContext(DataContext);
+
+  // useEffect(() => {
+  //   const storedResponses = localStorage.getItem("surveyResponses");
+  //   if (storedResponses) {
+  //     setResponses(storedResponses);
+  //   }
+  // }, []);
+  const surveyAnswers = extractAnswers(responses);
 
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
@@ -32,8 +64,7 @@ function DashboardCard05() {
         your insomnia.
       </div>
       <div className="mt-5">
-        {responses && <pre>{JSON.stringify(responses, null, 2)}</pre>}
-        {!responses && <p>No responses found.</p>}
+        {surveyAnswers}
       </div>
     </div>
   );

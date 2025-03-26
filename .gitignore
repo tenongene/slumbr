@@ -3,3 +3,5 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+slumbr-453203-54aab856b17f.json

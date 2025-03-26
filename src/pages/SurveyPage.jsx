@@ -1,8 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import "survey-core/survey-core.min.css";
 import DataContext from "../utils/DataContext";
+import axios from "axios";
+
 
 const surveyJson = {
   completedHtml:
@@ -150,20 +152,141 @@ const surveyJson = {
       ],
     },
   ],
-  navigateToUrl: "/dashboard",
+  // navigateToUrl: "/dashboard",
   headerView: "advanced",
 };
 
+function convertSurveyJsonToFhir(surveyJson, responses, patientId) {
+    const fhirResource = {
+    resourceType: "QuestionnaireResponse",
+    status: "completed",
+    subject: {
+      reference: `Patient/${patientId}`, // Replace with actual patient reference
+    },
+    authored: new Date().toISOString(),
+    questionnaire: "Questionnaire/insomnia-assessment", // Replace with actual Questionnaire reference if applicable
+    item: [],
+  };
+
+  if (!responses) {
+    return null; // Handle missing responses
+  }
+
+  // Map survey questions to FHIR QuestionnaireResponse items
+  const questionMap = {
+    bedtime: { linkId: "bedtime", type: "time" },
+    sleep_latency: { linkId: "sleep-latency", type: "integer" },
+    wakeup_time: { linkId: "wakeup-time", type: "time" },
+    night_awakenings: { linkId: "night-awakenings", type: "integer" },
+    waso: { linkId: "waso", type: "integer" },
+    sleep_quality: { linkId: "sleep-quality", type: "integer" },
+    restorative_sleep: { linkId: "restorative-sleep", type: "integer" },
+    sleep_notes: { linkId: "sleep-notes", type: "string" },
+    substance_use: { linkId: "substance-use", type: "boolean" },
+    device_use: { linkId: "device-use", type: "boolean" },
+    bedtime_routine: { linkId: "bedtime-routine", type: "boolean" },
+    falling_asleep: { linkId: "falling-asleep", type: "integer" },
+    staying_asleep: { linkId: "staying-asleep", type: "integer" },
+    early_wake: { linkId: "early-wake", type: "integer" },
+    sleep_pattern: { linkId: "sleep-pattern", type: "integer" },
+    interference: { linkId: "interference", type: "integer" },
+    noticeable: { linkId: "noticeable", type: "integer" },
+    worry_level: { linkId: "worry-level", type: "integer" },
+  };
+
+  for (const key in responses) {
+    if (questionMap[key]) {
+      const item = {
+        linkId: questionMap[key].linkId,
+        answer: [
+          {
+            valueTime: questionMap[key].type === "time" ? responses[key] : undefined,
+            valueInteger: questionMap[key].type === "integer" ? responses[key] : undefined,
+            valueString: questionMap[key].type === "string" ? responses[key] : undefined,
+            valueBoolean: questionMap[key].type === "boolean" ? responses[key] : undefined
+          },
+        ],
+      };
+      fhirResource.item.push(item);
+    }
+  }
+
+  return fhirResource;
+}
+
+//GET Fhir resources
+async function getFhirResources(resourceType, queryParams) {
+  try {
+    const response = await axios.post(
+      `http://localhost:3005/api/healthcare/${resourceType}`, 
+      { params: queryParams }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching ${resourceType}:`, error);
+    return null;
+  }
+}
+
+
+
 function SurveyPage() {
   //
-  const { setResponses } = useContext(DataContext);
+  const { patientId } = useContext(DataContext);
 
+  const id = "806265ee-2f07-34d6-3c7e-16c9dae79041"
+
+  
   const survey = new Model(surveyJson);
   survey.onComplete.add((sender, options) => {
-    const responses = JSON.stringify(sender.data);
-    localStorage.setItem("surveyResponses", responses); 
-    setResponses(responses); 
+    const responses = sender.data;
+
+    if (responses.wakeup_time) {
+    // Format time to Fhir format
+    responses.wakeup_time = `${responses.wakeup_time}:00`;
+    }
+
+    if (responses.bedtime) {
+    // Format time to Fhir format
+    responses.bedtime = `${responses.bedtime}:00`;
+    }
+
+    console.log(responses);
+    const responseFhir = convertSurveyJsonToFhir(surveyJson, responses, id);
+    console.log(responseFhir);
+
+    if (responseFhir) {
+
+ 
+      axios
+        .post('/api/healthcare/', responseFhir, responseFhir.resourceType, responseFhir.questionnaire, responseFhir.status, responseFhir.subject.reference, 
+          {headers: {
+          'Content-Type': 'application/fhir+json',
+            },
+      })
+        .then((response) => {
+      
+          console.log('QuestionnaireResponse posted successfully:', response);
+    
+        })
+        .catch((error) => {
+      
+          console.error('Error posting QuestionnaireResponse:', error);
+  
+        });
+      } else {
+        // Handle the case where responseFhir is null
+        console.error('QuestionnaireResponse is null, not posting.');
+        // Inform the user or log the issue
+      }
+      
+    
   });
+
+
+
+
+
 
   return (
     <div>
