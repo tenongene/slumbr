@@ -36,7 +36,32 @@ async function getAccessToken() {
   return accessToken.token;
 };
 
-// POST request to create a FHIR resource
+// GET request to read FHIR resource
+app.get("/api/healthcare/:id", async (req, res) => {
+  const resourceId = req.params.id; // Get the resource ID from the URL
+  console.log("Fetching FHIR resource with ID:", resourceId);
+
+  try {
+    const accessToken = await getAccessToken();
+
+    // Send GET request to FHIR server
+    const response = await axios.get(`${BASE_URL}/QuestionnaireResponse/${resourceId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/fhir+json",
+      },
+    });
+
+    res.status(200).json(response.data); 
+  } catch (error) {
+    console.error("Error fetching FHIR resource:", error.response?.data || error.message);
+    res.status(500).json({ error: error.response?.data || error.message });
+  }
+});
+
+
+
+// POST request to create FHIR resource
 app.post("/api/healthcare", async (req, res) => {
 
   const fhirResource = req.body;

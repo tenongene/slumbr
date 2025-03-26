@@ -1,9 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import LineChart from '../../charts/LineChart01';
 import { chartAreaGradient } from '../../charts/ChartjsConfig';
-import EditMenu from '../../components/DropdownEditMenu';
-
 // Import utilities
 import { adjustColorOpacity, getCssVariable } from '../../utils/Utils';
 
@@ -83,12 +80,12 @@ function DashboardCard01() {
     <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
       <div className="px-5 pt-5">
         <header className="flex justify-between items-start mb-2">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Today's Sleep Log</h2>
+          <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-2">Sleep Quality Summary</h2>
           
         </header>
         <div className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1"></div>
         <div className="flex items-start">
-          <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">(Show Sleep Log Here)</div>
+          <div className="text-sm font-bold text-gray-800 dark:text-gray-100 mr-2"><h2>Sleep rating trend over the past 2 weeks</h2></div>
           <div className="text-sm font-medium text-green-700 px-1.5 bg-green-500/20 rounded-full"></div>
         </div>
       </div>

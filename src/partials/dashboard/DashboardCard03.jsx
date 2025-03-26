@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { GaugeComponent } from "react-gauge-component";
 import DataContext from "../../utils/DataContext";
 import { Typography } from "@material-tailwind/react";
+import { getLocalStorageItems } from "../../utils/LocalStorageHandler";
 
 
 const generateSeverity = (value) => {
@@ -59,14 +59,19 @@ function extractAnswers(questionnaireResponse) {
 function DashboardCard03() {
 
   
-  const { ISI, setISI, responses } = useContext(DataContext);
+  const { ISI, setISI } = useContext(DataContext);
   const severityResult = generateSeverity(ISI);
 
 
 
   useEffect(() => {
     
-  const surveyResponses = extractAnswers(responses);
+  const surveyResponses = getLocalStorageItems(['falling_asleep','staying_asleep','early_wake', 
+          'sleep_pattern',
+          'interference', 
+          'noticeable',
+          'worry_level']);
+
   const isi_score = 
         surveyResponses.falling_asleep +
           surveyResponses.staying_asleep +
@@ -76,19 +81,20 @@ function DashboardCard03() {
           surveyResponses.noticeable +
           surveyResponses.worry_level
 
+
     setISI(isi_score)
       
   }, []);
 
   return (
-    <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white-50  dark:bg-gray-800 shadow-lg rounded-xl">
+    <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white  dark:bg-gray-800 shadow-lg rounded-xl">
       <div className="px-5 pt-5">
         <header className="flex justify-between items-start mb-2">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+          <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
             Insomnia Severity Index
           </h2>
         </header>
-        <div className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1"></div>
+         <div className="text-sm text-gray-800 dark:text-gray-100 mr-2">Today's severity index</div>
         <div className="flex items-start">
           <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2 mb-5">
             {" "}

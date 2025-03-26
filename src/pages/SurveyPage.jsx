@@ -4,6 +4,7 @@ import { Survey } from "survey-react-ui";
 import "survey-core/survey-core.min.css";
 import DataContext from "../utils/DataContext";
 import axios from "axios";
+import { setLocalStorageItems } from "../utils/LocalStorageHandler";
 
 
 const surveyJson = {
@@ -152,7 +153,7 @@ const surveyJson = {
       ],
     },
   ],
-  // navigateToUrl: "/dashboard",
+  navigateToUrl: "/dashboard",
   headerView: "advanced",
 };
 
@@ -214,21 +215,6 @@ function convertSurveyJsonToFhir(surveyJson, responses, patientId) {
   return fhirResource;
 }
 
-//GET Fhir resources
-async function getFhirResources(resourceType, queryParams) {
-  try {
-    const response = await axios.post(
-      `http://localhost:3005/api/healthcare/${resourceType}`, 
-      { params: queryParams }
-    );
-    return response.data;
-  } catch (error) {
-    console.error(`Error fetching ${resourceType}:`, error);
-    return null;
-  }
-}
-
-
 
 function SurveyPage() {
   //
@@ -241,17 +227,29 @@ function SurveyPage() {
   survey.onComplete.add((sender, options) => {
     const responses = sender.data;
 
+    // Format times to Fhir format
     if (responses.wakeup_time) {
-    // Format time to Fhir format
     responses.wakeup_time = `${responses.wakeup_time}:00`;
     }
-
     if (responses.bedtime) {
-    // Format time to Fhir format
     responses.bedtime = `${responses.bedtime}:00`;
     }
 
-    console.log(responses);
+    //Severity Index Values short-cut
+    const severityResponses = {
+      falling_asleep: responses.falling_asleep,
+      staying_asleep: responses.staying_asleep,
+      early_wake: responses.early_wake,
+      sleep_pattern: responses.sleep_pattern,
+      interference:responses.interference,
+      noticeable: responses.noticeable,
+      worry_level: responses.worry_level ,
+    }
+    setLocalStorageItems(severityResponses);
+    //////////////////////////////////////////////////
+
+
+    //
     const responseFhir = convertSurveyJsonToFhir(surveyJson, responses, id);
     console.log(responseFhir);
 
@@ -275,12 +273,9 @@ function SurveyPage() {
   
         });
       } else {
-        // Handle the case where responseFhir is null
-        console.error('QuestionnaireResponse is null, not posting.');
-        // Inform the user or log the issue
+        console.error('QuestionnaireResponse is null..');
       }
       
-    
   });
 
 
