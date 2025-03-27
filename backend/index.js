@@ -37,15 +37,14 @@ async function getAccessToken() {
 };
 
 // GET request to read FHIR resource
-app.get("/api/healthcare/:id", async (req, res) => {
-  const resourceId = req.params.id; // Get the resource ID from the URL
-  console.log("Fetching FHIR resource with ID:", resourceId);
+app.get("/api/healthcare/patient/:id", async (req, res) => {
+  const patientId = req.params.id; 
+  console.log("Fetching FHIR resource with ID:", patientId);
 
   try {
     const accessToken = await getAccessToken();
 
-    // Send GET request to FHIR server
-    const response = await axios.get(`${BASE_URL}/QuestionnaireResponse/${resourceId}`, {
+    const response = await axios.get(`${BASE_URL}/Patient/${patientId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/fhir+json",
@@ -89,5 +88,4 @@ app.listen(process.env.PORT, () => {
   console.log(`Server listening at http://localhost:${process.env.PORT}`);
 });
 
-//export lambda function
-exports.slumbr = app;
+export default app;
