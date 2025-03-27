@@ -1,4 +1,4 @@
-const serverless = require('serverless-http');
+
 import express from 'express';
 import morgan from 'morgan';
 import { GoogleAuth } from 'google-auth-library';
@@ -90,4 +90,4 @@ app.listen(process.env.PORT, () => {
 });
 
 //export lambda function
-module.exports.handler = serverless(app);
+exports.slumbr = app;

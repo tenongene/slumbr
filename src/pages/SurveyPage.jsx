@@ -257,11 +257,11 @@ function SurveyPage() {
 
  
       axios
-        .post('/api/healthcare/', responseFhir, responseFhir.resourceType, responseFhir.questionnaire, responseFhir.status, responseFhir.subject.reference, 
+        .post(`${VITE_API_BASE_URL}/api/healthcare/`, responseFhir, responseFhir.resourceType, responseFhir.questionnaire, responseFhir.status, responseFhir.subject.reference, 
           {headers: {
           'Content-Type': 'application/fhir+json',
             },
-      })
+        })
         .then((response) => {
       
           console.log('QuestionnaireResponse posted successfully:', response);

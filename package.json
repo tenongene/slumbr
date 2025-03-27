@@ -39,6 +39,7 @@
     "react-router-dom": "^7.0.2",
     "react-transition-group": "^4.4.5",
     "rsuite": "^5.78.1",
+    "serverless-http": "^3.2.0",
     "survey-react-ui": "^2.0.0",
     "tailwind-merge": "^2.5.5"
   },

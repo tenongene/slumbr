@@ -18,7 +18,7 @@ export default defineConfig({
     // },
     proxy: {
       '/api': { // Proxy requests starting with /api
-        target: 'https://slumbr-backend-1071299687549.us-central1.run.app', // Your backend server
+        target: 'https://slumbr-lambda-1071299687549.us-central1.run.app', // Your backend server
         changeOrigin: true, // Required for some backends
         secure: false,
       },
