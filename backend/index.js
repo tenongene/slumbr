@@ -1,6 +1,6 @@
+const serverless = require('serverless-http');
 import express from 'express';
 import morgan from 'morgan';
-import bodyParser from 'body-parser';
 import { GoogleAuth } from 'google-auth-library';
 import axios from 'axios';
 import cors from 'cors';
@@ -88,3 +88,6 @@ app.post("/api/healthcare", async (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log(`Server listening at http://localhost:${process.env.PORT}`);
 });
+
+//export lambda function
+module.exports.handler = serverless(app);
