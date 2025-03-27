@@ -8,12 +8,21 @@ export default defineConfig({
   },
   plugins: [react()],
   server: {
+    // proxy: {
+    //   '/api': { // Proxy requests starting with /api
+    //     target: 'http://localhost:3005', // Your backend server
+    //     changeOrigin: true, // Required for some backends
+    //     secure: false,
+    //   },
+      
+    // },
     proxy: {
       '/api': { // Proxy requests starting with /api
-        target: 'http://localhost:3005', // Your backend server
+        target: 'https://slumbr-backend-1071299687549.us-central1.run.app', // Your backend server
         changeOrigin: true, // Required for some backends
         secure: false,
       },
+
     },
   },
   build: {
