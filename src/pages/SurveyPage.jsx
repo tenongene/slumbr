@@ -257,7 +257,7 @@ function SurveyPage() {
 
  
       axios
-        .post(`${VITE_API_BASE_URL}/api/healthcare/`, responseFhir, responseFhir.resourceType, responseFhir.questionnaire, responseFhir.status, responseFhir.subject.reference, 
+        .post("https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/", responseFhir, responseFhir.resourceType, responseFhir.questionnaire, responseFhir.status, responseFhir.subject.reference, 
           {headers: {
           'Content-Type': 'application/fhir+json',
             },
