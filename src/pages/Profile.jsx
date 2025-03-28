@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
-import { Card, CardBody, Typography, Avatar } from "@material-tailwind/react";
+import { Card, CardBody, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import DataContext from "../utils/DataContext";
+import { CircularProgress, Box } from "@mui/material";
 
 const customers = [
   {
@@ -70,7 +71,8 @@ function Profile() {
 
     axios
       .get(
-        `https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/patient/${patientId}`
+        // `https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/patient/${patientId}`
+        `/api/healthcare/patient/${patientId}`
       )
       .then((response) => {
         setPatient(
@@ -79,6 +81,7 @@ function Profile() {
         setGender(response.data.gender);
         setCity(response.data.address[0].city);
         setState(response.data.address[0].state);
+        localStorage.setItem("patientId", response.data.id);
         console.log(response.data);
       })
       .catch((err) => {
@@ -116,44 +119,52 @@ function Profile() {
                 {/* Cards with List - Demographics*/}
                 <div>
                   <Card className="w-96 p-10 mb-10">
-                    <CardBody>
-                      <div className="mb-2 ">
-                        <Typography variant="h3" color="blue-gray">
-                          {patient}
-                          {loading}
-                          {error}
-                        </Typography>
+                    {loading ? (
+                      <Box sx={{ display: "flex" }}>
+                        <CircularProgress />
+                      </Box>
+                    ) : (
+                      <CardBody>
+                        <div className="mb-2 ">
+                          <Typography variant="h3" color="blue-gray">
+                            {patient}
+                            {loading}
+                            {error}
+                          </Typography>
 
-                        <Typography
-                          as="a"
-                          href="#"
-                          variant="small"
-                          color="blue"
-                        >
-                          <h5>{email}</h5>
-                        </Typography>
-                      </div>
-                      <div className="divide-y divide-gray-200">
-                        {/* =============================  */}
-                        <div className="flex items-center justify-between pb-3 pt-3 last:pb-0">
-                          <div className="flex items-center gap-x-3">
-                            <div>
-                              <Typography color="blue-gray" variant="h6">
-                                Gender: {capitalize(gender)}
-                              </Typography>
-                              <Typography color="blue-gray" variant="h6">
-                                Location: {city},{state}
-                              </Typography>
-                              <Typography
-                                variant="small"
-                                color="gray"
-                              ></Typography>
+                          <Typography
+                            as="a"
+                            href="#"
+                            variant="small"
+                            color="blue"
+                            className="mb-1"
+                          >
+                            <h5>
+                              <em>{email}</em>
+                            </h5>
+                          </Typography>
+                          <Typography variant="small" color="gray">
+                            Patient ID: {patientId}
+                          </Typography>
+                        </div>
+                        <div className="divide-y divide-gray-200">
+                          {/* =============================  */}
+                          <div className="flex items-center justify-between pb-3 pt-3 last:pb-0">
+                            <div className="flex items-center gap-x-3">
+                              <div>
+                                <Typography color="gray" variant="h6">
+                                  Gender: {capitalize(gender)}
+                                </Typography>
+                                <Typography color="gray" variant="h6">
+                                  Location: {`${city}, ${state}`}
+                                </Typography>
+                              </div>
                             </div>
                           </div>
+                          {/* ==================================== */}
                         </div>
-                        {/* ==================================== */}
-                      </div>
-                    </CardBody>
+                      </CardBody>
+                    )}
                   </Card>
                 </div>
 
