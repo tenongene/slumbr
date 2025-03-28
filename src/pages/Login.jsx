@@ -1,32 +1,35 @@
-import Logo from "../images/slumbr_logo2.jpg"
+import Logo from "../images/slumbr_logo2.jpg";
 
-import {
-  Input,
-  Button,
-  Typography,
-} from "@material-tailwind/react";
+import { Input, Button, Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-
 
 export function Login() {
   return (
-
     <section className="m-20 flex pt-10 gap-4">
       <div className="w-2/5 mt-20  h-full hidden lg:block md:block sm:block">
-        <img
-          src={Logo}
-          className="h-full w-full object-cover rounded-3xl"
-        />
+        <img src={Logo} className="h-full w-full object-cover rounded-3xl" />
       </div>
 
       <div className="w-full lg:w-3/5 mt-15 md:w-1/5">
         <div className="text-center">
-          <Typography variant="h4" className="font-bold mb-4">Login</Typography>
-          <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Enter your email and password to Login</Typography>
+          <Typography variant="h4" className="font-bold mb-4">
+            Login
+          </Typography>
+          <Typography
+            variant="paragraph"
+            color="blue-gray"
+            className="text-lg font-normal"
+          >
+            Enter your email and password to Login
+          </Typography>
         </div>
         <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
           <div className="mb-1 flex flex-col gap-6">
-            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="-mb-3 font-medium"
+            >
               Your email
             </Typography>
             <Input
@@ -37,7 +40,11 @@ export function Login() {
                 className: "before:content-none after:content-none",
               }}
             />
-            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="-mb-3 font-medium"
+            >
               Your Password
             </Typography>
             <Input
@@ -50,17 +57,18 @@ export function Login() {
               }}
             />
           </div>
-   
-          <Button className="mt-6 dark:bg-linear-to-r from-neutral-950 via-orange-950 to-neutral-900" fullWidth>
+
+          <Button
+            type="submit"
+            className="mt-6 dark:bg-linear-to-r from-neutral-950 via-orange-950 to-neutral-900"
+            fullWidth
+          >
             Login
           </Button>
 
           <div className="flex items-center justify-between gap-2 mt-6">
-            
             <Typography variant="small" className="font-medium text-gray-900">
-              <a href="#">
-                Forgot Password
-              </a>
+              <a href="#">Forgot Password</a>
             </Typography>
           </div>
           <div className="space-y-4 mt-8">
@@ -80,17 +88,18 @@ export function Login() {
               </svg>
               <span>Sign in With Google</span>
             </Button> */}
-
           </div>
-          <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
+          <Typography
+            variant="paragraph"
+            className="text-center text-blue-gray-500 font-medium mt-4"
+          >
             Not registered?
-            <Link to="/signup" className="text-gray-900 ml-1">Create account</Link>
+            <Link to="/signup" className="text-gray-900 ml-1">
+              Create account
+            </Link>
           </Typography>
         </form>
-
       </div>
-      
-
     </section>
   );
 }
