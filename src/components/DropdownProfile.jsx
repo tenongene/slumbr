@@ -4,7 +4,7 @@ import UserAvatarMale from "../images/user-avatar-male.svg";
 import DataContext from "../utils/DataContext";
 
 function DropdownProfile({ align }) {
-  const { gender } = useContext(DataContext);
+  const { gender, patient } = useContext(DataContext);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -55,7 +55,7 @@ function DropdownProfile({ align }) {
         />
         <div className="flex items-center truncate">
           <span className="truncate ml-2 text-sm font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">
-            Elizabeth Shivers
+            {patient}
           </span>
         </div>
       </button>

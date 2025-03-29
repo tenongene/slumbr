@@ -1,8 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import "survey-core/survey-core.min.css";
 import DataContext from "../utils/DataContext";
+import axios from "axios";
+import { setLocalStorageItems } from "../utils/LocalStorageHandler";
 
 const surveyJson = {
   completedHtml:
@@ -50,7 +52,6 @@ const surveyJson = {
         {
           type: "rating",
           name: "sleep_quality",
-          visible: false,
           title: "How would you rate the quality of your sleep last night?",
           description:
             "1 - Extremely poor\n2 - Poor\n3 - Average\n4 - Good\n5 - Excellent",
@@ -63,9 +64,14 @@ const surveyJson = {
             "1 - Severely unrested\n2 - Not rested\n3 - Somewhat rested\n4 - Rested\n5 - Very rested",
         },
         {
+          type: "comment",
+          name: "sleep_notes",
+          title: "Enter any pertinent notes about your sleep:",
+        },
+        {
           type: "boolean",
           name: "substance_use",
-          title: " Did you consume caffeine or alcohol before bed?",
+          title: "Did you consume caffeine or alcohol before bed?",
         },
         {
           type: "boolean",
@@ -92,7 +98,7 @@ const surveyJson = {
           title:
             "Please rate the SEVERITY of your difficulty falling asleep within the last 2 weeks:\n",
           description:
-            "1 - None\n2 - Mild\n3 - Moderate\n4 - Severe\n5 - Very ",
+            "1 - None\n2 - Mild\n3 - Moderate\n4 - Severe\n5 - Very Severe",
         },
         {
           type: "rating",
@@ -100,7 +106,7 @@ const surveyJson = {
           title:
             "Please rate the SEVERITY of your difficulty staying asleep within the last 2 weeks:",
           description:
-            "1 - None\n2 - Mild\n3 - Moderate\n4 - Severe\n5 - Very ",
+            "1 - None\n2 - Mild\n3 - Moderate\n4 - Severe\n5 - Very Severe",
         },
         {
           type: "rating",
@@ -108,7 +114,7 @@ const surveyJson = {
           title:
             "Please rate the SEVERITY of waking up too early within the last 2 weeks:",
           description:
-            "1 - None\n2 - Mild\n3 - Moderate\n4 - Severe\n5 - Very ",
+            "1 - None\n2 - Mild\n3 - Moderate\n4 - Severe\n5 - Very Severe",
         },
         {
           type: "rating",
@@ -145,19 +151,133 @@ const surveyJson = {
       ],
     },
   ],
-  navigateToUrl: "http://127.0.0.1:5174/dashboard",
+  navigateToUrl: "/dashboard",
   headerView: "advanced",
 };
 
+function convertSurveyJsonToFhir(surveyJson, responses, patientId) {
+  const fhirResource = {
+    resourceType: "QuestionnaireResponse",
+    status: "completed",
+    subject: {
+      reference: `Patient/${patientId}`,
+    },
+    authored: new Date().toISOString(),
+    questionnaire: "Questionnaire/insomnia-assessment",
+    item: [],
+  };
+
+  if (!responses) {
+    return null; // Handle missing responses
+  }
+
+  // Map survey questions to FHIR QuestionnaireResponse items
+  const questionMap = {
+    bedtime: { linkId: "bedtime", type: "time" },
+    sleep_latency: { linkId: "sleep-latency", type: "integer" },
+    wakeup_time: { linkId: "wakeup-time", type: "time" },
+    night_awakenings: { linkId: "night-awakenings", type: "integer" },
+    waso: { linkId: "waso", type: "integer" },
+    sleep_quality: { linkId: "sleep-quality", type: "integer" },
+    restorative_sleep: { linkId: "restorative-sleep", type: "integer" },
+    sleep_notes: { linkId: "sleep-notes", type: "string" },
+    substance_use: { linkId: "substance-use", type: "boolean" },
+    device_use: { linkId: "device-use", type: "boolean" },
+    bedtime_routine: { linkId: "bedtime-routine", type: "boolean" },
+    falling_asleep: { linkId: "falling-asleep", type: "integer" },
+    staying_asleep: { linkId: "staying-asleep", type: "integer" },
+    early_wake: { linkId: "early-wake", type: "integer" },
+    sleep_pattern: { linkId: "sleep-pattern", type: "integer" },
+    interference: { linkId: "interference", type: "integer" },
+    noticeable: { linkId: "noticeable", type: "integer" },
+    worry_level: { linkId: "worry-level", type: "integer" },
+  };
+
+  for (const key in responses) {
+    if (questionMap[key]) {
+      const item = {
+        linkId: questionMap[key].linkId,
+        answer: [
+          {
+            valueTime:
+              questionMap[key].type === "time" ? responses[key] : undefined,
+            valueInteger:
+              questionMap[key].type === "integer" ? responses[key] : undefined,
+            valueString:
+              questionMap[key].type === "string" ? responses[key] : undefined,
+            valueBoolean:
+              questionMap[key].type === "boolean" ? responses[key] : undefined,
+          },
+        ],
+      };
+      fhirResource.item.push(item);
+    }
+  }
+
+  return fhirResource;
+}
+
 function SurveyPage() {
   //
-  const { setResponses } = useContext(DataContext);
+  const { patientId } = useContext(DataContext);
+
+  const id = localStorage.getItem("patientId");
 
   const survey = new Model(surveyJson);
   survey.onComplete.add((sender, options) => {
-    const responses = JSON.stringify(sender.data);
-    localStorage.setItem("surveyResponses", responses); // Store in local storage
-    setResponses(responses); //Update context. if you still want to display it on the page for a short time.
+    const responses = sender.data;
+
+    // Format times to Fhir format
+    if (responses.wakeup_time) {
+      responses.wakeup_time = `${responses.wakeup_time}:00`;
+    }
+    if (responses.bedtime) {
+      responses.bedtime = `${responses.bedtime}:00`;
+    }
+
+    //Severity Index Values short-cut
+    const severityResponses = {
+      falling_asleep: responses.falling_asleep,
+      staying_asleep: responses.staying_asleep,
+      early_wake: responses.early_wake,
+      sleep_pattern: responses.sleep_pattern,
+      interference: responses.interference,
+      noticeable: responses.noticeable,
+      worry_level: responses.worry_level,
+    };
+    setLocalStorageItems(severityResponses);
+    //////////////////////////////////////////////////
+
+    //
+    const responseFhir = convertSurveyJsonToFhir(surveyJson, responses, id);
+    console.log(responseFhir);
+
+    if (responseFhir) {
+      axios
+        .post(
+          // "https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/",
+          "/api/healthcare",
+
+          responseFhir,
+          responseFhir.resourceType,
+          responseFhir.questionnaire,
+          responseFhir.status,
+          responseFhir.subject.reference,
+          {
+            headers: {
+              "Content-Type": "application/fhir+json",
+            },
+          }
+        )
+        .then((response) => {
+          console.log("QuestionnaireResponse posted successfully:", response);
+        })
+        .catch((error) => {
+          console.error("Error posting QuestionnaireResponse:", error);
+        });
+    } else {
+      console.error("QuestionnaireResponse is null..");
+    }
   });
 
   return (

@@ -4,7 +4,6 @@ import DataContext from "../../utils/DataContext";
 import { Typography } from "@material-tailwind/react";
 import { getLocalStorageItems } from "../../utils/LocalStorageHandler";
 
-
 const generateSeverity = (value) => {
   let severityText = "";
   let color = "";
@@ -43,7 +42,7 @@ function extractAnswers(questionnaireResponse) {
         answers[item.linkId] = answer.valueBoolean;
       } else if (answer.valueString !== undefined) {
         answers[item.linkId] = answer.valueString;
-      } else if (answer.valueTime !== undefined){
+      } else if (answer.valueTime !== undefined) {
         answers[item.linkId] = answer.valueTime;
       } else {
         answers[item.linkId] = null; // No valid answer found
@@ -57,33 +56,30 @@ function extractAnswers(questionnaireResponse) {
 }
 
 function DashboardCard03() {
-
-  
   const { ISI, setISI } = useContext(DataContext);
   const severityResult = generateSeverity(ISI);
 
-
-
   useEffect(() => {
-    
-  const surveyResponses = getLocalStorageItems(['falling_asleep','staying_asleep','early_wake', 
-          'sleep_pattern',
-          'interference', 
-          'noticeable',
-          'worry_level']);
+    const surveyResponses = getLocalStorageItems([
+      "falling_asleep",
+      "staying_asleep",
+      "early_wake",
+      "sleep_pattern",
+      "interference",
+      "noticeable",
+      "worry_level",
+    ]);
 
-  const isi_score = 
-        surveyResponses.falling_asleep +
-          surveyResponses.staying_asleep +
-          surveyResponses.early_wake +
-          surveyResponses.sleep_pattern +
-          surveyResponses.interference +
-          surveyResponses.noticeable +
-          surveyResponses.worry_level
+    const isi_score =
+      surveyResponses.falling_asleep +
+      surveyResponses.staying_asleep +
+      surveyResponses.early_wake +
+      surveyResponses.sleep_pattern +
+      surveyResponses.interference +
+      surveyResponses.noticeable +
+      surveyResponses.worry_level;
 
-
-    setISI(isi_score)
-      
+    setISI(isi_score);
   }, []);
 
   return (
@@ -94,13 +90,15 @@ function DashboardCard03() {
             Insomnia Severity Index
           </h2>
         </header>
-         <div className="text-sm text-gray-800 dark:text-gray-100 mr-2">Today's severity index</div>
+        <div className="text-sm text-gray-800 dark:text-gray-100 mr-2">
+          Today's severity index
+        </div>
         <div className="flex items-start">
           <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2 mb-5">
             {" "}
             <GaugeComponent
               value={ISI}
-              minValue={7} 
+              minValue={7}
               maxValue={35}
               type="radial"
               labels={{
@@ -116,13 +114,24 @@ function DashboardCard03() {
                 },
                 valueLabel: {
                   matchColorWithArc: "True",
-                  style: {fontSize: "0px"},
+                  style: { fontSize: "0px" },
                   formatTextValue: generateSeverity,
                 },
-              }} 
+              }}
               arc={{
-                colorArray: ["rgb(91, 225, 44)", "#92CC74", "#F29624", "#D1023D"],
-                subArcs: [{ limit: 14, color: "rgb(91, 225, 44)"}, {limit: 22, color: "#92CC74"}, {limit: 29, color: "#F29624"}, {limit: 35, color: "#D1023D"}, {}],
+                colorArray: [
+                  "rgb(91, 225, 44)",
+                  "#92CC74",
+                  "#F29624",
+                  "#D1023D",
+                ],
+                subArcs: [
+                  { limit: 14, color: "rgb(91, 225, 44)" },
+                  { limit: 22, color: "#92CC74" },
+                  { limit: 29, color: "#F29624" },
+                  { limit: 35, color: "#D1023D" },
+                  {},
+                ],
                 padding: 0.02,
                 width: 0.3,
               }}
@@ -134,10 +143,14 @@ function DashboardCard03() {
           </div>
 
           <div className="text-sm font-medium text-green-700 px-1.5 bg-green-500/20 rounded-full"></div>
-        </div>          
-              <Typography variant="h4" className="ml-5 pb-10" style={{ color: severityResult.color }}>
-                {severityResult.text}
-              </Typography>
+        </div>
+        <Typography
+          variant="h4"
+          className="ml-5 pb-10"
+          style={{ color: severityResult.color }}
+        >
+          {severityResult.text}
+        </Typography>
       </div>
     </div>
   );

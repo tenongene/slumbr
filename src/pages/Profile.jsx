@@ -71,8 +71,8 @@ function Profile() {
 
     axios
       .get(
-        // `https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/patient/${patientId}`
-        `/api/healthcare/patient/${patientId}`
+        `https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/patient/${patientId}`
+        // `/api/healthcare/patient/${patientId}`
       )
       .then((response) => {
         setPatient(
@@ -82,6 +82,8 @@ function Profile() {
         setCity(response.data.address[0].city);
         setState(response.data.address[0].state);
         localStorage.setItem("patientId", response.data.id);
+        localStorage.setItem("firstName", response.data.name[0].given[0]);
+
         console.log(response.data);
       })
       .catch((err) => {
