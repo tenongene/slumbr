@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import UserAvatar from '../images/user-avatar.svg';
+import React, { useState, useRef, useEffect, useContext } from "react";
+import UserAvatarFemale from "../images/user-avatar-female.svg";
+import UserAvatarMale from "../images/user-avatar-male.svg";
+import DataContext from "../utils/DataContext";
 
-function DropdownProfile({
-  align
-}) {
+function DropdownProfile({ align }) {
+  const { gender, patient } = useContext(DataContext);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -14,11 +15,16 @@ function DropdownProfile({
   useEffect(() => {
     const clickHandler = ({ target }) => {
       if (!dropdown.current) return;
-      if (!dropdownOpen || dropdown.current.contains(target) || trigger.current.contains(target)) return;
+      if (
+        !dropdownOpen ||
+        dropdown.current.contains(target) ||
+        trigger.current.contains(target)
+      )
+        return;
       setDropdownOpen(false);
     };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
   });
 
   // close if the esc key is pressed
@@ -27,8 +33,8 @@ function DropdownProfile({
       if (!dropdownOpen || keyCode !== 27) return;
       setDropdownOpen(false);
     };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
+    document.addEventListener("keydown", keyHandler);
+    return () => document.removeEventListener("keydown", keyHandler);
   });
 
   return (
@@ -40,14 +46,21 @@ function DropdownProfile({
         onClick={() => setDropdownOpen(!dropdownOpen)}
         aria-expanded={dropdownOpen}
       >
-        <img className="w-8 h-8 rounded-full" src={UserAvatar} width="32" height="32" alt="User" />
+        <img
+          className="w-8 h-8 rounded-full"
+          src={gender === "Male" ? UserAvatarMale : UserAvatarFemale}
+          width="32"
+          height="32"
+          alt="User"
+        />
         <div className="flex items-center truncate">
-          <span className="truncate ml-2 text-sm font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">Elizabeth Shivers</span>
+          <span className="truncate ml-2 text-sm font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">
+            {patient}
+          </span>
         </div>
       </button>
-
     </div>
-  )
+  );
 }
 
 export default DropdownProfile;

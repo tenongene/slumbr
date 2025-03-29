@@ -6,7 +6,6 @@ import DataContext from "../utils/DataContext";
 import axios from "axios";
 import { setLocalStorageItems } from "../utils/LocalStorageHandler";
 
-
 const surveyJson = {
   completedHtml:
     "<h3>Thank you for completing the insomnia assessment! Redirecting to patient dashboard ......</h3>",
@@ -23,7 +22,6 @@ const surveyJson = {
           name: "bedtime",
           title: "What time did you go to bed last night?",
           inputType: "time",
-          
         },
         {
           type: "text",
@@ -66,9 +64,9 @@ const surveyJson = {
             "1 - Severely unrested\n2 - Not rested\n3 - Somewhat rested\n4 - Rested\n5 - Very rested",
         },
         {
-          "type": "comment",
-          "name": "sleep_notes",
-          "title": "Enter any pertinent notes about your sleep:",
+          type: "comment",
+          name: "sleep_notes",
+          title: "Enter any pertinent notes about your sleep:",
         },
         {
           type: "boolean",
@@ -158,14 +156,14 @@ const surveyJson = {
 };
 
 function convertSurveyJsonToFhir(surveyJson, responses, patientId) {
-    const fhirResource = {
+  const fhirResource = {
     resourceType: "QuestionnaireResponse",
     status: "completed",
     subject: {
-      reference: `Patient/${patientId}`, // Replace with actual patient reference
+      reference: `Patient/${patientId}`,
     },
     authored: new Date().toISOString(),
-    questionnaire: "Questionnaire/insomnia-assessment", // Replace with actual Questionnaire reference if applicable
+    questionnaire: "Questionnaire/insomnia-assessment",
     item: [],
   };
 
@@ -201,10 +199,14 @@ function convertSurveyJsonToFhir(surveyJson, responses, patientId) {
         linkId: questionMap[key].linkId,
         answer: [
           {
-            valueTime: questionMap[key].type === "time" ? responses[key] : undefined,
-            valueInteger: questionMap[key].type === "integer" ? responses[key] : undefined,
-            valueString: questionMap[key].type === "string" ? responses[key] : undefined,
-            valueBoolean: questionMap[key].type === "boolean" ? responses[key] : undefined
+            valueTime:
+              questionMap[key].type === "time" ? responses[key] : undefined,
+            valueInteger:
+              questionMap[key].type === "integer" ? responses[key] : undefined,
+            valueString:
+              questionMap[key].type === "string" ? responses[key] : undefined,
+            valueBoolean:
+              questionMap[key].type === "boolean" ? responses[key] : undefined,
           },
         ],
       };
@@ -215,24 +217,22 @@ function convertSurveyJsonToFhir(surveyJson, responses, patientId) {
   return fhirResource;
 }
 
-
 function SurveyPage() {
   //
   const { patientId } = useContext(DataContext);
 
-  const id = "806265ee-2f07-34d6-3c7e-16c9dae79041"
+  const id = localStorage.getItem("patientId");
 
-  
   const survey = new Model(surveyJson);
   survey.onComplete.add((sender, options) => {
     const responses = sender.data;
 
     // Format times to Fhir format
     if (responses.wakeup_time) {
-    responses.wakeup_time = `${responses.wakeup_time}:00`;
+      responses.wakeup_time = `${responses.wakeup_time}:00`;
     }
     if (responses.bedtime) {
-    responses.bedtime = `${responses.bedtime}:00`;
+      responses.bedtime = `${responses.bedtime}:00`;
     }
 
     //Severity Index Values short-cut
@@ -241,47 +241,44 @@ function SurveyPage() {
       staying_asleep: responses.staying_asleep,
       early_wake: responses.early_wake,
       sleep_pattern: responses.sleep_pattern,
-      interference:responses.interference,
+      interference: responses.interference,
       noticeable: responses.noticeable,
-      worry_level: responses.worry_level ,
-    }
+      worry_level: responses.worry_level,
+    };
     setLocalStorageItems(severityResponses);
     //////////////////////////////////////////////////
-
 
     //
     const responseFhir = convertSurveyJsonToFhir(surveyJson, responses, id);
     console.log(responseFhir);
 
     if (responseFhir) {
-
- 
       axios
-        .post("https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/", responseFhir, responseFhir.resourceType, responseFhir.questionnaire, responseFhir.status, responseFhir.subject.reference, 
-          {headers: {
-          'Content-Type': 'application/fhir+json',
+        .post(
+          // "https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/",
+          "/api/healthcare",
+
+          responseFhir,
+          responseFhir.resourceType,
+          responseFhir.questionnaire,
+          responseFhir.status,
+          responseFhir.subject.reference,
+          {
+            headers: {
+              "Content-Type": "application/fhir+json",
             },
-        })
+          }
+        )
         .then((response) => {
-      
-          console.log('QuestionnaireResponse posted successfully:', response);
-    
+          console.log("QuestionnaireResponse posted successfully:", response);
         })
         .catch((error) => {
-      
-          console.error('Error posting QuestionnaireResponse:', error);
-  
+          console.error("Error posting QuestionnaireResponse:", error);
         });
-      } else {
-        console.error('QuestionnaireResponse is null..');
-      }
-      
+    } else {
+      console.error("QuestionnaireResponse is null..");
+    }
   });
-
-
-
-
-
 
   return (
     <div>

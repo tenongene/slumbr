@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import HomeIcon from "../images/home.svg";
-import LogsIcon from "../images/logs.svg";
 import DashboardIcon from "../images/speed.svg";
 import ProfileIcon from "../images/profile.svg";
 import EducationIcon from "../images/education.svg";
@@ -61,7 +60,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     <div className="min-w-fit">
       {/* Sidebar backdrop (mobile only) */}
       <div
-        className={`fixed inset-0 bg-gray-900/30 z-40 lg:hidden transition-opacity duration-200 ${
+        className={`fixed inset-0 bg-gray-900/20 z-40 lg:hidden transition-opacity duration-200 ${
           sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         aria-hidden="true"
@@ -69,30 +68,52 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
 
       {/* Sidebar */}
       <div
+        id="sidebar"
         ref={sidebar}
-        className={`fixed lg:static flex flex-col left-0 top-0 h-full w-64 lg:w-20 lg:sidebar-expanded:w-64 bg-white dark:bg-gray-800 p-4 transition-all duration-200 ease-in-out ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-64"
-        } lg:translate-x-0`}
+        className={`flex lg:!flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-[100dvh] overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-white dark:bg-gray-800 p-4 transition-all duration-200 ease-in-out ${
+          sidebarOpen || window.innerWidth >= 1024 // lg breakpoint
+            ? "translate-x-0 pointer-events-auto"
+            : "-translate-x-64 pointer-events-none"
+        } ${
+          variant === "v2"
+            ? "border-r border-gray-200 dark:border-gray-700/60"
+            : "rounded-r-2xl shadow-sm"
+        }`}
       >
         {/* Sidebar header */}
         <div className="flex justify-between mb-10 pr-3 sm:px-2">
           {/* Close button */}
           <button
             ref={trigger}
-            className="text-gray-500 hover:text-gray-400"
+            className="lg:hidden text-gray-500 hover:text-gray-400"
             onClick={() => setSidebarOpen(!sidebarOpen)}
             aria-controls="sidebar"
             aria-expanded={sidebarOpen}
           >
             <span className="sr-only">Close sidebar</span>
-            {/* <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              className="w-6 h-6 fill-current"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path d="M10.7 18.7l1.4-1.4L7.8 13H20v-2H7.8l4.3-4.3-1.4-1.4L4 12z" />
-            </svg> */}
+            </svg>
           </button>
-
           {/* Logo */}
-          <NavLink end to="/" className="block ">
-            <img src={Logo} alt="app logo" width={300} height={300} />
+          <NavLink end to="/" className="block">
+            <svg
+              className="fill-violet-500"
+              xmlns="http://www.w3.org/2000/svg"
+              width={32}
+              height={32}
+            ></svg>
+            <img
+              className="rounded-full max-w-full"
+              src={Logo}
+              width={250}
+              height={250}
+              alt="Logo"
+            />
           </NavLink>
         </div>
 
@@ -130,24 +151,17 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           handleClick();
                           setSidebarExpanded(true);
                         }}
-                      /> 
+                      />
                       <NavLink to="/">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                              {/* <svg className={`shrink-0 fill-current ${pathname === "/" || pathname.includes("dashboard") ? 'text-violet-500' : 'text-gray-400 dark:text-gray-500'}`} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                              <path d="M5.936.278A7.983 7.983 0 0 1 8 0a8 8 0 1 1-8 8c0-.722.104-1.413.278-2.064a1 1 0 1 1 1.932.516A5.99 5.99 0 0 0 2 8a6 6 0 1 0 6-6c-.53 0-1.045.076-1.548.21A1 1 0 1 1 5.936.278Z" />
-                              <path d="M6.068 7.482A2.003 2.003 0 0 0 8 10a2 2 0 1 0-.518-3.932L3.707 2.293a1 1 0 0 0-1.414 1.414l3.775 3.775Z" />
-                            </svg>     */}
-                              <img src={HomeIcon} alt="speed" />
-                              {/* {currentTheme === "light" ? <img src="./src/images/speed.svg" alt="speed" /> :
-                            <img src="./src/images/speed_b.svg" alt="speed" /> } */}
-                              <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Home
-                              </span>
-                            </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <img src={HomeIcon} alt="speed" />
+                            <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              Home
+                            </span>
                           </div>
+                        </div>
                       </NavLink>
-                    
                     </React.Fragment>
                   );
                 }}
@@ -172,24 +186,17 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           handleClick();
                           setSidebarExpanded(true);
                         }}
-                      /> 
+                      />
                       <NavLink to="/dashboard">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                              {/* <svg className={`shrink-0 fill-current ${pathname === "/" || pathname.includes("dashboard") ? 'text-violet-500' : 'text-gray-400 dark:text-gray-500'}`} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                              <path d="M5.936.278A7.983 7.983 0 0 1 8 0a8 8 0 1 1-8 8c0-.722.104-1.413.278-2.064a1 1 0 1 1 1.932.516A5.99 5.99 0 0 0 2 8a6 6 0 1 0 6-6c-.53 0-1.045.076-1.548.21A1 1 0 1 1 5.936.278Z" />
-                              <path d="M6.068 7.482A2.003 2.003 0 0 0 8 10a2 2 0 1 0-.518-3.932L3.707 2.293a1 1 0 0 0-1.414 1.414l3.775 3.775Z" />
-                            </svg>     */}
-                              <img src={DashboardIcon} />
-                              {/* {currentTheme === "light" ? <img src="./src/images/speed.svg" alt="speed" /> :
-                            <img src="./src/images/speed_b.svg" alt="speed" /> } */}
-                              <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Dashboard
-                              </span>
-                            </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <img src={DashboardIcon} />
+                            <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              Dashboard
+                            </span>
                           </div>
+                        </div>
                       </NavLink>
-                      
                     </React.Fragment>
                   );
                 }}
@@ -214,22 +221,18 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           handleClick();
                           setSidebarExpanded(true);
                         }}
-                     /> 
+                      />
                       <NavLink to="/education">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                              {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                          </svg> */}
-                              <img src={EducationIcon} alt="menu" />
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <img src={EducationIcon} alt="education" />
 
-                              <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Sleep Education
-                              </span>
-                            </div>
+                            <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              Sleep Education
+                            </span>
                           </div>
+                        </div>
                       </NavLink>
-                     
                     </React.Fragment>
                   );
                 }}
@@ -252,25 +255,18 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           handleClick();
                           setSidebarExpanded(true);
                         }}
-                     /> 
+                      />
                       <NavLink to="/profile">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                              {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
-                            </svg> */}
-                              <span className="dark:text-violet-500">
-                              <img src={ProfileIcon} alt="badge" />
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <img src={ProfileIcon} alt="badge" />
+                            <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              {/* FIXME */}
+                              Patient Profile
                             </span>
-
-                              <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                {/* FIXME */}
-                                Patient Profile
-                              </span>
-                            </div>
                           </div>
+                        </div>
                       </NavLink>
-                     
                     </React.Fragment>
                   );
                 }}
@@ -280,6 +276,29 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         </div>
 
         {/* Expand / collapse button */}
+        {/* Mobile Screens */}
+
+        <div className="lg:hidden block pt-3 justify-end mt-auto">
+          <div className="w-12 pl-4 pr-3 py-2">
+            <button
+              className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400"
+              onClick={() => setSidebarExpanded(!sidebarExpanded)}
+            >
+              <span className="sr-only">Expand / collapse sidebar</span>
+              <svg
+                className="shrink-0 fill-current text-gray-400 dark:text-gray-500 sidebar-expanded:rotate-180"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+              >
+                <path d="M15 16a1 1 0 0 1-1-1V1a1 1 0 1 1 2 0v14a1 1 0 0 1-1 1ZM8.586 7H1a1 1 0 1 0 0 2h7.586l-2.793 2.793a1 1 0 1 0 1.414 1.414l4.5-4.5A.997.997 0 0 0 12 8.01M11.924 7.617a.997.997 0 0 0-.217-.324l-4.5-4.5a1 1 0 0 0-1.414 1.414L8.586 7M12 7.99a.996.996 0 0 0-.076-.373Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* LG Screens */}
         <div className="pt-3 hidden lg:inline-flex 2xl:hidden justify-end mt-auto">
           <div className="w-12 pl-4 pr-3 py-2">
             <button
