@@ -49,6 +49,11 @@ function capitalize(word) {
 }
 
 function Profile() {
+
+  const context = useContext(DataContext);
+  console.log('MyComponent context IN PROFILE:', context);
+
+
   const {
     patientId,
     patient,

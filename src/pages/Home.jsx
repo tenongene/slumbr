@@ -7,8 +7,13 @@ import { Card, Typography, Button } from "@material-tailwind/react";
 import DataContext from "../utils/DataContext";
 
 function Home() {
+
+  const context = useContext(DataContext);
+  console.log('MyComponent context IN HOME:', context);
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { patient } = useContext(DataContext);
+ 
+
 
   return (
     <div className="flex h-screen overflow-hidden">

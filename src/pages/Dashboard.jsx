@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
+import DataContext from '../utils/DataContext';
 // import FilterButton from '../components/DropdownFilter';
 // import Datepicker from '../components/Datepicker';
 import DashboardCard01 from '../partials/dashboard/DashboardCard01';
@@ -20,6 +21,9 @@ import DashboardCard13 from '../partials/dashboard/DashboardCard13';
 import Banner from '../partials/Banner';
 
 function Dashboard() {
+
+  const context = useContext(DataContext);
+  console.log('MyComponent context in DASHBOARD:', context);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 

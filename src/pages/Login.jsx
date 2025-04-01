@@ -7,8 +7,11 @@ import axios from "axios";
 import DataContext from "../utils/DataContext";
 
 export function Login() {
+  
+  const context = useContext(DataContext);
+  console.log('MyComponent context IN LOGIN:', context);
 
-  const {email, password, setPassword, setEmail, setPatient, setGender, setCity, setState, setLoading } = useContext(DataContext);
+  const {email, password, setPassword, setEmail, setPatient, setGender, setCity, setState, setLoading, setPatientId } = useContext(DataContext);
   const navigate = useNavigate();
 
   const handlePassword = (e) => {
@@ -33,6 +36,7 @@ export function Login() {
       const patientId = loginResponse.data.patientId;
       localStorage.setItem('patientId', patientId);
       localStorage.setItem('email', email);
+      setPatientId(patientId);
 
       try {
         const patientResponse = await axios.get(`/api/healthcare/patient/${patientId}`);

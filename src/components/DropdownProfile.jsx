@@ -3,8 +3,9 @@ import UserAvatarFemale from "../images/user-avatar-female.svg";
 import UserAvatarMale from "../images/user-avatar-male.svg";
 import DataContext from "../utils/DataContext";
 
+
 function DropdownProfile({ align }) {
-  const { gender, patient } = useContext(DataContext);
+  const { gender, patient, email } = useContext(DataContext);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -48,14 +49,18 @@ function DropdownProfile({ align }) {
       >
         <img
           className="w-8 h-8 rounded-full"
-          src={gender === "Male" ? UserAvatarMale : UserAvatarFemale}
+          src={gender === "male" ? UserAvatarMale : UserAvatarFemale}
           width="32"
           height="32"
           alt="User"
         />
         <div className="flex items-center truncate">
-          <span className="truncate ml-2 text-sm font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">
-            {patient}
+          <span className="truncate ml-2 text-lg font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">
+              {patient}
+            <div className="text-xs">
+              {email}
+            </div>
+            
           </span>
         </div>
       </button>

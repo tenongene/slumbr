@@ -1,4 +1,5 @@
-
+import React  from "react";
+import { useNavigate } from 'react-router-dom';
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import "survey-core/survey-core.min.css";
@@ -150,11 +151,11 @@ const surveyJson = {
       ],
     },
   ],
-  navigateToUrl: "/dashboard",
+  // navigateToUrl: "/dashboard",
   headerView: "advanced",
 };
 
-function convertSurveyJsonToFhir(surveyJson, responses, patientId) {
+function convertSurveyJsonToFhir(responses, patientId) {
   const fhirResource = {
     resourceType: "QuestionnaireResponse",
     status: "completed",
@@ -167,6 +168,7 @@ function convertSurveyJsonToFhir(surveyJson, responses, patientId) {
   };
 
   if (!responses) {
+    alert("Please answer all required questions!")
     return null; // Handle missing responses
   }
 
@@ -216,11 +218,13 @@ function convertSurveyJsonToFhir(surveyJson, responses, patientId) {
   return fhirResource;
 }
 
+
+
 function SurveyPage() {
   //
- 
+  const id = localStorage.getItem('patientId');
+  const navigate = useNavigate(); 
 
-  const id = localStorage.getItem("patientId");
 
   const survey = new Model(surveyJson);
   survey.onComplete.add((sender, options) => {
@@ -248,7 +252,7 @@ function SurveyPage() {
     //////////////////////////////////////////////////
 
     //
-    const responseFhir = convertSurveyJsonToFhir(surveyJson, responses, id);
+    const responseFhir = convertSurveyJsonToFhir(responses, id);
     console.log(responseFhir);
 
     if (responseFhir) {
@@ -270,11 +274,13 @@ function SurveyPage() {
         )
         .then((response) => {
           console.log("QuestionnaireResponse posted successfully:", response);
+          navigate('/dashboard');
         })
         .catch((error) => {
           console.error("Error posting QuestionnaireResponse:", error);
         });
     } else {
+      navigate('/dashboard');
       console.error("QuestionnaireResponse is null..");
     }
   });

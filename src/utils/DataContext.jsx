@@ -6,15 +6,14 @@ export const DataProvider = ({ children }) => {
   const [responses, setResponses] = useState('');
   const [ISI, setISI] = useState(7);
   const [password, setPassword] = useState('');
-  // const [passMatch, setPassMatch] = useState(null);
-  const [patientId, setPatientId] = useState(localStorage.getItem('patientId'));
+  const [patientId, setPatientId] = useState('');
   const [patient, setPatient] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [gender, setGender] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
-  const [email, setEmail] = useState(localStorage.getItem('email'));
+  const [email, setEmail] = useState('');
 
   return (
     <DataContext.Provider
