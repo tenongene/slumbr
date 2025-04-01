@@ -255,8 +255,8 @@ function SurveyPage() {
     if (responseFhir) {
       axios
         .post(
-          // "https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/",
-          "/api/healthcare",
+          "https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/",
+          // "/api/healthcare",
 
           responseFhir,
           responseFhir.resourceType,
