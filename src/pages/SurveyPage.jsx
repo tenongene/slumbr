@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import "survey-core/survey-core.min.css";
-import DataContext from "../utils/DataContext";
 import axios from "axios";
 import { setLocalStorageItems } from "../utils/LocalStorageHandler";
 
@@ -219,7 +218,7 @@ function convertSurveyJsonToFhir(surveyJson, responses, patientId) {
 
 function SurveyPage() {
   //
-  const { patientId } = useContext(DataContext);
+ 
 
   const id = localStorage.getItem("patientId");
 
@@ -255,8 +254,8 @@ function SurveyPage() {
     if (responseFhir) {
       axios
         .post(
-          // "https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/",
-          "/api/healthcare",
+          // "https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/questionnaire",
+          "/api/healthcare/questionnaire",
 
           responseFhir,
           responseFhir.resourceType,

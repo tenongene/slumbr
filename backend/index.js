@@ -21,6 +21,61 @@ app.use(cors(), function (req, res, next) {
   next();
 });
 
+const userList = [
+  {
+    email: 'ofeliap@gmail.com',
+    password: '123456',
+    patientId: '555f3471-021a-e245-8f01-b14aad324265',
+  },
+  {
+    email: 'odeliad@gmail.com',
+    password: '123456',
+    patientId: 'b1958d3e-a6c9-cf1b-868f-273c4346e198',
+  },
+  {
+    email: 'wilfred.stark@gatech.edu',
+    password: '654321',
+    patientId: '806265ee-2f07-34d6-3c7e-16c9dae79041',
+  },
+  {
+    email: 'noel.feeney@gmail.com',
+    password: '123456',
+    patientId: '715e1472-942a-88b7-c8a9-ffa1e5730e70',
+  },
+  {
+    email: 'carrol.tomoko@gmail.com',
+    password: '123456',
+    patientId: '4677fbab-045f-dd0f-24f5-b429eacfd57d',
+  },
+  {
+    email: 'nakisha.stanton@gmail.com',
+    password: '123456',
+    patientId: '51e4757f-c3b5-8f49-ecb8-80e50c5cec88',
+  },
+  {
+    email: 'miguel.hernandes@gatech.edu',
+    password: '654321',
+    patientId: '0cd80639-69c6-bb69-b845-29cec1be6009',
+  },
+  {
+    email: 'duncan.little@gatech.edu',
+    password: '654321',
+    patientId: '519796da-0829-c121-abf9-9bae292c6f22',
+  },
+  {
+    email: 'joel.brekke@gatech.edu',
+    password: '654321',
+    patientId: 'ce2868fb-ff65-1046-6d40-cb311f713261',
+  },
+  {
+    email: 'irving.jacobi@gatech.edu',
+    password: '654321',
+    patientId: '5a6776aa-a149-cab2-39d0-3f9249e8ed1d',
+  },
+];
+
+
+
 // Load service account JSON key (Ensure the path is correct)
 const auth = new GoogleAuth({
   keyFile: process.env.KEY_FILE_PATH,
@@ -39,6 +94,22 @@ async function getAccessToken() {
   const accessToken = await client.getAccessToken();
   return accessToken.token;
 }
+
+
+//POST request for login/auth
+app.post("/api/healthcare/login", (req, res) => {
+  const { email, password } = req.body;
+  console.log(req.body);
+
+  const user = userList.find(user => user.email === email && user.password === password);
+
+  if (user) {
+    res.status(200).send({message: "User authenticated!", patientId: user.patientId, email: user.email});
+  } else {
+    res.status(401).send("Invalid email or password..... Please try again.");
+  }
+});
+
 
 // GET request to read FHIR resource
 app.get("/api/healthcare/patient/:id", async (req, res) => {
@@ -66,7 +137,7 @@ app.get("/api/healthcare/patient/:id", async (req, res) => {
 });
 
 // POST request to create FHIR resource
-app.post("/api/healthcare", async (req, res) => {
+app.post("/api/healthcare/questionnaire", async (req, res) => {
   const fhirResource = req.body;
   console.log(req.body);
 

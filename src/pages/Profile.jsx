@@ -51,48 +51,17 @@ function capitalize(word) {
 function Profile() {
   const {
     patientId,
-    setPatient,
     patient,
     gender,
     city,
     state,
     loading,
     error,
-    setLoading,
-    setError,
-    setGender,
-    setCity,
-    setState,
     email,
   } = useContext(DataContext);
 
-  useEffect(() => {
-    if (!patientId) return; // Ensure patientId is provided
+ 
 
-    axios
-      .get(
-        `https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/patient/${patientId}`
-        // `/api/healthcare/patient/${patientId}`
-      )
-      .then((response) => {
-        setPatient(
-          `${response.data.name[0].given[0]} ${response.data.name[0].family}`
-        );
-        setGender(response.data.gender);
-        setCity(response.data.address[0].city);
-        setState(response.data.address[0].state);
-        localStorage.setItem("patientId", response.data.id);
-        localStorage.setItem("firstName", response.data.name[0].given[0]);
-
-        console.log(response.data);
-      })
-      .catch((err) => {
-        setError(err.response?.data || "Error fetching patient");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [patientId]);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 

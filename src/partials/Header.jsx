@@ -40,10 +40,9 @@ function Header({
           {/* Header: Right side */}
           <div className="flex items-center space-x-3">
             <Link
-                to="/login"
+                to="/"
                 onClick={() => {
                   setDropdownOpen(!dropdownOpen);
-                  localStorage.clear();
                 }}
               >
                 <button type="button" className="text-gray-700 dark:text-stone-400 hover:text-violet-700 dark:hover:text-stone-50 font-semibold py-2 px-4 border border-gray-400 rounded shadow"  

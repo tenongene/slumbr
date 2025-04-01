@@ -135,14 +135,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
 
             <ul className="mt-3">
               {/* Home */}
-              <SidebarLinkGroup activecondition={pathname === "/"}>
+              <SidebarLinkGroup activecondition={pathname.includes("home")}>
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>
                       <a
                         href="#0"
                         className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                          pathname === "/" || pathname.includes("")
+                          pathname.includes("home")
                             ? ""
                             : "hover:text-gray-900 dark:hover:text-white"
                         }`}
@@ -152,7 +152,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           setSidebarExpanded(true);
                         }}
                       />
-                      <NavLink to="/">
+                      <NavLink to="/home">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
                             <img src={HomeIcon} alt="speed" />
