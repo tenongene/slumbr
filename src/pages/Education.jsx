@@ -5,7 +5,7 @@ import MediaCard1 from "../partials/dashboard/MediaCard1";
 import MediaCard2 from "../partials/dashboard/MediaCard2";
 import MediaCard3 from "../partials/dashboard/MediaCard3";
 import MediaCard4 from "../partials/dashboard/MediaCard4";
-import { Stack } from "rsuite";
+
 
 function Education() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

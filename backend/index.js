@@ -58,7 +58,7 @@ const userList = [
     patientId: '0cd80639-69c6-bb69-b845-29cec1be6009',
   },
   {
-    email: 'duncan.little@gatech.edu',
+    email: 'duncan.littel@gatech.edu',
     password: '654321',
     patientId: '519796da-0829-c121-abf9-9bae292c6f22',
   },
@@ -164,6 +164,103 @@ app.post("/api/healthcare/questionnaire", async (req, res) => {
   }
 });
 
+
+
+// GET request to read medications
+app.get("/api/healthcare/medications/:id", async (req, res) => {
+  const patientId = req.params.id;
+  console.log("Fetching FHIR medications for ID:", patientId);
+
+  try {
+    const accessToken = await getAccessToken();
+
+    const response = await axios.get(`${BASE_URL}/MedicationStatement?patient=${patientId}&status=active`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/fhir+json",
+      },
+    });
+
+    if (response.data && response.data.entry) {
+     
+      const medicationStatements = response.data.entry.map((entry) => entry.resource);
+      res.status(200).json(medicationStatements); 
+    } else if (response.data && !response.data.entry) {
+        res.status(200).json([]);
+    }
+    else {
+      console.error("Unexpected FHIR response:", response.data);
+      res.status(500).json({ error: "Unexpected FHIR response" });
+    }
+  } catch (error) {
+    console.error(
+      "Error fetching FHIR resource:",
+      error.response?.data || error.message
+    );
+    res.status(500).json({ error: error.response?.data || error.message });
+  }
+});
+
+
+//GET request to read conditions
+app.get("/api/healthcare/conditions/:id", async (req, res) => {
+  const patientId = req.params.id;
+  console.log("Fetching FHIR conditions for ID:", patientId);
+
+  try {
+    const accessToken = await getAccessToken(); 
+
+    const response = await axios.get(`${BASE_URL}/Condition?subject=Patient/${patientId}&clinical-status=active`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/fhir+json",
+      },
+    });
+
+    if (response.data && response.data.entry) {
+      const conditions = response.data.entry.map((entry) => entry.resource);
+      res.status(200).json(conditions);
+    } else if (response.data && !response.data.entry) {
+      res.status(200).json([]); 
+    } else {
+      console.error("Unexpected FHIR response:", response.data);
+      res.status(500).json({ error: "Unexpected FHIR response" });
+    }
+  } catch (error) {
+    console.error(
+      "Error fetching FHIR resource:",
+      error.response?.data || error.message
+    );
+    res.status(500).json({ error: error.response?.data || error.message });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////========================================///////////////////////////////////
 app.listen(process.env.PORT, () => {
   console.log(`Server listening at http://localhost:${process.env.PORT}`);
 });

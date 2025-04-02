@@ -2,14 +2,11 @@ import Logo from "../images/slumbr_logo2.jpg";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { Input, Button, Typography } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import DataContext from "../utils/DataContext";
 
 export function Login() {
   
-  const context = useContext(DataContext);
-  console.log('MyComponent context IN LOGIN:', context);
 
   const {email, password, setPassword, setEmail, setPatient, setGender, setCity, setState, setLoading, setPatientId } = useContext(DataContext);
   const navigate = useNavigate();
@@ -57,7 +54,7 @@ export function Login() {
   } catch (error) {
     if (error.response) {
       console.log('Server responded with error data:', error.response.data.message);
-      alert(error.response.data.message);
+      alert('Invalid email or password....please try again!');
     } else {
       console.error("Network error:", error);
       alert("Network error, please try again.");

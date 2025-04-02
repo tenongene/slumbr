@@ -14,6 +14,8 @@ export const DataProvider = ({ children }) => {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [email, setEmail] = useState('');
+  const [medications, setMedications] = useState([]);
+  const [ conditions, setConditions] = useState([]);
 
   return (
     <DataContext.Provider
@@ -40,6 +42,10 @@ export const DataProvider = ({ children }) => {
         setPatientId,
         email,
         setEmail,
+        medications, 
+        setMedications,
+        conditions,
+        setConditions
       }}
     >
       {children}

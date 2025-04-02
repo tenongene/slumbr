@@ -50,10 +50,6 @@ function capitalize(word) {
 
 function Profile() {
 
-  const context = useContext(DataContext);
-  console.log('MyComponent context IN PROFILE:', context);
-
-
   const {
     patientId,
     patient,
@@ -61,16 +57,69 @@ function Profile() {
     city,
     state,
     loading,
+    setLoading,
     error,
+    setError,
     email,
+    medications, 
+    setMedications,
+    conditions,
+    setConditions
   } = useContext(DataContext);
-
- 
-
-
+  
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  //Fetch medications on page load
+  useEffect(() => {
+    const fetchMedications = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await axios.get(
+          `/api/healthcare/medications/
+          ${patientId}`);
+        setMedications(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message || 'Failed to fetch medications.');
+        setLoading(false);
+      }
+    };
+
+    if (patientId) {
+      fetchMedications();
+    }
+  }, [patientId]);
+
+
+  //Fetch Conditions on page load
+  useEffect(() => {
+  const fetchConditions = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.get(`/api/healthcare/conditions/${patientId}`);
+      setConditions(response.data);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message || 'Failed to fetch conditions.');
+      setLoading(false);
+    }
+  };
+
+  if (patientId) {
+    fetchConditions();
+  }
+}, [medications]);
+
+
+
+
   return (
+
+
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -144,16 +193,17 @@ function Profile() {
                   </Card>
                 </div>
 
-                {/* Cards with List - Conditions/Medications*/}
+
+                {/* Cards with List - Medications*/}
                 <div>
                   <Card className="w-96 p-10">
                     <CardBody>
-                      <div className="mb-4 flex items-center justify-between">
+                      <div className="mb-5 flex items-center justify-between">
                         <Typography
-                          variant="h5"
+                          variant="h3"
                           color="blue-gray"
                           className=""
-                        ></Typography>
+                        >Current Medications</Typography>
                         <Typography
                           as="a"
                           href="#"
@@ -163,32 +213,90 @@ function Profile() {
                         ></Typography>
                       </div>
                       <div className="divide-y divide-gray-200">
-                        {customers.map(
-                          ({ name, email, price, image }, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center justify-between pb-3 pt-3 last:pb-0"
-                            >
-                              <div className="flex items-center gap-x-3">
-                                <div>
-                                  <Typography color="blue-gray" variant="h6">
-                                    {name}
-                                  </Typography>
-                                  <Typography variant="small" color="gray">
-                                    {email}
-                                  </Typography>
-                                  <Typography variant="small" color="gray">
-                                    {patientId}
-                                  </Typography>
-                                </div>
-                              </div>
-                            </div>
-                          )
-                        )}
-                      </div>
+                          {loading ? (
+                                  <p>Loading Patient Medications....</p>
+                                ) : error ? (
+                                  <p>Error: {error}</p>
+                                ) : !patientId ? (
+                                  <p>Please provide a patient ID.</p>
+                                ) : medications.length === 0 ? (
+                                  <p>No Medications found for this patient.</p>
+                                ) : (
+                                  <div className="divide-y divide-gray-200">
+                                    {medications.map((medication, index) => (
+                                      <div
+                                        key={index}
+                                        className="flex items-center justify-between pb-3 pt-3 last:pb-0"
+                                      >
+                                        <div className="flex items-center gap-x-3">
+                                          <div>
+                                            <Typography color="blue-gray" variant="h6">
+                                              {medication.medicationCodeableConcept?.text || 'Medication Name Unavailable'}
+                                            </Typography>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                        </div>
                     </CardBody>
                   </Card>
                 </div>
+
+
+                
+                {/* Cards with List - Conditions*/}
+                <div>
+                  <Card className="w-96 p-10 mt-10">
+                    <CardBody>
+                      <div className="mb-4 flex items-center justify-between">
+                        <Typography
+                          variant="h3"
+                          color="blue-gray"
+                          className=""
+                        >Active Conditions</Typography>
+                        <Typography
+                          as="a"
+                          href="#"
+                          variant="small"
+                          color="blue"
+                          className="font-bold"
+                        ></Typography>
+                      </div>
+                      <div className="divide-y divide-gray-200">
+                        {loading ? (
+                              <p>Loading Patient Conditions....</p>
+                            ) : error ? (
+                              <p>Error: {error}</p>
+                            ) : !patientId ? (
+                              <p>Please provide a patient ID.</p>
+                            ) : conditions.length === 0 ? (
+                              <p>No Conditions found for this patient.</p>
+                            ) : (
+                              <div className="divide-y divide-gray-200">
+                                {conditions.map((condition, index) => (
+                                  <div
+                                    key={index}
+                                    className="flex items-center justify-between pb-3 pt-3 last:pb-0"
+                                  >
+                                    <div className="flex items-center gap-x-3">
+                                      <div>
+                                        <Typography color="blue-gray" variant="h6">
+                                          {condition.code?.text || 'Condition Name Unavailable'}
+                                        </Typography>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                        </div>
+                    </CardBody>
+                  </Card>
+                </div>
+
+
               </div>
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2"></div>

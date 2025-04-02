@@ -1,15 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../partials/Sidebar";
 import HomeImage from "../images/awake.jpg";
 import Header from "../partials/Header";
 import { Card, Typography, Button } from "@material-tailwind/react";
-import DataContext from "../utils/DataContext";
+
 
 function Home() {
 
-  const context = useContext(DataContext);
-  console.log('MyComponent context IN HOME:', context);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
  
