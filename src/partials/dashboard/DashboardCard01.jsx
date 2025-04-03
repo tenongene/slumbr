@@ -59,20 +59,7 @@ function DashboardCard01() {
         clip: 20,
         tension: 0.2,
       },
-      // Gray line
-      {
-        data: [532, 532, 532, 404, 404, 314, 314, 314, 314, 314, 234, 314, 234, 234, 314, 314, 314, 388, 314, 202, 202, 202, 202, 314, 720, 642],
-        borderColor: adjustColorOpacity(getCssVariable('--color-gray-500'), 0.25),
-        borderWidth: 2,
-        pointRadius: 0,
-        pointHoverRadius: 3,
-        pointBackgroundColor: adjustColorOpacity(getCssVariable('--color-gray-500'), 0.25),
-        pointHoverBackgroundColor: adjustColorOpacity(getCssVariable('--color-gray-500'), 0.25),
-        pointBorderWidth: 0,
-        pointHoverBorderWidth: 0,
-        clip: 20,
-        tension: 0.2,
-      },
+
     ],
   };
 
@@ -85,7 +72,7 @@ function DashboardCard01() {
         </header>
         <div className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1"></div>
         <div className="flex items-start">
-          <div className="text-sm font-bold text-gray-800 dark:text-gray-100 mr-2"><h2>Sleep rating trend over the past 2 weeks</h2></div>
+          <div className="text-sm text-gray-800 dark:text-gray-100 mr-2">Sleep rating trend over the past 2 weeks</div>
           <div className="text-sm font-medium text-green-700 px-1.5 bg-green-500/20 rounded-full"></div>
         </div>
       </div>

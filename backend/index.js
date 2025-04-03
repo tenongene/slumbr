@@ -4,6 +4,7 @@ import { GoogleAuth } from "google-auth-library";
 import axios from "axios";
 import cors from "cors";
 import * as dotenv from "dotenv";
+import { id } from "date-fns/locale";
 dotenv.config();
 
 const app = express();
@@ -71,6 +72,11 @@ const userList = [
     email: 'irving.jacobi@gatech.edu',
     password: '654321',
     patientId: '5a6776aa-a149-cab2-39d0-3f9249e8ed1d',
+  },
+  {
+    email: 'alberto.dlt@gatech.edu',
+    password: '654321',
+    patientId: '9dedae70-e46d-4de7-becd-dfb8eeaf27e6',
   },
 ];
 
@@ -174,21 +180,33 @@ app.get("/api/healthcare/medications/:id", async (req, res) => {
   try {
     const accessToken = await getAccessToken();
 
-    const response = await axios.get(`${BASE_URL}/MedicationStatement?patient=${patientId}&status=active`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/fhir+json",
-      },
-    });
+    const response = await axios.get(
+      `${BASE_URL}/MedicationStatement?patient=${patientId}&status=active`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/fhir+json",
+        },
+      }
+    );
 
     if (response.data && response.data.entry) {
-     
-      const medicationStatements = response.data.entry.map((entry) => entry.resource);
-      res.status(200).json(medicationStatements); 
+      const medications = response.data.entry.map((entry) => {
+        const resource = entry.resource;
+
+        if (resource.medicationCodeableConcept && resource.medicationCodeableConcept.text) {
+          return resource.medicationCodeableConcept.text
+          
+        } else {
+          return "Medication name not found";
+        }
+      });
+      
+      console.log(medications);
+      res.status(200).json(medications);
     } else if (response.data && !response.data.entry) {
-        res.status(200).json([]);
-    }
-    else {
+      res.status(200).json([]);
+    } else {
       console.error("Unexpected FHIR response:", response.data);
       res.status(500).json({ error: "Unexpected FHIR response" });
     }

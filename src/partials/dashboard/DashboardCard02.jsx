@@ -50,25 +50,7 @@ function DashboardCard02() {
         clip: 20,
         tension: 0.2,
       },
-      // Gray line
-      {
-        data: [
-          732, 610, 610, 504, 504, 504, 349,
-          349, 504, 342, 504, 610, 391, 192,
-          154, 273, 191, 191, 126, 263, 349,
-          252, 423, 622, 470, 532,
-        ],
-        borderColor: adjustColorOpacity(getCssVariable('--color-gray-500'), 0.25),
-        borderWidth: 2,
-        pointRadius: 0,
-        pointHoverRadius: 3,
-        pointBackgroundColor: adjustColorOpacity(getCssVariable('--color-gray-500'), 0.25),
-        pointHoverBackgroundColor: adjustColorOpacity(getCssVariable('--color-gray-500'), 0.25),
-        pointBorderWidth: 0,
-        pointHoverBorderWidth: 0,
-        clip: 20,
-        tension: 0.2,
-      },
+
     ],
   };
 

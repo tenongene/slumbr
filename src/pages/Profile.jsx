@@ -70,17 +70,17 @@ function Profile() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   //Fetch medications on page load
-  useEffect(() => {
+useEffect(() => {
     const fetchMedications = async () => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await axios.get(
-          `/api/healthcare/medications/
-          ${patientId}`);
+        const response = await axios.get(`/api/healthcare/medications/${patientId}`);
+        console.log(response.data)
         setMedications(response.data);
         setLoading(false);
+
       } catch (err) {
         setError(err.message || 'Failed to fetch medications.');
         setLoading(false);
@@ -212,34 +212,34 @@ function Profile() {
                           className="font-bold"
                         ></Typography>
                       </div>
-                      <div className="divide-y divide-gray-200">
-                          {loading ? (
-                                  <p>Loading Patient Medications....</p>
-                                ) : error ? (
-                                  <p>Error: {error}</p>
-                                ) : !patientId ? (
-                                  <p>Please provide a patient ID.</p>
-                                ) : medications.length === 0 ? (
-                                  <p>No Medications found for this patient.</p>
-                                ) : (
-                                  <div className="divide-y divide-gray-200">
-                                    {medications.map((medication, index) => (
-                                      <div
-                                        key={index}
-                                        className="flex items-center justify-between pb-3 pt-3 last:pb-0"
-                                      >
-                                        <div className="flex items-center gap-x-3">
-                                          <div>
-                                            <Typography color="blue-gray" variant="h6">
-                                              {medication.medicationCodeableConcept?.text || 'Medication Name Unavailable'}
-                                            </Typography>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                )}
+             <div className="divide-y divide-gray-200">
+                  {loading ? (
+                    <p>Loading Patient Medications....</p>
+                  ) : error ? (
+                    <p>Error: {error}</p>
+                  ) : !patientId ? (
+                    <p>Please provide a patient ID.</p>
+                  ) : medications.length === 0 ? (
+                    <p>No Medications found for this patient.</p>
+                  ) : (
+                    <div className="divide-y divide-gray-200">
+                      {medications.map((medication, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between pb-3 pt-3 last:pb-0"
+                        >
+                          <div className="flex items-center gap-x-3">
+                            <div>
+                              <Typography color="blue-gray" variant="h6">
+                                {medication || 'Medication Name Unavailable'}
+                              </Typography>
+                            </div>
+                          </div>
                         </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
                     </CardBody>
                   </Card>
                 </div>

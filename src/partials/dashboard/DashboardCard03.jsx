@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { GaugeComponent } from "react-gauge-component";
 import DataContext from "../../utils/DataContext";
-import { Typography } from "@material-tailwind/react";
+import { typography, Typography } from "@material-tailwind/react";
 import { getLocalStorageItems } from "../../utils/LocalStorageHandler";
 
 const generateSeverity = (value) => {
@@ -91,11 +91,11 @@ function DashboardCard03() {
           </h2>
         </header>
         <div className="text-sm text-gray-800 dark:text-gray-100 mr-2">
-          Today's severity index
+          {ISI ? `Today's severity index` : ''}
         </div>
         <div className="flex items-start">
           <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2 mb-5">
-            {" "}
+            { ISI ? 
             <GaugeComponent
               value={ISI}
               minValue={7}
@@ -139,7 +139,7 @@ function DashboardCard03() {
                 elastic: true,
                 animationDelay: 0,
               }}
-            />
+            /> : <Typography style={{fontSize: '14px'}}>Take the assessment to display your severity score...</Typography>}
           </div>
 
           <div className="text-sm font-medium text-green-700 px-1.5 bg-green-500/20 rounded-full"></div>

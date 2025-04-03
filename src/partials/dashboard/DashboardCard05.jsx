@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import Tooltip from "../../components/Tooltip";
-import { chartAreaGradient } from "../../charts/ChartjsConfig";
-import RealtimeChart from "../../charts/RealtimeChart";
+
 import DataContext from "../../utils/DataContext";
 
 
@@ -37,7 +35,7 @@ function extractAnswers(questionnaireResponse) {
 
 
 function DashboardCard05() {
-  const { responses } = useContext(DataContext);
+  const { responses, ISI } = useContext(DataContext);
 
   // useEffect(() => {
   //   const storedResponses = localStorage.getItem("surveyResponses");
@@ -57,12 +55,14 @@ function DashboardCard05() {
           <div className="text-xs text-center whitespace-nowrap">Built with <a className="underline" href="https://www.chartjs.org/" target="_blank" rel="noreferrer">Chart.js</a></div>
         </Tooltip> */}
       </header>
-
-      <div className="text-sm font-medium text-green-800 px-4 py-5.5 bg-green-400/15 rounded-full m-5">
+        {ISI ? <div className="text-sm font-medium text-green-800 px-4 py-5.5 bg-green-400/15 rounded-full m-5">
         A personalized recommendation has been generated for you based on your
         assessment and patient profile. Take these actions to begin improving
         your insomnia.
-      </div>
+      </div> : <div className="text-sm font-medium text-black-800 px-4 py-5.5 bg-amber-500/10 rounded-full m-5">
+       Take the assessment to get a personalized recommendation on how to improve insomnia based on your profile...
+      </div>}
+  
       <div className="mt-5">
         {surveyAnswers}
       </div>
