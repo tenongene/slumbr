@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from "react";
 import { GaugeComponent } from "react-gauge-component";
 import DataContext from "../../utils/DataContext";
-import { typography, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import { getLocalStorageItems } from "../../utils/LocalStorageHandler";
+import axios from "axios";
 
 const generateSeverity = (value) => {
   let severityText = "";
@@ -56,7 +57,7 @@ function extractAnswers(questionnaireResponse) {
 }
 
 function DashboardCard03() {
-  const { ISI, setISI } = useContext(DataContext);
+  const { ISI, setISI, sleep_quality, email } = useContext(DataContext);
   const severityResult = generateSeverity(ISI);
 
   useEffect(() => {
@@ -80,6 +81,26 @@ function DashboardCard03() {
       surveyResponses.worry_level;
 
     setISI(isi_score);
+
+    
+
+    if (isi_score && sleep_quality) {
+      
+       axios
+        .post("/api/chartdata", { isi_score: isi_score, sleep_quality: sleep_quality, email: email },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Chart data posted successfully:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error posting chart data:", error);
+        });
+    } 
   }, []);
 
   return (

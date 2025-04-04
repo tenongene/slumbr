@@ -1,11 +1,18 @@
-import express from "express";
+import express, { response } from "express";
 import morgan from "morgan";
 import { GoogleAuth } from "google-auth-library";
 import axios from "axios";
 import cors from "cors";
 import * as dotenv from "dotenv";
-import { id } from "date-fns/locale";
 dotenv.config();
+
+import { Firestore } from '@google-cloud/firestore';
+
+const db = new Firestore({
+  projectId: process.env.PROJECT_ID,
+  keyFilename: process.env.KEY_FILE_PATH,
+});
+
 
 const app = express();
 
@@ -142,7 +149,7 @@ app.get("/api/healthcare/patient/:id", async (req, res) => {
   }
 });
 
-// POST request to create FHIR resource
+// POST request to create questionnaire FHIR resource
 app.post("/api/healthcare/questionnaire", async (req, res) => {
   const fhirResource = req.body;
   console.log(req.body);
@@ -255,9 +262,57 @@ app.get("/api/healthcare/conditions/:id", async (req, res) => {
 
 
 
+//POST request for SeverityIndex & SleepQuality tracking in DynamoDB
+app.post('/api/chartdata', async (req, res) => {
+  const { isi_score, sleep_quality, email } = req.body;
+  console.log(req.body);
 
+  try {
+    const userRef = db.collection('slumbr_data').doc(email);
+    const userDoc = await userRef.get();
 
+    let severityArray = [];
+    let qualityArray = [];
 
+    if (userDoc.exists) {
+      const data = userDoc.data();
+      severityArray = data['severityIndex'] || [];
+      qualityArray = data['sleepQuality'] || [];
+
+      severityArray.push(isi_score);
+      qualityArray.push(sleep_quality);
+
+      // Keep arrays at a max length of 14
+      if (severityArray.length > 14) {
+        severityArray.shift(); 
+      }
+      if (qualityArray.length > 14) {
+        qualityArray.shift();
+      }
+
+      await userRef.update({
+        severityIndex: severityArray,
+        sleepQuality: qualityArray,
+      });
+    }
+
+     res.status(200).json({
+      message: 'Chart data updated successfully',
+      user: email,
+      severityIndex: severityArray,
+      sleepQuality: qualityArray,
+    });
+
+  } catch (error) {
+    console.error(
+      'Error updating chart data array:',
+      error.response?.data || error.message
+    );
+    res.status(500).json({ error: error.response?.data || error.message });
+  }
+});
+
+	
 
 
 

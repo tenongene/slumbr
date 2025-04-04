@@ -1,10 +1,11 @@
-import React  from "react";
+import React, { useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import "survey-core/survey-core.min.css";
 import axios from "axios";
 import { setLocalStorageItems } from "../utils/LocalStorageHandler";
+import DataContext from "../utils/DataContext";
 
 const surveyJson = {
   completedHtml:
@@ -224,11 +225,13 @@ function SurveyPage() {
   //
   const id = localStorage.getItem('patientId');
   const navigate = useNavigate(); 
+  const { setSleepQuality } = useContext(DataContext);
 
 
   const survey = new Model(surveyJson);
   survey.onComplete.add((sender, options) => {
     const responses = sender.data;
+    console.log(responses);
 
     // Format times to Fhir format
     if (responses.wakeup_time) {
@@ -237,6 +240,9 @@ function SurveyPage() {
     if (responses.bedtime) {
       responses.bedtime = `${responses.bedtime}:00`;
     }
+
+    //set sleep quality score for tracking
+    setSleepQuality(responses.sleep_quality);
 
     //Severity Index Values short-cut
     const severityResponses = {
@@ -273,7 +279,7 @@ function SurveyPage() {
           }
         )
         .then((response) => {
-          console.log("QuestionnaireResponse posted successfully:", response);
+          console.log("QuestionnaireResponse posted successfully:", response.data);
           navigate('/dashboard');
         })
         .catch((error) => {

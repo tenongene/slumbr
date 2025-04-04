@@ -16,6 +16,8 @@ export const DataProvider = ({ children }) => {
   const [email, setEmail] = useState('');
   const [medications, setMedications] = useState([]);
   const [ conditions, setConditions] = useState([]);
+  const [sleep_quality, setSleepQuality] = useState('');
+
 
   return (
     <DataContext.Provider
@@ -45,7 +47,10 @@ export const DataProvider = ({ children }) => {
         medications, 
         setMedications,
         conditions,
-        setConditions
+        setConditions,
+        sleep_quality,
+        setSleepQuality,
+
       }}
     >
       {children}

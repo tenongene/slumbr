@@ -26,7 +26,7 @@ export default function MediaCard3() {
       </CardContent>
       <CardActions>
         <Link
-          to="https://sleepdoctor.com/sleep-environment"
+          to="https://www.sleepfoundation.org/bedroom-environment"
           target="_blank"
         >
           <Button size="small">Learn More</Button>

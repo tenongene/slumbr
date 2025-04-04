@@ -10,6 +10,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@google-cloud/firestore": "^7.11.0",
     "@googleapis/healthcare": "^23.6.0",
     "@heroicons/react": "^2.2.0",
     "@mui/icons-material": "^6.4.8",

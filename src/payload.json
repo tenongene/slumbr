@@ -11,7 +11,7 @@
   },
   "status": "active",
   "subject": {
-    "reference": "Patient/806265ee-2f07-34d6-3c7e-16c9dae79041"
+    "reference": "Patient/5a6776aa-a149-cab2-39d0-3f9249e8ed1d"
   },
   "effectivePeriod": {
     "start": "2023-10-27"
@@ -22,10 +22,10 @@
       {
         "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
         "code": "156524",
-        "display": "Adderall XR 20mg capsules"
+        "display": "Meloxicam 15mg  "
       }
     ],
-    "text": "Adderall XR 20mg capsules"
+    "text": "Meloxicam 15mg "
   },
   "dosage": [
     {
@@ -33,6 +33,9 @@
     }
   ]
 }
+
+////////////////CONDITIONS
+
 
 
 {
@@ -86,24 +89,24 @@
       {
         "system": "http://snomed.info/sct",
         "code": "3697009",
-        "display": "Essential Hypertension (disorder)"
+        "display": "Posttraumatic Stress Disorder"
       },
       {
         "system": "http://hl7.org/fhir/sid/icd-10-cm",
         "code": "F20.9",
-        "display": "Essential Hypertension (disorder), unspecified"
+        "display": "Posttraumatic Stress Disorder"
       }
     ],
-    "text": "Essential Hypertension (disorder)"
+    "text": "Posttraumatic Stress Disorder"
   },
   "subject": {
-    "reference": "Patient/806265ee-2f07-34d6-3c7e-16c9dae79041"
+    "reference": "806265ee-2f07-34d6-3c7e-16c9dae79041"
   },
   "onsetDateTime": "2020-05-15T10:30:00+00:00",
   "recordedDate": "2023-10-27T14:15:00+00:00",
   "note": [
     {
-      "text": "Patient presents with auditory hallucinations and disorganized thinking. Diagnosis of Essential Hypertension (disorder) confirmed after psychiatric evaluation."
+      "text": "Diagnosed."
     }
   ]
 }
