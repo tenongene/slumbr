@@ -6,50 +6,12 @@ import axios from "axios";
 import DataContext from "../utils/DataContext";
 import { CircularProgress, Box } from "@mui/material";
 
-const customers = [
-  {
-    name: "Tania Andrew",
-    email: "tania@gmail.com",
-    price: 400,
-    image:
-      "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-  },
-  {
-    name: "John Micheal",
-    email: "john@gmail.com",
-    price: 420,
-    image:
-      "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-6.jpg",
-  },
-  {
-    name: "Alexa Liras",
-    email: "alexa@gmail.com",
-    price: 340,
-    image:
-      "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-  },
-  {
-    name: "Richard Gran",
-    email: "richard@gmail.com",
-    price: 520,
-    image:
-      "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-  },
-  {
-    name: "Micheal Levi",
-    email: "levi@gmail.com",
-    price: 780,
-    image:
-      "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
-  },
-];
 function capitalize(word) {
   if (!word) return "";
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
 function Profile() {
-
   const {
     patientId,
     patient,
@@ -61,28 +23,29 @@ function Profile() {
     error,
     setError,
     email,
-    medications, 
+    medications,
     setMedications,
     conditions,
-    setConditions
+    setConditions,
   } = useContext(DataContext);
-  
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   //Fetch medications on page load
-useEffect(() => {
+  useEffect(() => {
     const fetchMedications = async () => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await axios.get(`/api/healthcare/medications/${patientId}`);
-        console.log(response.data)
+        const response = await axios.get(
+          `https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/medications/${patientId}`
+        );
+        console.log(response.data);
         setMedications(response.data);
         setLoading(false);
-
       } catch (err) {
-        setError(err.message || 'Failed to fetch medications.');
+        setError(err.message || "Failed to fetch medications.");
         setLoading(false);
       }
     };
@@ -92,34 +55,30 @@ useEffect(() => {
     }
   }, [patientId]);
 
-
   //Fetch Conditions on page load
   useEffect(() => {
-  const fetchConditions = async () => {
-    setLoading(true);
-    setError(null);
+    const fetchConditions = async () => {
+      setLoading(true);
+      setError(null);
 
-    try {
-      const response = await axios.get(`/api/healthcare/conditions/${patientId}`);
-      setConditions(response.data);
-      setLoading(false);
-    } catch (err) {
-      setError(err.message || 'Failed to fetch conditions.');
-      setLoading(false);
+      try {
+        const response = await axios.get(
+          `https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/conditions/${patientId}`
+        );
+        setConditions(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message || "Failed to fetch conditions.");
+        setLoading(false);
+      }
+    };
+
+    if (patientId) {
+      fetchConditions();
     }
-  };
-
-  if (patientId) {
-    fetchConditions();
-  }
-}, [medications]);
-
-
-
+  }, [medications]);
 
   return (
-
-
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -193,69 +152,14 @@ useEffect(() => {
                   </Card>
                 </div>
 
-
                 {/* Cards with List - Medications*/}
                 <div>
                   <Card className="w-96 p-10">
                     <CardBody>
                       <div className="mb-5 flex items-center justify-between">
-                        <Typography
-                          variant="h3"
-                          color="blue-gray"
-                          className=""
-                        >Current Medications</Typography>
-                        <Typography
-                          as="a"
-                          href="#"
-                          variant="small"
-                          color="blue"
-                          className="font-bold"
-                        ></Typography>
-                      </div>
-             <div className="divide-y divide-gray-200">
-                  {loading ? (
-                    <p>Loading Patient Medications....</p>
-                  ) : error ? (
-                    <p>Error: {error}</p>
-                  ) : !patientId ? (
-                    <p>Please provide a patient ID.</p>
-                  ) : medications.length === 0 ? (
-                    <p>No Medications found for this patient.</p>
-                  ) : (
-                    <div className="divide-y divide-gray-200">
-                      {medications.map((medication, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center justify-between pb-3 pt-3 last:pb-0"
-                        >
-                          <div className="flex items-center gap-x-3">
-                            <div>
-                              <Typography color="blue-gray" variant="h6">
-                                {medication || 'Medication Name Unavailable'}
-                              </Typography>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                    </CardBody>
-                  </Card>
-                </div>
-
-
-                
-                {/* Cards with List - Conditions*/}
-                <div>
-                  <Card className="w-96 p-10 mt-10">
-                    <CardBody>
-                      <div className="mb-4 flex items-center justify-between">
-                        <Typography
-                          variant="h3"
-                          color="blue-gray"
-                          className=""
-                        >Active Conditions</Typography>
+                        <Typography variant="h3" color="blue-gray" className="">
+                          Current Medications
+                        </Typography>
                         <Typography
                           as="a"
                           href="#"
@@ -266,37 +170,85 @@ useEffect(() => {
                       </div>
                       <div className="divide-y divide-gray-200">
                         {loading ? (
-                              <p>Loading Patient Conditions....</p>
-                            ) : error ? (
-                              <p>Error: {error}</p>
-                            ) : !patientId ? (
-                              <p>Please provide a patient ID.</p>
-                            ) : conditions.length === 0 ? (
-                              <p>No Conditions found for this patient.</p>
-                            ) : (
-                              <div className="divide-y divide-gray-200">
-                                {conditions.map((condition, index) => (
-                                  <div
-                                    key={index}
-                                    className="flex items-center justify-between pb-3 pt-3 last:pb-0"
-                                  >
-                                    <div className="flex items-center gap-x-3">
-                                      <div>
-                                        <Typography color="blue-gray" variant="h6">
-                                          {condition.code?.text || 'Condition Name Unavailable'}
-                                        </Typography>
-                                      </div>
-                                    </div>
+                          <p>Loading Patient Medications....</p>
+                        ) : error ? (
+                          <p>Error: {error}</p>
+                        ) : !patientId ? (
+                          <p>Please provide a patient ID.</p>
+                        ) : medications.length === 0 ? (
+                          <p>No Medications found for this patient.</p>
+                        ) : (
+                          <div className="divide-y divide-gray-200">
+                            {medications.map((medication, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center justify-between pb-3 pt-3 last:pb-0"
+                              >
+                                <div className="flex items-center gap-x-3">
+                                  <div>
+                                    <Typography color="blue-gray" variant="h6">
+                                      {medication ||
+                                        "Medication Name Unavailable"}
+                                    </Typography>
                                   </div>
-                                ))}
+                                </div>
                               </div>
-                            )}
-                        </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </CardBody>
                   </Card>
                 </div>
 
-
+                {/* Cards with List - Conditions*/}
+                <div>
+                  <Card className="w-96 p-10 mt-10">
+                    <CardBody>
+                      <div className="mb-4 flex items-center justify-between">
+                        <Typography variant="h3" color="blue-gray" className="">
+                          Active Conditions
+                        </Typography>
+                        <Typography
+                          as="a"
+                          href="#"
+                          variant="small"
+                          color="blue"
+                          className="font-bold"
+                        ></Typography>
+                      </div>
+                      <div className="divide-y divide-gray-200">
+                        {loading ? (
+                          <p>Loading Patient Conditions....</p>
+                        ) : error ? (
+                          <p>Error: {error}</p>
+                        ) : !patientId ? (
+                          <p>Please provide a patient ID.</p>
+                        ) : conditions.length === 0 ? (
+                          <p>No Conditions found for this patient.</p>
+                        ) : (
+                          <div className="divide-y divide-gray-200">
+                            {conditions.map((condition, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center justify-between pb-3 pt-3 last:pb-0"
+                              >
+                                <div className="flex items-center gap-x-3">
+                                  <div>
+                                    <Typography color="blue-gray" variant="h6">
+                                      {condition.code?.text ||
+                                        "Condition Name Unavailable"}
+                                    </Typography>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </CardBody>
+                  </Card>
+                </div>
               </div>
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2"></div>

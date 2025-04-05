@@ -16,7 +16,7 @@ function DashboardCard01() {
       } else {
         setLoading(true);
       }
-    }, 2000);
+    }, 500);
 
     return () => clearTimeout(timeoutId);
   }, [qualityArray]);

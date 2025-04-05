@@ -6,9 +6,19 @@ import axios from "axios";
 import DataContext from "../utils/DataContext";
 
 export function Login() {
-  
-
-  const {email, password, setPassword, setEmail, setPatient, setGender, setError, setCity, setState, setLoading, setPatientId } = useContext(DataContext);
+  const {
+    email,
+    password,
+    setPassword,
+    setEmail,
+    setPatient,
+    setGender,
+    setError,
+    setCity,
+    setState,
+    setLoading,
+    setPatientId,
+  } = useContext(DataContext);
   const navigate = useNavigate();
 
   const handlePassword = (e) => {
@@ -16,61 +26,76 @@ export function Login() {
   };
 
   const handleEmail = (e) => {
-  setEmail(e.target.value);
+    setEmail(e.target.value);
   };
 
-
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const loginResponse = await axios.post('/api/healthcare/login', {
-      email: email,
-      password: password,
-    });
+    try {
+      const loginResponse = await axios.post(
+        "https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/login",
+        {
+          email: email,
+          password: password,
+        }
+      );
 
-    if (loginResponse.status === 200) {
-      const patientId = loginResponse.data.patientId;
-      localStorage.setItem('patientId', patientId);
-      localStorage.setItem('email', email);
-      setPatientId(patientId);
+      if (loginResponse.status === 200) {
+        const patientId = loginResponse.data.patientId;
+        localStorage.setItem("patientId", patientId);
+        localStorage.setItem("email", email);
+        setPatientId(patientId);
 
-      try {
-        const patientResponse = await axios.get(`/api/healthcare/patient/${patientId}`);
+        try {
+          const patientResponse = await axios.get(
+            `/api/healthcare/patient/${patientId}`
+          );
 
-        setPatient(`${patientResponse.data.name[0].given[0]} ${patientResponse.data.name[0].family}`);
-        setGender(patientResponse.data.gender);
-        setCity(patientResponse.data.address[0].city);
-        setState(patientResponse.data.address[0].state);
-        localStorage.setItem("firstName", patientResponse.data.name[0].given[0]);
-        navigate('/home');
-        console.log(patientResponse.data);
-      } catch (err) {
-        setError(err.response?.data || "Error fetching patient");
-      } finally {
-        setLoading(false);
+          setPatient(
+            `${patientResponse.data.name[0].given[0]} ${patientResponse.data.name[0].family}`
+          );
+          setGender(patientResponse.data.gender);
+          setCity(patientResponse.data.address[0].city);
+          setState(patientResponse.data.address[0].state);
+          localStorage.setItem(
+            "firstName",
+            patientResponse.data.name[0].given[0]
+          );
+          navigate("/home");
+          console.log(patientResponse.data);
+        } catch (err) {
+          setError(err.response?.data || "Error fetching patient");
+        } finally {
+          setLoading(false);
+        }
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(
+          "Server responded with error data:",
+          error.response.data.message
+        );
+        alert("Invalid email or password....please try again!");
+      } else {
+        console.error("Network error:", error);
+        alert("Network error, please try again.");
       }
     }
-  } catch (error) {
-    if (error.response) {
-      console.log('Server responded with error data:', error.response.data.message);
-      alert('Invalid email or password....please try again!');
-    } else {
-      console.error("Network error:", error);
-      alert("Network error, please try again.");
-    }
-  }
-};
-
+  };
 
   return (
     <section className="m-20 flex pt-10 gap-4">
       <div className="w-2/5 mt-20  h-full hidden lg:block md:block sm:block">
-        <img src={Logo} className="h-full w-full object-cover rounded-3xl" alt="logo" />
+        <img
+          src={Logo}
+          className="h-full w-full object-cover rounded-3xl"
+          alt="logo"
+        />
       </div>
 
       <div className="w-full lg:w-3/5 mt-15 md:w-1/5">
-        <div className="text-center"> 
+        <div className="text-center">
           <Typography variant="h4" className="font-bold mb-4">
             Login
           </Typography>
@@ -82,7 +107,10 @@ export function Login() {
             Enter your email and password to Login
           </Typography>
         </div>
-        <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" onSubmit={handleSubmit}>
+        <form
+          className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2"
+          onSubmit={handleSubmit}
+        >
           <div className="mb-1 flex flex-col gap-6">
             <Typography
               variant="small"
@@ -93,8 +121,8 @@ export function Login() {
             </Typography>
             <Input
               size="lg"
-              value = {email}
-              onChange={handleEmail} 
+              value={email}
+              onChange={handleEmail}
               placeholder="yourname@domain.com"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
@@ -111,7 +139,7 @@ export function Login() {
             <Input
               type="password"
               size="lg"
-              value = {password} 
+              value={password}
               onChange={handlePassword}
               placeholder="********"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import "survey-core/survey-core.min.css";
@@ -169,7 +169,7 @@ function convertSurveyJsonToFhir(responses, patientId) {
   };
 
   if (!responses) {
-    alert("Please answer all required questions!")
+    alert("Please answer all required questions!");
     return null; // Handle missing responses
   }
 
@@ -219,14 +219,11 @@ function convertSurveyJsonToFhir(responses, patientId) {
   return fhirResource;
 }
 
-
-
 function SurveyPage() {
   //
-  const id = localStorage.getItem('patientId');
-  const navigate = useNavigate(); 
+  const id = localStorage.getItem("patientId");
+  const navigate = useNavigate();
   const { setSleepQuality } = useContext(DataContext);
-
 
   const survey = new Model(surveyJson);
   survey.onComplete.add((sender, options) => {
@@ -264,8 +261,8 @@ function SurveyPage() {
     if (responseFhir) {
       axios
         .post(
-          // "https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/questionnaire",
-          "/api/healthcare/questionnaire",
+          "https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/questionnaire",
+          // "/api/healthcare/questionnaire",
 
           responseFhir,
           responseFhir.resourceType,
@@ -279,14 +276,17 @@ function SurveyPage() {
           }
         )
         .then((response) => {
-          console.log("QuestionnaireResponse posted successfully:", response.data);
-          navigate('/dashboard');
+          console.log(
+            "QuestionnaireResponse posted successfully:",
+            response.data
+          );
+          navigate("/dashboard");
         })
         .catch((error) => {
           console.error("Error posting QuestionnaireResponse:", error);
         });
     } else {
-      navigate('/dashboard');
+      navigate("/dashboard");
       console.error("QuestionnaireResponse is null..");
     }
   });
