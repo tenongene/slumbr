@@ -82,12 +82,11 @@ function DashboardCard03() {
 
     setISI(isi_score);
 
-    
-
     if (isi_score && sleep_quality) {
-      
-       axios
-        .post("/api/chartdata", { isi_score: isi_score, sleep_quality: sleep_quality, email: email },
+      axios
+        .post(
+          "https://slumbr-lambda-1071299687549.us-central1.run.app/api/chartdata",
+          { isi_score: isi_score, sleep_quality: sleep_quality, email: email },
           {
             headers: {
               "Content-Type": "application/json",
@@ -100,7 +99,7 @@ function DashboardCard03() {
         .catch((error) => {
           console.error("Error posting chart data:", error);
         });
-    } 
+    }
   }, []);
 
   return (
@@ -112,55 +111,60 @@ function DashboardCard03() {
           </h2>
         </header>
         <div className="text-sm text-gray-800 dark:text-gray-100 mr-2">
-          {ISI ? `Today's severity index` : ''}
+          {ISI ? `Today's severity index` : ""}
         </div>
         <div className="flex items-start">
           <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2 mb-5">
-            { ISI ? 
-            <GaugeComponent
-              value={ISI}
-              minValue={7}
-              maxValue={35}
-              type="radial"
-              labels={{
-                tickLabels: {
-                  type: "outer",
-                  ticks: [
-                    { value: 7 },
-                    { value: 14 },
-                    { value: 22 },
-                    { value: 29 },
-                    { value: 35 },
+            {ISI ? (
+              <GaugeComponent
+                value={ISI}
+                minValue={7}
+                maxValue={35}
+                type="radial"
+                labels={{
+                  tickLabels: {
+                    type: "outer",
+                    ticks: [
+                      { value: 7 },
+                      { value: 14 },
+                      { value: 22 },
+                      { value: 29 },
+                      { value: 35 },
+                    ],
+                  },
+                  valueLabel: {
+                    matchColorWithArc: "True",
+                    style: { fontSize: "0px" },
+                    formatTextValue: generateSeverity,
+                  },
+                }}
+                arc={{
+                  colorArray: [
+                    "rgb(91, 225, 44)",
+                    "#92CC74",
+                    "#F29624",
+                    "#D1023D",
                   ],
-                },
-                valueLabel: {
-                  matchColorWithArc: "True",
-                  style: { fontSize: "0px" },
-                  formatTextValue: generateSeverity,
-                },
-              }}
-              arc={{
-                colorArray: [
-                  "rgb(91, 225, 44)",
-                  "#92CC74",
-                  "#F29624",
-                  "#D1023D",
-                ],
-                subArcs: [
-                  { limit: 14, color: "rgb(91, 225, 44)" },
-                  { limit: 22, color: "#92CC74" },
-                  { limit: 29, color: "#F29624" },
-                  { limit: 35, color: "#D1023D" },
-                  {},
-                ],
-                padding: 0.02,
-                width: 0.3,
-              }}
-              pointer={{
-                elastic: true,
-                animationDelay: 0,
-              }}
-            /> : <Typography style={{fontSize: '14px'}}>Take the assessment to display your severity score...</Typography>}
+                  subArcs: [
+                    { limit: 14, color: "rgb(91, 225, 44)" },
+                    { limit: 22, color: "#92CC74" },
+                    { limit: 29, color: "#F29624" },
+                    { limit: 35, color: "#D1023D" },
+                    {},
+                  ],
+                  padding: 0.02,
+                  width: 0.3,
+                }}
+                pointer={{
+                  elastic: true,
+                  animationDelay: 0,
+                }}
+              />
+            ) : (
+              <Typography style={{ fontSize: "14px" }}>
+                Take the assessment to display your severity score...
+              </Typography>
+            )}
           </div>
 
           <div className="text-sm font-medium text-green-700 px-1.5 bg-green-500/20 rounded-full"></div>
