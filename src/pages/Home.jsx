@@ -6,7 +6,7 @@ import Header from "../partials/Header";
 import { Card, Typography, Button } from "@material-tailwind/react";
 
 function Home() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -34,8 +34,8 @@ function Home() {
 
                 {/* Cards */}
                 <div className="grid sm:grid-cols-1">
-                  <Card className="flex h-full w-full max-w-[40rem] flex-row ml=15">
-                    <Card.Header className="m-0 h-full w-2/5 shrink-0 rounded-r-none">
+                  <Card className="flex h-full w-full max-w-[60rem] flex-row ml=15">
+                    <Card.Header className="m-0 h-full w-3/5 shrink-0 rounded-r-none">
                       <img
                         src={HomeImage}
                         alt="card-image"
