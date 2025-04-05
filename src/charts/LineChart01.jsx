@@ -43,7 +43,7 @@ function LineChart01({
             type: 'time',
             time: {
               parser: 'MM-DD-YYYY',
-              unit: 'month',
+              unit: 'day',
             },
             display: false,
           },

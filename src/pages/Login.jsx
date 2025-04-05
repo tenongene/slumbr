@@ -8,7 +8,7 @@ import DataContext from "../utils/DataContext";
 export function Login() {
   
 
-  const {email, password, setPassword, setEmail, setPatient, setGender, setCity, setState, setLoading, setPatientId } = useContext(DataContext);
+  const {email, password, setPassword, setEmail, setPatient, setGender, setError, setCity, setState, setLoading, setPatientId } = useContext(DataContext);
   const navigate = useNavigate();
 
   const handlePassword = (e) => {

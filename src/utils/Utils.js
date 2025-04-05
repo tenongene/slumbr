@@ -1,6 +1,5 @@
 export const formatValue = (value) => Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
+
   maximumSignificantDigits: 3,
   notation: 'compact',
 }).format(value);
@@ -61,3 +60,15 @@ export const oklchToRGBA = (oklchColor) => {
   
   return computedColor;
 };
+
+
+export const formatArray = (arr, targetLength) => {
+  const reversedArray = arr.reverse();
+  if (arr.length >= targetLength) {
+    return reversedArray.slice(0, targetLength); // Optionally truncate if longer
+  }
+ 
+  const padding = new Array(targetLength - arr.length).fill(0);
+  return arr.concat(padding)
+}
+

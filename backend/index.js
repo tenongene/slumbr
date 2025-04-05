@@ -1,4 +1,4 @@
-import express, { response } from "express";
+import express from "express";
 import morgan from "morgan";
 import { GoogleAuth } from "google-auth-library";
 import axios from "axios";
@@ -262,7 +262,7 @@ app.get("/api/healthcare/conditions/:id", async (req, res) => {
 
 
 
-//POST request for SeverityIndex & SleepQuality tracking in DynamoDB
+//POST request for SeverityIndex & SleepQuality tracking in Firestore
 app.post('/api/chartdata', async (req, res) => {
   const { isi_score, sleep_quality, email } = req.body;
   console.log(req.body);
@@ -271,20 +271,17 @@ app.post('/api/chartdata', async (req, res) => {
     const userRef = db.collection('slumbr_data').doc(email);
     const userDoc = await userRef.get();
 
-    let severityArray = [];
-    let qualityArray = [];
-
     if (userDoc.exists) {
+      // Document exists, update it
       const data = userDoc.data();
-      severityArray = data['severityIndex'] || [];
-      qualityArray = data['sleepQuality'] || [];
+      let severityArray = data['severityIndex'] || [];
+      let qualityArray = data['sleepQuality'] || [];
 
       severityArray.push(isi_score);
       qualityArray.push(sleep_quality);
 
-      // Keep arrays at a max length of 14
       if (severityArray.length > 14) {
-        severityArray.shift(); 
+        severityArray.shift();
       }
       if (qualityArray.length > 14) {
         qualityArray.shift();
@@ -294,15 +291,15 @@ app.post('/api/chartdata', async (req, res) => {
         severityIndex: severityArray,
         sleepQuality: qualityArray,
       });
+    } else {
+      // Document does not exist, create it
+      await userRef.set({
+        severityIndex: [isi_score], // Create array with the current score
+        sleepQuality: [sleep_quality], // Create array with the current quality
+      });
     }
 
-     res.status(200).json({
-      message: 'Chart data updated successfully',
-      user: email,
-      severityIndex: severityArray,
-      sleepQuality: qualityArray,
-    });
-
+    res.status(200).send('Chart data updated successfully: ', isi_score, sleep_quality);
   } catch (error) {
     console.error(
       'Error updating chart data array:',
@@ -314,8 +311,42 @@ app.post('/api/chartdata', async (req, res) => {
 
 	
 
+//GET request for SeverityIndex & SleepQuality arrays in Firestore for charting 
+app.get('/api/chartdata', async (req, res) => {
+  const { email } = req.query;
 
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required' });
+  }
 
+  try {
+    // Introduce a delay before fetching data from Firestore
+    await new Promise(resolve => setTimeout(resolve, 5000)); 
+
+    const userRef = db.collection('slumbr_data').doc(email);
+    const userDoc = await userRef.get();
+
+    if (userDoc.exists) {
+      // Document exists, return data
+      const userData = userDoc.data();
+      const severityIndex = userData.severityIndex || [];
+      const sleepQuality = userData.sleepQuality || [];
+
+      res.status(200).json({ severityIndex, sleepQuality });
+    } else {
+      // Document does not exist, create it with empty arrays
+      await userRef.set({
+        severityIndex: [],
+        sleepQuality: [],
+      });
+
+      res.status(200).json({ severityIndex: [], sleepQuality: [] });
+    }
+  } catch (error) {
+    console.error('Error fetching/creating chart data:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 
 

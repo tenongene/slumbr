@@ -15,8 +15,10 @@ export const DataProvider = ({ children }) => {
   const [state, setState] = useState('');
   const [email, setEmail] = useState('');
   const [medications, setMedications] = useState([]);
-  const [ conditions, setConditions] = useState([]);
+  const [conditions, setConditions] = useState([]);
   const [sleep_quality, setSleepQuality] = useState('');
+  const [severityArray, setSeverityArray] = useState([]);
+  const [qualityArray, setQualityArray] = useState([]);
 
 
   return (
@@ -50,6 +52,10 @@ export const DataProvider = ({ children }) => {
         setConditions,
         sleep_quality,
         setSleepQuality,
+        severityArray, 
+        setSeverityArray,
+        qualityArray, 
+        setQualityArray
 
       }}
     >

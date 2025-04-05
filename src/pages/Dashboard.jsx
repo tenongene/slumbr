@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import axios from 'axios';
 
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
@@ -13,6 +14,34 @@ import DashboardCard05 from '../partials/dashboard/DashboardCard05';
 function Dashboard() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { setQualityArray, setSeverityArray } = useContext(DataContext);
+
+  const email = localStorage.getItem('email');
+
+  useEffect(() => {
+    const fetchData = async () => {
+
+      try {
+        const response = await axios.get('/api/chartdata', {
+          params: { email: email }, 
+        });
+   
+        setSeverityArray(response.data.severityIndex);
+        setQualityArray(response.data.sleepQuality);
+
+        console.log(response.data.severityIndex)
+        console.log(response.data.sleepQuality)
+
+
+      } catch (err) {
+        console.log(err.message)
+    
+      }
+    };
+
+    fetchData();
+  }, [email]); 
+
 
   return (
     <div className="flex h-screen overflow-hidden">
