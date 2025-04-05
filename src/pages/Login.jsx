@@ -49,7 +49,7 @@ export function Login() {
 
         try {
           const patientResponse = await axios.get(
-            `"https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/patient/${patientId}`
+            `https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/patient/${patientId}`
           );
 
           setPatient(

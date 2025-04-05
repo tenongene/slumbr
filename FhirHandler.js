@@ -1,21 +1,15 @@
-/*
-Our Google Cloud Fhir Server Auth
-*/
-// const { GoogleAuth } = require("google-auth-library");
-// require('dotenv').config();
-
 async function getAccessToken() {
   const auth = new GoogleAuth({
     keyFile: process.env.KEY_FILE_PATH,
-    scopes: ["https://www.googleapis.com/auth/cloud-healthcare", "https://www.googleapis.com/auth/cloud-platform"]
+    scopes: [
+      "https://www.googleapis.com/auth/cloud-healthcare",
+      "https://www.googleapis.com/auth/cloud-platform",
+    ],
   });
   const client = await auth.getClient();
   const token = await client.getAccessToken();
   return token.token;
 }
-
-
-
 
 //convert surverys to fhir format
 
@@ -64,7 +58,7 @@ export function convertSurveyJsonToFhir(surveyJson, patientId) {
         });
       } else if (element.type === "comment") {
         item.answer.push({
-            valueString: null, //placeholder
+          valueString: null, //placeholder
         });
       }
 
@@ -83,40 +77,36 @@ Include the JSON object in the request body, with the correct Content-Type heade
 */
 
 export async function sendToFhirServer(fhirResource, serverUrl) {
-    try {
-        const response = await fetch(`${serverUrl}/QuestionnaireResponse`, {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/fhir+json'
-            },
-            body: JSON.stringify(fhirResource)
-        });
+  try {
+    const response = await fetch(`${serverUrl}/QuestionnaireResponse`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/fhir+json",
+      },
+      body: JSON.stringify(fhirResource),
+    });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        console.log('FHIR server response:', result);
-        return result;
-
-    } catch (error) {
-        console.error('Error sending to FHIR server:', error);
-        return null;
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const result = await response.json();
+    console.log("FHIR server response:", result);
+    return result;
+  } catch (error) {
+    console.error("Error sending to FHIR server:", error);
+    return null;
+  }
 }
 
 //Use example:
 // const serverUrl = 'YOUR_FHIR_SERVER_URL'; // Replace with your server URL
 // sendToFhirServer(fhirResource, serverUrl);
 
-
-
 /*
 Constructs a GET request to the FHIR server's QuestionnaireResponse endpoint.
 */
-
 
 export async function getSurveyResponses(serverUrl, patientId, surveyDate) {
   try {
@@ -130,7 +120,7 @@ export async function getSurveyResponses(serverUrl, patientId, surveyDate) {
       {
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/fhir+json",
         },
       }
@@ -153,7 +143,6 @@ export async function getSurveyResponses(serverUrl, patientId, surveyDate) {
     return null;
   }
 }
-
 
 /*
 Takes a QuestionnaireResponse resource as input.
@@ -179,7 +168,7 @@ export function extractAnswers(questionnaireResponse) {
         answers[item.linkId] = answer.valueBoolean;
       } else if (answer.valueString !== undefined) {
         answers[item.linkId] = answer.valueString;
-      } else if (answer.valueTime !== undefined){
+      } else if (answer.valueTime !== undefined) {
         answers[item.linkId] = answer.valueTime;
       } else {
         answers[item.linkId] = null; // No valid answer found
@@ -196,7 +185,6 @@ export function extractAnswers(questionnaireResponse) {
 // const serverUrlget = "YOUR_FHIR_SERVER_URL"; // Replace with your server URL
 // const patientId = "patient-123";
 // const surveyDate = "2023-10-27";
-
 
 /*
 Calls getSurveyResponses to retrieve the responses.
@@ -230,8 +218,6 @@ getSurveyResponses(serverUrl, patientId, surveyDate).then((responses) => {
   }
 });
 
-
-
 /*
 Get patient's medications and conditions from fhir server
 */
@@ -246,7 +232,7 @@ async function getMedicationStatements(serverUrl, patientId) {
     {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/fhir+json",
       },
     }
@@ -269,7 +255,7 @@ async function getConditions(serverUrl, patientId) {
   const response = await fetch(`${serverUrl}/Condition?${searchParams}`, {
     method: "GET",
     headers: {
-      "Authorization": `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/fhir+json",
     },
   });
@@ -286,7 +272,10 @@ async function getConditions(serverUrl, patientId) {
 async function extractMedicationAndConditions(serverUrl, patientId) {
   try {
     // 1. Get MedicationStatements
-    const medicationStatements = await getMedicationStatements(serverUrl, patientId);
+    const medicationStatements = await getMedicationStatements(
+      serverUrl,
+      patientId
+    );
 
     // 2. Get Conditions
     const conditions = await getConditions(serverUrl, patientId);
@@ -356,18 +345,16 @@ MedicationAndConditionsObject(serverUrl, patientId).then((data) => {
     const medications = data.medications; // array of objects
     const conditions = data.conditions; // array of strings.
 
-    if(medications && medications.length > 0){
-        medications.forEach(medication => {
-            console.log("Medication name: ", medication.medicationName);
-            console.log("Medication dose: ", medication.dose);
-        })
+    if (medications && medications.length > 0) {
+      medications.forEach((medication) => {
+        console.log("Medication name: ", medication.medicationName);
+        console.log("Medication dose: ", medication.dose);
+      });
     }
-    if(conditions && conditions.length > 0){
-        conditions.forEach(condition => {
-            console.log("Condition: ", condition);
-        })
+    if (conditions && conditions.length > 0) {
+      conditions.forEach((condition) => {
+        console.log("Condition: ", condition);
+      });
     }
   }
 });
-
-
