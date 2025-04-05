@@ -100,7 +100,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
             </svg>
           </button>
           {/* Logo */}
-          <NavLink end to="/" className="block">
+          <NavLink end to="/home" className="block">
             <svg
               className="fill-violet-500"
               xmlns="http://www.w3.org/2000/svg"

@@ -6,13 +6,12 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { Firestore } from '@google-cloud/firestore';
+import { Firestore } from "@google-cloud/firestore";
 
 const db = new Firestore({
   projectId: process.env.PROJECT_ID,
   keyFilename: process.env.KEY_FILE_PATH,
 });
-
 
 const app = express();
 
@@ -31,63 +30,61 @@ app.use(cors(), function (req, res, next) {
 
 const userList = [
   {
-    email: 'ofeliap@gmail.com',
-    password: '123456',
-    patientId: '555f3471-021a-e245-8f01-b14aad324265',
+    email: "ofeliap@gmail.com",
+    password: "123456",
+    patientId: "555f3471-021a-e245-8f01-b14aad324265",
   },
   {
-    email: 'odeliad@gmail.com',
-    password: '123456',
-    patientId: 'b1958d3e-a6c9-cf1b-868f-273c4346e198',
+    email: "odeliad@gmail.com",
+    password: "123456",
+    patientId: "b1958d3e-a6c9-cf1b-868f-273c4346e198",
   },
   {
-    email: 'wilfred.stark@gatech.edu',
-    password: '654321',
-    patientId: '806265ee-2f07-34d6-3c7e-16c9dae79041',
+    email: "wilfred.stark@gatech.edu",
+    password: "654321",
+    patientId: "806265ee-2f07-34d6-3c7e-16c9dae79041",
   },
   {
-    email: 'noel.feeney@gmail.com',
-    password: '123456',
-    patientId: '715e1472-942a-88b7-c8a9-ffa1e5730e70',
+    email: "noel.feeney@gmail.com",
+    password: "123456",
+    patientId: "715e1472-942a-88b7-c8a9-ffa1e5730e70",
   },
   {
-    email: 'carrol.tomoko@gmail.com',
-    password: '123456',
-    patientId: '4677fbab-045f-dd0f-24f5-b429eacfd57d',
+    email: "carrol.tomoko@gmail.com",
+    password: "123456",
+    patientId: "4677fbab-045f-dd0f-24f5-b429eacfd57d",
   },
   {
-    email: 'nakisha.stanton@gmail.com',
-    password: '123456',
-    patientId: '51e4757f-c3b5-8f49-ecb8-80e50c5cec88',
+    email: "nakisha.stanton@gmail.com",
+    password: "123456",
+    patientId: "51e4757f-c3b5-8f49-ecb8-80e50c5cec88",
   },
   {
-    email: 'miguel.hernandes@gatech.edu',
-    password: '654321',
-    patientId: '0cd80639-69c6-bb69-b845-29cec1be6009',
+    email: "miguel.hernandes@gatech.edu",
+    password: "654321",
+    patientId: "0cd80639-69c6-bb69-b845-29cec1be6009",
   },
   {
-    email: 'duncan.littel@gatech.edu',
-    password: '654321',
-    patientId: '519796da-0829-c121-abf9-9bae292c6f22',
+    email: "duncan.littel@gatech.edu",
+    password: "654321",
+    patientId: "519796da-0829-c121-abf9-9bae292c6f22",
   },
   {
-    email: 'joel.brekke@gatech.edu',
-    password: '654321',
-    patientId: 'ce2868fb-ff65-1046-6d40-cb311f713261',
+    email: "joel.brekke@gatech.edu",
+    password: "654321",
+    patientId: "ce2868fb-ff65-1046-6d40-cb311f713261",
   },
   {
-    email: 'irving.jacobi@gatech.edu',
-    password: '654321',
-    patientId: '5a6776aa-a149-cab2-39d0-3f9249e8ed1d',
+    email: "irving.jacobi@gatech.edu",
+    password: "654321",
+    patientId: "5a6776aa-a149-cab2-39d0-3f9249e8ed1d",
   },
   {
-    email: 'alberto.dlt@gatech.edu',
-    password: '654321',
-    patientId: '9dedae70-e46d-4de7-becd-dfb8eeaf27e6',
+    email: "alberto.dlt@gatech.edu",
+    password: "654321",
+    patientId: "9dedae70-e46d-4de7-becd-dfb8eeaf27e6",
   },
 ];
-
-
 
 // Load service account JSON key (Ensure the path is correct)
 const auth = new GoogleAuth({
@@ -108,21 +105,27 @@ async function getAccessToken() {
   return accessToken.token;
 }
 
-
 //POST request for login/auth
 app.post("/api/healthcare/login", (req, res) => {
   const { email, password } = req.body;
   console.log(req.body);
 
-  const user = userList.find(user => user.email === email && user.password === password);
+  const user = userList.find(
+    (user) => user.email === email && user.password === password
+  );
 
   if (user) {
-    res.status(200).send({message: "User authenticated!", patientId: user.patientId, email: user.email});
+    res
+      .status(200)
+      .send({
+        message: "User authenticated!",
+        patientId: user.patientId,
+        email: user.email,
+      });
   } else {
     res.status(401).send("Invalid email or password..... Please try again.");
   }
 });
-
 
 // GET request to read FHIR resource
 app.get("/api/healthcare/patient/:id", async (req, res) => {
@@ -177,8 +180,6 @@ app.post("/api/healthcare/questionnaire", async (req, res) => {
   }
 });
 
-
-
 // GET request to read medications
 app.get("/api/healthcare/medications/:id", async (req, res) => {
   const patientId = req.params.id;
@@ -201,14 +202,16 @@ app.get("/api/healthcare/medications/:id", async (req, res) => {
       const medications = response.data.entry.map((entry) => {
         const resource = entry.resource;
 
-        if (resource.medicationCodeableConcept && resource.medicationCodeableConcept.text) {
-          return resource.medicationCodeableConcept.text
-          
+        if (
+          resource.medicationCodeableConcept &&
+          resource.medicationCodeableConcept.text
+        ) {
+          return resource.medicationCodeableConcept.text;
         } else {
           return "Medication name not found";
         }
       });
-      
+
       console.log(medications);
       res.status(200).json(medications);
     } else if (response.data && !response.data.entry) {
@@ -226,27 +229,29 @@ app.get("/api/healthcare/medications/:id", async (req, res) => {
   }
 });
 
-
 //GET request to read conditions
 app.get("/api/healthcare/conditions/:id", async (req, res) => {
   const patientId = req.params.id;
   console.log("Fetching FHIR conditions for ID:", patientId);
 
   try {
-    const accessToken = await getAccessToken(); 
+    const accessToken = await getAccessToken();
 
-    const response = await axios.get(`${BASE_URL}/Condition?subject=Patient/${patientId}&clinical-status=active`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/fhir+json",
-      },
-    });
+    const response = await axios.get(
+      `${BASE_URL}/Condition?subject=Patient/${patientId}&clinical-status=active`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/fhir+json",
+        },
+      }
+    );
 
     if (response.data && response.data.entry) {
       const conditions = response.data.entry.map((entry) => entry.resource);
       res.status(200).json(conditions);
     } else if (response.data && !response.data.entry) {
-      res.status(200).json([]); 
+      res.status(200).json([]);
     } else {
       console.error("Unexpected FHIR response:", response.data);
       res.status(500).json({ error: "Unexpected FHIR response" });
@@ -260,22 +265,20 @@ app.get("/api/healthcare/conditions/:id", async (req, res) => {
   }
 });
 
-
-
 //POST request for SeverityIndex & SleepQuality tracking in Firestore
-app.post('/api/chartdata', async (req, res) => {
+app.post("/api/chartdata", async (req, res) => {
   const { isi_score, sleep_quality, email } = req.body;
   console.log(req.body);
 
   try {
-    const userRef = db.collection('slumbr_data').doc(email);
+    const userRef = db.collection("slumbr_data").doc(email);
     const userDoc = await userRef.get();
 
     if (userDoc.exists) {
       // Document exists, update it
       const data = userDoc.data();
-      let severityArray = data['severityIndex'] || [];
-      let qualityArray = data['sleepQuality'] || [];
+      let severityArray = data["severityIndex"] || [];
+      let qualityArray = data["sleepQuality"] || [];
 
       severityArray.push(isi_score);
       qualityArray.push(sleep_quality);
@@ -299,31 +302,31 @@ app.post('/api/chartdata', async (req, res) => {
       });
     }
 
-    res.status(200).send('Chart data updated successfully: ', isi_score, sleep_quality);
+    res
+      .status(200)
+      .send("Chart data updated successfully: ", isi_score, sleep_quality);
   } catch (error) {
     console.error(
-      'Error updating chart data array:',
+      "Error updating chart data array:",
       error.response?.data || error.message
     );
     res.status(500).json({ error: error.response?.data || error.message });
   }
 });
 
-	
-
-//GET request for SeverityIndex & SleepQuality arrays in Firestore for charting 
-app.get('/api/chartdata', async (req, res) => {
+//GET request for SeverityIndex & SleepQuality arrays in Firestore for charting
+app.get("/api/chartdata", async (req, res) => {
   const { email } = req.query;
 
   if (!email) {
-    return res.status(400).json({ error: 'Email is required' });
+    return res.status(400).json({ error: "Email is required" });
   }
 
   try {
     // Introduce a delay before fetching data from Firestore
-    await new Promise(resolve => setTimeout(resolve, 5000)); 
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
-    const userRef = db.collection('slumbr_data').doc(email);
+    const userRef = db.collection("slumbr_data").doc(email);
     const userDoc = await userRef.get();
 
     if (userDoc.exists) {
@@ -343,26 +346,10 @@ app.get('/api/chartdata', async (req, res) => {
       res.status(200).json({ severityIndex: [], sleepQuality: [] });
     }
   } catch (error) {
-    console.error('Error fetching/creating chart data:', error);
+    console.error("Error fetching/creating chart data:", error);
     res.status(500).json({ error: error.message });
   }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /////////////////////========================================///////////////////////////////////
 app.listen(process.env.PORT, () => {

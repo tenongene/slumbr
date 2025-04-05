@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../partials/Sidebar";
-import HomeImage from "../images/awake.jpg";
+import HomeImage from "../images/awake2.jpg";
 import Header from "../partials/Header";
 import { Card, Typography, Button } from "@material-tailwind/react";
 
-
 function Home() {
-
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
- 
-
 
   return (
     <div className="flex h-screen overflow-hidden">
