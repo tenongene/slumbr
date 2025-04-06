@@ -11,20 +11,16 @@ import { formatArray } from "../utils/Utils";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { setQualityArray, setSeverityArray, qualityArray, severityArray } =
-    useContext(DataContext);
+  const { setQualityArray, setSeverityArray } = useContext(DataContext);
 
   const email = localStorage.getItem("email");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://slumbr-lambda-1071299687549.us-central1.run.app/api/chartdata",
-          {
-            params: { email: email },
-          }
-        );
+        const response = await axios.get("api/chartdata", {
+          params: { email: email },
+        });
 
         const fSeverityArray = formatArray(response.data.severityIndex, 14);
         const fQualityArray = formatArray(response.data.sleepQuality, 14);

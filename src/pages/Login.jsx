@@ -33,13 +33,10 @@ export function Login() {
     e.preventDefault();
 
     try {
-      const loginResponse = await axios.post(
-        "https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/login",
-        {
-          email: email,
-          password: password,
-        }
-      );
+      const loginResponse = await axios.post("/api/healthcare/login", {
+        email: email,
+        password: password,
+      });
 
       if (loginResponse.status === 200) {
         const patientId = loginResponse.data.patientId;
@@ -49,7 +46,7 @@ export function Login() {
 
         try {
           const patientResponse = await axios.get(
-            `https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/patient/${patientId}`
+            `/api/healthcare/patient/${patientId}`
           );
 
           setPatient(

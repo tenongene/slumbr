@@ -85,7 +85,7 @@ function DashboardCard03() {
     if (isi_score && sleep_quality) {
       axios
         .post(
-          "https://slumbr-lambda-1071299687549.us-central1.run.app/api/chartdata",
+          "/api/chartdata",
           { isi_score: isi_score, sleep_quality: sleep_quality, email: email },
           {
             headers: {

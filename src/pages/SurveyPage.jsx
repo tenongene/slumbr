@@ -223,11 +223,12 @@ function SurveyPage() {
   //
   const id = localStorage.getItem("patientId");
   const navigate = useNavigate();
-  const { setSleepQuality } = useContext(DataContext);
+  const { setSleepQuality, setResponses } = useContext(DataContext);
 
   const survey = new Model(surveyJson);
   survey.onComplete.add((sender, options) => {
     const responses = sender.data;
+    setResponses(responses);
     console.log(responses);
 
     // Format times to Fhir format

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
-
+import React, { useEffect, useContext, useState } from "react";
 import DataContext from "../../utils/DataContext";
-
+import axios from "axios";
+import { CircularProgress, Box } from "@mui/material";
 
 function extractAnswers(questionnaireResponse) {
   if (!questionnaireResponse || !questionnaireResponse.item) {
@@ -20,7 +20,7 @@ function extractAnswers(questionnaireResponse) {
         answers[item.linkId] = answer.valueBoolean;
       } else if (answer.valueString !== undefined) {
         answers[item.linkId] = answer.valueString;
-      } else if (answer.valueTime !== undefined){
+      } else if (answer.valueTime !== undefined) {
         answers[item.linkId] = answer.valueTime;
       } else {
         answers[item.linkId] = null; // No valid answer found
@@ -33,17 +33,34 @@ function extractAnswers(questionnaireResponse) {
   return answers;
 }
 
-
 function DashboardCard05() {
-  const { responses, ISI } = useContext(DataContext);
+  const { ISI, insights, setInsights, responses } = useContext(DataContext);
+  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const storedResponses = localStorage.getItem("surveyResponses");
-  //   if (storedResponses) {
-  //     setResponses(storedResponses);
-  //   }
-  // }, []);
-  const surveyAnswers = extractAnswers(responses);
+  useEffect(() => {
+    //
+    if (responses) {
+      axios
+        .post(
+          "/api/insights",
+          { responses, ISI },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Data for insights posted successfully:", response.data);
+          setInsights(response.data.insights);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message || "Failed to get AI Analysis.");
+          setLoading(false);
+        });
+    }
+  }, []);
 
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
@@ -55,17 +72,34 @@ function DashboardCard05() {
           <div className="text-xs text-center whitespace-nowrap">Built with <a className="underline" href="https://www.chartjs.org/" target="_blank" rel="noreferrer">Chart.js</a></div>
         </Tooltip> */}
       </header>
-        {ISI ? <div className="text-sm font-medium text-green-800 px-4 py-5.5 bg-green-400/15 rounded-full m-5">
-        A personalized recommendation has been generated for you based on your
-        assessment and patient profile. Take these actions to begin improving
-        your insomnia.
-      </div> : <div className="text-sm font-medium text-black-800 px-4 py-5.5 bg-amber-500/10 rounded-full m-5">
-       Take the assessment to get a personalized recommendation on how to improve insomnia based on your profile...
-      </div>}
-  
-      <div className="mt-5">
-        {surveyAnswers}
-      </div>
+      {ISI ? (
+        <div className="text-sm font-medium text-green-800 px-4 py-5.5 bg-green-400/15 rounded-full m-5">
+          A personalized recommendation has been generated for you based on your
+          assessment and patient profile. Take these actions to begin improving
+          your insomnia.
+        </div>
+      ) : (
+        <div className="text-sm font-medium text-black-800 px-4 py-5.5 bg-amber-500/10 rounded-full m-5">
+          Take the assessment to get a personalized recommendation on how to
+          improve insomnia based on your profile...
+        </div>
+      )}
+
+      {/* <div className="mt-5">
+        {loading && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "200px",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
+      </div> */}
+      <div className="mt-5">{insights}</div>
     </div>
   );
 }

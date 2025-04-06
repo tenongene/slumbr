@@ -1,17 +1,19 @@
 import express from "express";
 import morgan from "morgan";
 import { GoogleAuth } from "google-auth-library";
+import { GoogleGenAI } from "@google/genai";
 import axios from "axios";
 import cors from "cors";
 import * as dotenv from "dotenv";
 dotenv.config();
-
 import { Firestore } from "@google-cloud/firestore";
 
 const db = new Firestore({
   projectId: process.env.PROJECT_ID,
   keyFilename: process.env.KEY_FILE_PATH,
 });
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 const app = express();
 
@@ -115,13 +117,11 @@ app.post("/api/healthcare/login", (req, res) => {
   );
 
   if (user) {
-    res
-      .status(200)
-      .send({
-        message: "User authenticated!",
-        patientId: user.patientId,
-        email: user.email,
-      });
+    res.status(200).send({
+      message: "User authenticated!",
+      patientId: user.patientId,
+      email: user.email,
+    });
   } else {
     res.status(401).send("Invalid email or password..... Please try again.");
   }
@@ -348,6 +348,33 @@ app.get("/api/chartdata", async (req, res) => {
   } catch (error) {
     console.error("Error fetching/creating chart data:", error);
     res.status(500).json({ error: error.message });
+  }
+});
+
+//GET request for AI Analysis
+app.use(express.json()); // <--- Add this to parse JSON request bodies
+
+app.post("/api/insights", async (req, res) => {
+  const { responses, ISI } = req.body;
+  console.log("Received:", responses, ISI);
+
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash-lite",
+      contents: `Speaking like you are talking directly to them, provide recommendations of how someone can improve insomnia based on an insomnia severity index score of ${ISI} and the following responses to a sleep questionnaire: ${responses}`,
+    });
+
+    res.status(200).send({
+      message: "Insights generated successfully",
+      insights: response.text,
+    });
+    console.log(response.text);
+  } catch (error) {
+    console.error(
+      "Error generating insights:",
+      error.response?.data || error.message
+    );
+    res.status(500).json({ error: error.response?.data || error.message });
   }
 });
 
