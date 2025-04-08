@@ -351,24 +351,17 @@ app.get("/api/chartdata", async (req, res) => {
   }
 });
 
-//GET request for AI Analysis
-app.use(express.json()); // <--- Add this to parse JSON request bodies
-
+//POST request for AI Analysis
 app.post("/api/insights", async (req, res) => {
-  const { responses, ISI } = req.body;
-  console.log("Received:", responses, ISI);
+  const { promptTemplate } = req.body;
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash-lite",
-      contents: `Speaking like you are talking directly to them, provide recommendations of how someone can improve insomnia based on an insomnia severity index score of ${ISI} and the following responses to a sleep questionnaire: ${responses}`,
+      model: "gemini-2.0-flash",
+      contents: [{ role: "user", parts: [{ text: promptTemplate }] }],
     });
 
-    res.status(200).send({
-      message: "Insights generated successfully",
-      insights: response.text,
-    });
-    console.log(response.text);
+    res.status(200).send({ message: "...", insights: response.text });
   } catch (error) {
     console.error(
       "Error generating insights:",
@@ -377,6 +370,8 @@ app.post("/api/insights", async (req, res) => {
     res.status(500).json({ error: error.response?.data || error.message });
   }
 });
+
+/////////////
 
 /////////////////////========================================///////////////////////////////////
 app.listen(process.env.PORT, () => {
