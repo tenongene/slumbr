@@ -9,34 +9,37 @@ import DashboardCard03 from "../partials/dashboard/DashboardCard03";
 import DashboardCard05 from "../partials/dashboard/DashboardCard05";
 import { formatArray } from "../utils/Utils";
 
+
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { setQualityArray, setSeverityArray } = useContext(DataContext);
-
   const email = localStorage.getItem("email");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("api/chartdata", {
-          params: { email: email },
-        });
 
-        const fSeverityArray = formatArray(response.data.severityIndex, 14);
-        const fQualityArray = formatArray(response.data.sleepQuality, 14);
+        useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get("api/chartdata", {
+            params: { email: email },
+          });
 
-        setSeverityArray(fSeverityArray);
-        setQualityArray(fQualityArray);
+          const fSeverityArray = formatArray(response.data.severityIndex, 14);
+          const fQualityArray = formatArray(response.data.sleepQuality, 14);
 
-        console.log(response.data.severityIndex);
-        console.log(response.data.sleepQuality);
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
+          setSeverityArray(fSeverityArray);
+          setQualityArray(fQualityArray);
 
-    fetchData();
-  }, []);
+          console.log(response.data.severityIndex);
+          console.log(response.data.sleepQuality);
+        } catch (err) {
+          console.log(err.message);
+        }
+      };
+
+      fetchData();
+    }, []);
+
+  
 
   return (
     <div className="flex h-screen overflow-hidden">

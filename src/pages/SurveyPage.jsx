@@ -223,7 +223,8 @@ function SurveyPage() {
   //
   const id = localStorage.getItem("patientId");
   const navigate = useNavigate();
-  const { setSleepQuality, setResponses } = useContext(DataContext);
+  const { setSleepQuality, setResponses, setSurveyCompleted } = useContext(DataContext);
+
 
   const survey = new Model(surveyJson);
   survey.onComplete.add((sender, options) => {
@@ -281,6 +282,7 @@ function SurveyPage() {
             "QuestionnaireResponse posted successfully:",
             response.data
           );
+          setSurveyCompleted(true);
           navigate("/dashboard");
         })
         .catch((error) => {

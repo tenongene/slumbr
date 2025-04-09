@@ -2,7 +2,8 @@ import React, { useEffect, useContext, useState } from "react";
 import DataContext from "../../utils/DataContext";
 import axios from "axios";
 import { CircularProgress, Box } from "@mui/material";
-import Typography from "@mui/material";
+import parse from 'html-react-parser';
+
 
 function extractAnswers(questionnaireResponse) {
   if (!questionnaireResponse || !questionnaireResponse.item) {
@@ -72,61 +73,72 @@ function DashboardCard05() {
     medications,
     conditions,
     setError,
+    surveyCompleted,
+    setSurveyCompleted
   } = useContext(DataContext);
+  //
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    //
-    if (responses && ISI && medications && conditions) {
-      setLoading(true);
+ 
+        useEffect(() => {
+          //
+          if (surveyCompleted) {
+            //
+            setLoading(true);
+            //
+            axios
+              .post(
+                "/api/insights",
+                {
+                  promptTemplate: `Analyze this questionnaire: ${JSON.stringify(survey)}, and the following data containing a patient's insomnia questionnaire responses ${JSON.stringify(
+                    responses
+                  )}, medical conditions ${JSON.stringify(
+                    conditions
+                  )}, insomnia severity index ${ISI} and current medications ${JSON.stringify(
+                    medications
+                  )}. Generate only the top 5 evidence-based, personalized suggestions to improve their sleep efficacy and quality. For each suggestion, provide:
+            
+                Change: A clear, specific action or adjustment (e.g., medication timing, sleep hygiene tweak, or lifestyle modification).
+                Rationale: A brief explanation of why this change may help, referencing their conditions/medications if relevant (e.g., "Because you take [Medication X], which can disrupt REM sleep, adding magnesium-rich foods may counteract this side effect.").
+                Expected Benefit: The likely outcome (e.g., "This may reduce sleep latency by 20–30 minutes" or "Could improve deep sleep cycles").
+            
+                Prioritize changes that address the client’s biggest sleep barriers (e.g., fragmented sleep, difficulty falling asleep, or daytime fatigue) while considering their medical constraints. Format the output as a concise bulleted list, starting with the highest-impact change.Address the patient directly.
+                
+                First statement should read: Thank you for taking the assessment. Based on your insomnia questionnaire and your medical profile: 
+                
+                provide response in the following HTML template, grouping each change, rationale and benefit together:
+                
+                <div className="mt-5"> 
+                    <h4 className="mt-3" >{change here}</h4>
+                    <p className="mt-3">{rationale here}</p>
+                    <p className="mt-3 border-b-2 border-gray-300 pb-3">{expected benefit here}</p>
+                </div>
+                `,
+                },
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              )
+              .then((response) => {
+                  const output = response.data.insights;
+                  const htmlFormat = output.replace('```html', '').replace('```', '').replace('*', '').trim();
 
-      //
-      axios
-        .post(
-          "/api/insights",
-          {
-            promptTemplate: `Analyze the provided data containing a patient's insomnia survey responses ${JSON.stringify(
-              responses
-            )}, medical conditions ${JSON.stringify(
-              conditions
-            )}, insomnia severity index ${ISI} and current medications ${JSON.stringify(
-              medications
-            )}. Generate the top 3 evidence-based, personalized suggestions to improve their sleep efficacy and quality. For each suggestion, provide:
-      
-          Change: A clear, specific action or adjustment (e.g., medication timing, sleep hygiene tweak, or lifestyle modification).
-      
-          Rationale: A brief explanation of why this change may help, referencing their conditions/medications if relevant (e.g., "Because you take [Medication X], which can disrupt REM sleep, adding magnesium-rich foods may counteract this side effect.").
-      
-          Expected Benefit: The likely outcome (e.g., "This may reduce sleep latency by 20–30 minutes" or "Could improve deep sleep cycles").
-      
-          Prioritize changes that address the client’s biggest sleep barriers (e.g., fragmented sleep, difficulty falling asleep, or daytime fatigue) while considering their medical constraints. Format the output as a concise bulleted list, starting with the highest-impact change.Address the patient directly.`,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
+                setInsights(htmlFormat);
+                setLoading(false);
+                setSurveyCompleted(false);
+                console.log(htmlFormat);
+              })
+              .catch((err) => {
+                setError(err.message || "Failed to get AI Analysis.");
+                setLoading(false);
+              });
           }
-        )
-        .then((response) => {
-          const formatResponse = response.data.insights
-            .split("\n")
-            .map((line, index) => (
-              <React.Fragment key={index}>
-                {line}
-                <br />
-              </React.Fragment>
-            ));
+        }, [responses, ISI, medications, conditions]);
+    
+  
 
-          setInsights(formatResponse);
-          setLoading(false);
-          console.log(response.data.insights);
-        })
-        .catch((err) => {
-          setError(err.message || "Failed to get AI Analysis.");
-          setLoading(false);
-        });
-    }
-  }, [responses, ISI, medications, conditions]);
 
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 md:col-span-10 lg:col-span-12 p-15 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
@@ -165,9 +177,15 @@ function DashboardCard05() {
           </Box>
         )}
       </div>
-      <Typography className="mt-5">{insights}</Typography>
+      <div className="mt-5">
+        {parse(insights)} 
+      </div> 
     </div>
-  );
-}
+   );
+  }
+
 
 export default DashboardCard05;
+
+
+ <div></div>

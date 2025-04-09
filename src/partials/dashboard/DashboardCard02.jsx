@@ -5,6 +5,7 @@ import DataContext from "../../utils/DataContext";
 import { adjustColorOpacity, getCssVariable } from "../../utils/Utils";
 import { CircularProgress, Box } from "@mui/material";
 
+
 function DashboardCard02() {
   const { severityArray } = useContext(DataContext);
   const [loading, setLoading] = useState(true);

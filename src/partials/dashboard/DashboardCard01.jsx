@@ -1,9 +1,10 @@
-import React, { useContext, useState, useEffect, useMemo } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import LineChart from "../../charts/LineChart01";
 import { chartAreaGradient } from "../../charts/ChartjsConfig";
 import { adjustColorOpacity, getCssVariable } from "../../utils/Utils";
 import DataContext from "../../utils/DataContext";
 import { CircularProgress, Box } from "@mui/material";
+
 
 function DashboardCard01() {
   const { qualityArray } = useContext(DataContext);

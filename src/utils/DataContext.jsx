@@ -4,7 +4,7 @@ const DataContext = createContext({});
 
 export const DataProvider = ({ children }) => {
   const [responses, setResponses] = useState("");
-  const [ISI, setISI] = useState(7);
+  const [ISI, setISI] = useState(null);
   const [password, setPassword] = useState("");
   const [patientId, setPatientId] = useState("");
   const [patient, setPatient] = useState("");
@@ -21,6 +21,7 @@ export const DataProvider = ({ children }) => {
   const [severityArray, setSeverityArray] = useState([]);
   const [qualityArray, setQualityArray] = useState([]);
   const [insights, setInsights] = useState("");
+  const [surveyCompleted, setSurveyCompleted] = useState(false);
 
   return (
     <DataContext.Provider
@@ -59,6 +60,8 @@ export const DataProvider = ({ children }) => {
         setQualityArray,
         insights,
         setInsights,
+        surveyCompleted, 
+        setSurveyCompleted
       }}
     >
       {children}

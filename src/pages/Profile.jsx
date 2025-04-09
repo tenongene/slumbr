@@ -168,7 +168,7 @@ function Profile() {
                           className="font-bold"
                         ></Typography>
                       </div>
-                      <div className="divide-y divide-gray-200">
+                      <div className="divide-y divide-gray-500">
                         {loading ? (
                           <p>Loading Patient Medications....</p>
                         ) : error ? (

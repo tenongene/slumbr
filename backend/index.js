@@ -94,6 +94,7 @@ const auth = new GoogleAuth({
   scopes: [
     "https://www.googleapis.com/auth/cloud-healthcare",
     "https://www.googleapis.com/auth/cloud-platform",
+    "https://www.googleapis.com/auth/generative-language.retriever",
   ],
 });
 

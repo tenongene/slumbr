@@ -5,6 +5,7 @@ import { Typography } from "@material-tailwind/react";
 import { getLocalStorageItems } from "../../utils/LocalStorageHandler";
 import axios from "axios";
 
+
 const generateSeverity = (value) => {
   let severityText = "";
   let color = "";
@@ -57,50 +58,55 @@ function extractAnswers(questionnaireResponse) {
 }
 
 function DashboardCard03() {
-  const { ISI, setISI, sleep_quality, email } = useContext(DataContext);
+  const { ISI, setISI, sleep_quality, email, surveyCompleted, setSurveyCompleted } = useContext(DataContext);
   const severityResult = generateSeverity(ISI);
 
-  useEffect(() => {
-    const surveyResponses = getLocalStorageItems([
-      "falling_asleep",
-      "staying_asleep",
-      "early_wake",
-      "sleep_pattern",
-      "interference",
-      "noticeable",
-      "worry_level",
-    ]);
+  if (surveyCompleted) {
 
-    const isi_score =
-      surveyResponses.falling_asleep +
-      surveyResponses.staying_asleep +
-      surveyResponses.early_wake +
-      surveyResponses.sleep_pattern +
-      surveyResponses.interference +
-      surveyResponses.noticeable +
-      surveyResponses.worry_level;
+          useEffect(() => {
+        const surveyResponses = getLocalStorageItems([
+          "falling_asleep",
+          "staying_asleep",
+          "early_wake",
+          "sleep_pattern",
+          "interference",
+          "noticeable",
+          "worry_level",
+        ]);
 
-    setISI(isi_score);
+        const isi_score =
+          surveyResponses.falling_asleep +
+          surveyResponses.staying_asleep +
+          surveyResponses.early_wake +
+          surveyResponses.sleep_pattern +
+          surveyResponses.interference +
+          surveyResponses.noticeable +
+          surveyResponses.worry_level;
 
-    if (isi_score && sleep_quality) {
-      axios
-        .post(
-          "/api/chartdata",
-          { isi_score: isi_score, sleep_quality: sleep_quality, email: email },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((response) => {
-          console.log("Chart data posted successfully:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error posting chart data:", error);
-        });
-    }
-  }, []);
+        setISI(isi_score);
+
+        if (isi_score && sleep_quality) {
+          axios
+            .post(
+              "/api/chartdata",
+              { isi_score: isi_score, sleep_quality: sleep_quality, email: email },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            )
+            .then((response) => {
+              console.log("Chart data posted successfully:", response.data);
+              setSurveyCompleted(false);
+            })
+            .catch((error) => {
+              console.error("Error posting chart data:", error);
+            });
+        }
+      }, []);
+  }
+
 
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white  dark:bg-gray-800 shadow-lg rounded-xl">
@@ -111,7 +117,7 @@ function DashboardCard03() {
           </h2>
         </header>
         <div className="text-sm text-gray-800 dark:text-gray-100 mr-2">
-          {ISI ? `Today's severity index` : ""}
+          {surveyCompleted ? `Today's severity index` : ""}
         </div>
         <div className="flex items-start">
           <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2 mb-5">
