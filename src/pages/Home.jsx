@@ -44,7 +44,7 @@ function Home() {
               {/* Left: Title */}
               <div className="mb-4 sm:mb-0">
                 <Typography variant="h3">
-                  Hello {localStorage.getItem("firstName")},
+                  Hello, {localStorage.getItem("firstName")}
                 </Typography>
                 <Typography variant="h2">Welcome to Slumbr!</Typography>
 
