@@ -33,7 +33,7 @@ export function Login() {
     e.preventDefault();
 
     try {
-      const loginResponse = await axios.post("/api/healthcare/login", {
+      const loginResponse = await axios.post("https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/login", {
         email: email,
         password: password,
       });
@@ -46,7 +46,7 @@ export function Login() {
 
         try {
           const patientResponse = await axios.get(
-            `/api/healthcare/patient/${patientId}`
+            `https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/patient/${patientId}`
           );
 
           setPatient(
@@ -153,23 +153,6 @@ export function Login() {
           >
             Login
           </Button>
-
-          {/* <div className="flex items-center justify-between gap-2 mt-6">
-            <Typography variant="small" className="font-medium text-gray-900">
-              <a href="#">Forgot Password</a>
-            </Typography>
-          </div>
-          <div className="space-y-4 mt-8">
-          </div> */}
-          {/* <Typography
-            variant="paragraph"
-            className="text-center text-blue-gray-500 font-medium mt-4"
-          >
-            Not registered?
-            <Link to="/signup" className="text-gray-900 ml-1">
-              Create account
-            </Link>
-          </Typography> */}
         </form>
       </div>
     </section>
