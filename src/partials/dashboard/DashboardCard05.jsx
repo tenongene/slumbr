@@ -104,12 +104,12 @@ function DashboardCard05() {
             
                 Prioritize changes that address the client’s biggest sleep barriers (e.g., fragmented sleep, difficulty falling asleep, or daytime fatigue) while considering their medical constraints. Format the output as a concise bulleted list, starting with the highest-impact change.Address the patient directly.
                 
-                First statement should read: Thank you for taking the assessment. Based on your insomnia questionnaire and your medical profile: 
+                First statement should read: 'Thank you for taking the assessment. Based on your insomnia questionnaire and your medical profile:'
                 
-                provide response in the following HTML template, grouping each change, rationale and benefit together:
+                 Avoid asterixes in response and provide response in the following HTML template, grouping each change, rationale and benefit together in one div:
                 
                 <div className="mt-5"> 
-                    <h4 className="mt-3" >{change here}</h4>
+                    <h4 className="mt-3 text-lg font-bold" >{change here}</h4>
                     <p className="mt-3">{rationale here}</p>
                     <p className="mt-3 border-b-2 border-gray-300 pb-3">{expected benefit here}</p>
                 </div>

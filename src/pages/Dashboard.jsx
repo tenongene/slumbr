@@ -11,32 +11,40 @@ import { formatArray } from "../utils/Utils";
 
 
 function Dashboard() {
+  //
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { setQualityArray, setSeverityArray } = useContext(DataContext);
+  const { setQualityArray, setSeverityArray} = useContext(DataContext);
   const email = localStorage.getItem("email");
 
 
-        useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get("api/chartdata", {
-            params: { email: email },
-          });
+    useEffect(() => {
+      //
+      const timeoutId = setTimeout(() => {
+          //
+            const fetchData = async () => {
+              
+              try {
+                const response = await axios.get("api/chartdata", {
+                  params: { email: email },
+                });
 
-          const fSeverityArray = formatArray(response.data.severityIndex, 14);
-          const fQualityArray = formatArray(response.data.sleepQuality, 14);
+                const fSeverityArray = formatArray(response.data.severityIndex, 14);
+                const fQualityArray = formatArray(response.data.sleepQuality, 14);
 
-          setSeverityArray(fSeverityArray);
-          setQualityArray(fQualityArray);
+                setSeverityArray(fSeverityArray);
+                setQualityArray(fQualityArray);
 
-          console.log(response.data.severityIndex);
-          console.log(response.data.sleepQuality);
-        } catch (err) {
-          console.log(err.message);
-        }
-      };
+                console.log(response.data.severityIndex);
+                console.log(response.data.sleepQuality);
+              } catch (err) {
+                console.log(err.message);
+              }
+            };
+              fetchData();
+        }, 2000);
 
-      fetchData();
+      return () => clearTimeout(timeoutId);
+  
     }, []);
 
   

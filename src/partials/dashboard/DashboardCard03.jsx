@@ -99,6 +99,7 @@ function DashboardCard03() {
             .then((response) => {
               console.log("Chart data posted successfully:", response.data);
               setSurveyCompleted(false);
+    
             })
             .catch((error) => {
               console.error("Error posting chart data:", error);

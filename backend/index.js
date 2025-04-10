@@ -65,7 +65,7 @@ const userList = [
     email: "miguel.hernandes@gatech.edu",
     password: "654321",
     patientId: "0cd80639-69c6-bb69-b845-29cec1be6009",
-  },
+  }, 
   {
     email: "duncan.littel@gatech.edu",
     password: "654321",
@@ -82,9 +82,9 @@ const userList = [
     patientId: "5a6776aa-a149-cab2-39d0-3f9249e8ed1d",
   },
   {
-    email: "alberto.dlt@gatech.edu",
-    password: "654321",
-    patientId: "9dedae70-e46d-4de7-becd-dfb8eeaf27e6",
+    email: "jona.koss@gmail.com",
+    password: "123456",
+    patientId: "e3f690c0-f39c-fa50-4e89-beb1dcc3d197",
   },
 ];
 

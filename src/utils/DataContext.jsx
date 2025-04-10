@@ -9,7 +9,6 @@ export const DataProvider = ({ children }) => {
   const [patientId, setPatientId] = useState("");
   const [patient, setPatient] = useState("");
   const [loading, setLoading] = useState(true);
-  const [posted, setPosted] = useState(false);
   const [error, setError] = useState("");
   const [gender, setGender] = useState("");
   const [city, setCity] = useState("");
