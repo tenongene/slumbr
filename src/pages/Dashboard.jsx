@@ -24,7 +24,7 @@ function Dashboard() {
             const fetchData = async () => {
               
               try {
-                const response = await axios.get("api/chartdata", {
+                const response = await axios.get("https://slumbr-lambda-1071299687549.us-central1.run.app/api/chartdata", {
                   params: { email: email },
                 });
 

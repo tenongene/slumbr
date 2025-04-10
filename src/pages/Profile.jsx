@@ -39,7 +39,7 @@ function Profile() {
 
       try {
         const response = await axios.get(
-          `/api/healthcare/medications/${patientId}`
+          `https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/medications/${patientId}`
         );
         console.log(response.data);
         setMedications(response.data);
@@ -63,7 +63,7 @@ function Profile() {
 
       try {
         const response = await axios.get(
-          `/api/healthcare/conditions/${patientId}`
+          `https://slumbr-lambda-1071299687549.us-central1.run.app/api/healthcare/conditions/${patientId}`
         );
         setConditions(response.data);
         setLoading(false);

@@ -88,7 +88,7 @@ function DashboardCard05() {
             //
             axios
               .post(
-                "/api/insights",
+                "https://slumbr-lambda-1071299687549.us-central1.run.app/api/insights",
                 {
                   promptTemplate: `Analyze this questionnaire: ${JSON.stringify(survey)}, and the following data containing a patient's insomnia questionnaire responses ${JSON.stringify(
                     responses
