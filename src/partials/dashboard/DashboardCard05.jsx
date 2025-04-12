@@ -116,7 +116,7 @@ function DashboardCard05() {
 
                 At the end of the responses add the following disclaimer:
 
-                "Note: This is not a susbstitute for medical advice. These recommendations should be reviewed with a healthcare provider to align with your full medical history."
+                "<div className="mt-3 text-sm font-bold italic text-purple-800"> Note: This is not a susbstitute for medical advice. These recommendations should be reviewed with a healthcare provider to align with your full medical history. </div>"
                 `,
                 },
                 {
