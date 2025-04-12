@@ -113,6 +113,10 @@ function DashboardCard05() {
                     <p className="mt-3">{rationale here}</p>
                     <p className="mt-3 border-b-2 border-gray-300 pb-3">{expected benefit here}</p>
                 </div>
+
+                At the end of the responses add the following disclaimer:
+
+                "Note: This is not a susbstitute for medical advice. These recommendations should be reviewed with a healthcare provider to align with your full medical history."
                 `,
                 },
                 {
