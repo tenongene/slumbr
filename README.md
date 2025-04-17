@@ -12,7 +12,8 @@ Sample patient Login credentials for existing user data provided to Teaching Ass
 \
 \
 \
-\![image](https://github.com/user-attachments/assets/a94febd0-5272-4f50-bd4f-b93f362cbb00)
+![image](https://github.com/user-attachments/assets/3390aff9-62e4-4ca2-8624-191be38de519) \
+
 
 
 **TECHNICAL SPECIFICATIONS:**  \
