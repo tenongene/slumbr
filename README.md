@@ -12,8 +12,8 @@ Sample patient Login credentials for existing user data provided to Teaching Ass
 \
 \
 \
-\
-![image](https://github.gatech.edu/tenongene3/slumbr/assets/88850/8efcdd9e-36da-4dff-8738-1d0aaca62c53)
+\![image](https://github.com/user-attachments/assets/a94febd0-5272-4f50-bd4f-b93f362cbb00)
+
 
 **TECHNICAL SPECIFICATIONS:**  \
 \
@@ -45,19 +45,19 @@ Datastore For Charts Array - Google Cloud Firestore:
 **SCREENSHOTS**
 
 Login Page: \
-![Login](https://github.gatech.edu/tenongene3/slumbr/assets/88850/3af96c9b-4626-47b9-97f3-d53b1e6f4361) \
+![image](https://github.com/user-attachments/assets/51266bcd-bccd-4cf2-84a0-c5fa324bb08d)  \
 
 Home Page: \
-![HomePage](https://github.gatech.edu/tenongene3/slumbr/assets/88850/92afc264-fb6d-47ea-9d9e-52f7dd63e204) \
+![image](https://github.com/user-attachments/assets/eb5f1d4e-01eb-4398-8a56-d5dd56e4cf97) \
 
 Questionnaire Page: \
-![QuestionnairePage](https://github.gatech.edu/tenongene3/slumbr/assets/88850/6f5cc6a4-64d4-4520-a43c-0573ff054e65) \
+![image](https://github.com/user-attachments/assets/0f3d897a-ae97-4d78-b6d5-ee7cde886ad2) \
 
 Dashboard Page: \
-![Dashboard](https://github.gatech.edu/tenongene3/slumbr/assets/88850/8021247c-a34d-4cb2-af07-4fe3c9f6ec72) \
+![image](https://github.com/user-attachments/assets/752e3b58-687b-43df-b984-f4ee8d9ac337) \
 
 Education Page: \
-![PatientEducation](https://github.gatech.edu/tenongene3/slumbr/assets/88850/777f26e4-807b-430c-94d2-d2b24e9cfd9e) \
+![image](https://github.com/user-attachments/assets/564371a9-1270-40e7-aef3-4911904d34da) \
 
 Patient Profile Page: \
-![ProfilePage](https://github.gatech.edu/tenongene3/slumbr/assets/88850/b399b72b-463f-4c6e-a8d9-af3d9b942d96) \
+![image](https://github.com/user-attachments/assets/1fab5901-2cb1-4060-87ef-711918edbc4f) \
