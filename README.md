@@ -1,11 +1,11 @@
-**CS 6440 Final Practicum Project for Team #44**  \
+**CS 6440 - Health Informatics - Final Practicum Project for Team #44**  \
 **Spring 2025** \
 **Georgia Institute of Technology**
 
 
 Access deployed application at:   **https://slumbr-app.dlel4n1x0xq0x.amplifyapp.com/**   \
 Sample patient Login credentials for existing user data provided to Teaching Assistant:\
-{ See **users.js** file in repository, and section III in paper deliverable - ***For Demonstation, Grading and Evaluation only*** } 
+{ See **users.js** file in repository, and section III in paper deliverable - ***For Demonstration, Grading and Evaluation only*** } 
 (Not best practice - Smart FHIR is best practice in real-world production settings)
 \
 \
