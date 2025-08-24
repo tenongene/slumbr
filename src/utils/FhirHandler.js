@@ -53,13 +53,6 @@ export function convertSurveyJsonToFhir(surveyJson, patientId, surveyDate) {
 
   return fhirQuestionnaireResponse;
 }
-/* To add it to a FHIR server:
-
-Ensure the server is configured to accept QuestionnaireResponse resources.
-Send an HTTP POST request to the server's QuestionnaireResponse endpoint.
-Include the JSON object in the request body, with the correct Content-Type header (e.g., application/fhir+json).
-
-*/
 
 export async function sendToFhirServer(fhirResource, serverUrl) {
     try {
@@ -85,22 +78,17 @@ export async function sendToFhirServer(fhirResource, serverUrl) {
     }
 }
 
-//Use example:
-const serverUrl = 'YOUR_FHIR_SERVER_URL'; // Replace with your server URL
+
+const serverUrl = 'YOUR_FHIR_SERVER_URL'; 
 sendToFhirServer(fhirResource, serverUrl);
 
-
-
-/*
-Constructs a GET request to the FHIR server's QuestionnaireResponse endpoint.
-*/
 
 
 export async function getSurveyResponses(serverUrl, patientId, surveyDate) {
   try {
     const searchParams = new URLSearchParams({
       subject: `Patient/${patientId}`,
-      authored: `eq${surveyDate}T00:00:00Z`, // Find responses on that date
+      authored: `eq${surveyDate}T00:00:00Z`, 
     });
 
     const response = await fetch(
@@ -124,7 +112,7 @@ export async function getSurveyResponses(serverUrl, patientId, surveyDate) {
       return null;
     }
 
-    return bundle.entry.map((entry) => entry.resource); // Extract the QuestionnaireResponse resources.
+    return bundle.entry.map((entry) => entry.resource); 
   } catch (error) {
     console.error("Error retrieving survey responses:", error);
     return null;
@@ -132,12 +120,6 @@ export async function getSurveyResponses(serverUrl, patientId, surveyDate) {
 }
 
 
-/*
-Takes a QuestionnaireResponse resource as input.
-Iterates through the item array (questions and answers).
-Extracts the answer value based on its data type (valueInteger, valueBoolean, valueString, valueTime).
-Returns an object where the keys are the linkId values (question names) and the values are the corresponding answers.
-*/
 
 export function extractAnswers(questionnaireResponse) {
   if (!questionnaireResponse || !questionnaireResponse.item) {
@@ -201,7 +183,7 @@ getSurveyResponses(serverUrl, patientId, surveyDate).then((responses) => {
         console.log("Sleep notes:", sleepNotes);
         console.log("Substance Use:", substanceUse);
 
-        // ... access other answers similarly
+       
       }
     });
   }
@@ -319,9 +301,7 @@ export function extractRelevantConditions(conditions) {
   return relevantConditions;
 }
 
-// Example usage:
-// const serverUrl = "YOUR_FHIR_SERVER_URL"; // Replace with your server URL
-// const patientId = "patient-123";
+
 
 MedicationAndConditionsObject(serverUrl, patientId).then((data) => {
   if (data) {
